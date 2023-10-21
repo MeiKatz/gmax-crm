@@ -6,10 +6,25 @@ Gmax CRM is an open source invoicing and customer relationship management softwa
 
 
 Demo Link  https://gmax.codeconia.com/
-Username :      admin@admin.com             
+Username :   admin@admin.com             
 Passoword :  123456                
 
 ## Installation 
+
+1, Clone the repo
+2, Rename the .env-sample to .env 
+3, Create a database and update the details in env file
+4, run `composer update`
+5, run `npm install`
+7, run `php arisan migrate`  
+8, run `php artisan db:seed`
+
+Admin user will create automatically 
+Username :   admin@admin.com             
+Passoword :  123456  
+
+
+
 **Requirements**
 PHP 7.4, 
 Build with Laravel 8,
