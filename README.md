@@ -11,17 +11,17 @@ Passoword :  123456
 
 ## Installation 
 
-1, Clone the repo
-2, Rename the .env-sample to .env 
-3, Create a database and update the details in env file
-4, run `composer update`
-5, run `npm install`
-7, run `php arisan migrate`  
-8, run `php artisan db:seed`
-
-Admin user will create automatically 
-Username :   admin@admin.com             
-Passoword :  123456  
+1, Clone the repo <br />
+2, Rename the .env-sample to .env <br />
+3, Create a database and update the details in env file <br />
+4, run `composer update` <br />
+5, run `npm install` <br />
+7, run `php arisan migrate`   <br />
+8, run `php artisan db:seed` <br />
+<br />
+Admin user will create automatically <br />
+Username :   admin@admin.com             <br />
+Passoword :  123456  <br />
 
 
 
