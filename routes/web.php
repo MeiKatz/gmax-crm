@@ -369,16 +369,17 @@ Route::prefix('admin')
                         Route::put('', 'update')->name('update');
                     });
 
-        Route::get('/paymentgateway', [
-            GatewayController::class,
-            'paymentgatewaysettings'
-        ])->name('paymentgatewaysettings');
-        Route::post('/paymentgateway/save', [
-            GatewayController::class,
-            'paymentgatewaysettingssave'
-        ])->name('paymentgatewaysettingssave');
-        Route::post('/paymentgateway/enable', [
-            GatewayController::class,
-            'paymentgatewayenable'
-        ])->name('paymentgatewayenable');
+                Route::prefix('payment-gateway')
+                    ->name('payment-gateway.')
+                    ->controller(AdminSettings\PaymentGatewayController::class)
+                    ->group(function () {
+                        Route::get('', 'show')->name('show');
+                        Route::put('', 'update')->name('update');
+                    });
+
+                Route::put(
+                    'payment-gateway/status',
+                    AdminSettings\PaymentGatewayStatusController::class
+                )->name('payment-gateway.status');
+        });
     });
