@@ -76,12 +76,13 @@
                                         <a class="dropdown-item" href="#"  data-toggle="modal" data-target="#updateuser{{$user->id}}">
                                             Edit User
                                         </a>
-                                        <a class="dropdown-item" onclick="return confirm('Are you sure?')"
-                                    href="{{route('admin.users.destroy', [
+                                        <form method="post" action="{{route('admin.users.destroy', [
                                         'user' => $user,
-                                    ])}}">
-                                            Delete User
-                                        </a>
+                                    ])}}" onsubmit="return confirm('Are you sure?')">
+                                            @method('PUT')
+                                            @csrf
+                                            <button type="submit" class="dropdown-item">Delete User</button>
+                                        </form>
                                     </div>
                                 </span>
 
@@ -103,6 +104,7 @@
                                   </b>
                                 </div>
                             <form action="{{route('admin.users.update')}}" method="post">
+                                @method('PUT')
                                 @csrf
                             <input type="hidden" value="{{$user->id}}" name="id">
                                 <div class="modal-body">

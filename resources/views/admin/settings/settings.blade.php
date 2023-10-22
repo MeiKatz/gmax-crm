@@ -18,6 +18,7 @@
                     </div>
                    
                     <form action="{{route('admin.settings.update')}}" method="post" enctype="multipart/form-data">
+                        @method('PUT')
                         @csrf
                         <div class="mb-3">
                             <label class="form-label">Your Business Name</label>

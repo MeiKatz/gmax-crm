@@ -15,6 +15,7 @@
                 
                    
                     <form action="{{route('admin.settings.billing.update')}}" method="post" enctype="multipart/form-data">
+                        @method('PUT')
                         @csrf
 
                                                            
