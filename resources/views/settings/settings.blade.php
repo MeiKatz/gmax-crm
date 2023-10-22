@@ -17,7 +17,7 @@
                        Configure Your Business name and logo etc
                     </div>
                    
-                    <form action="{{route('updatesettingssave')}}" method="post" enctype="multipart/form-data">
+                    <form action="{{route('admin.settings.update')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
                             <label class="form-label">Your Business Name</label>

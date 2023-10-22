@@ -297,7 +297,7 @@
                         </a>
                       </li>
                       <li >
-                        <a class="dropdown-item" href="{{route('adminsettings')}}" >
+                        <a class="dropdown-item" href="{{route('admin.settings.show')}}" >
                           {{ __('Settings') }}
                         </a>
                       </li>
@@ -635,7 +635,7 @@
                           </a>
                         </li>
                         <li >
-                          <a class="dropdown-item" href="{{route('adminsettings')}}" >
+                          <a class="dropdown-item" href="{{route('admin.settings.show')}}" >
                             {{ __('Settings') }}
                           </a>
                         </li>

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\Settings as AdminSettings;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SettingsController;
@@ -337,14 +338,14 @@ function() {
     ])->name('deleteadmin');
 
     Route::prefix('/settings')->group(function () {
-        Route::get('', [
-            SettingsController::class,
-            'settings'
-        ])->name('adminsettings');
-        Route::post('/save', [
-            SettingsController::class,
-            'updatesettings'
-        ])->name('updatesettingssave');
+        Route::get(
+            '',
+            [Admin\SettingController::class, 'show']
+        )->name('admin.settings.show');
+        Route::put(
+            '',
+            [Admin\SettingController::class, 'update']
+        )->name('admin.settings.update');
 
         Route::get(
             'billing',
