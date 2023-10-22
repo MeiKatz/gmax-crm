@@ -101,7 +101,26 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/view/complete/{id}', [projectcontroller::class, 'taskcomplete'])->name('taskcomplete');
     });
 
-    Route::get('/project/expenses/{id}', [projectcontroller::class, 'viewprojectexpense'])->name('viewprojectexpense');
+    Route::prefix('/projects')->group(function () {
+        Route::get('', [projectcontroller::class, 'listofprojects'])->name('listofprojects');
+        Route::post('/new/save', [projectcontroller::class, 'createnewproject'])->name('createnewproject');
+        Route::post('/update/save', [projectcontroller::class, 'updateproject'])->name('updateproject');
+        Route::post('/descrip/save', [projectcontroller::class, 'updateprojectdescript'])->name('updateprojectdescript');
+        Route::post('/status/change', [projectcontroller::class, 'projectstatuschange'])->name('projectstatuschange');
+        Route::get('/{id}', [projectcontroller::class, 'viewproject'])->name('viewproject');
+        Route::get('/delete/{id}', [projectcontroller::class, 'deleteproject'])->name('deleteproject');
+        Route::get('/tasks/{id}', [projectcontroller::class, 'viewtasks'])->name('viewtasksprjct');
+        Route::post('/tasks/save', [projectcontroller::class, 'createprjcttask'])->name('createprjcttask');
+        Route::post('/tasks/update', [projectcontroller::class, 'projecttaskupdate'])->name('projecttaskupdate');
+        Route::get('/tasks/delete/{id}', [projectcontroller::class, 'deletetasks'])->name('deletetasks');
+        Route::get('/note/{id}', [projectcontroller::class, 'viewnote'])->name('viewnoteprjct');
+        Route::post('/note/save', [projectcontroller::class, 'updatenote'])->name('updatenoteprjct');
+        Route::post('/updates/new', [projectcontroller::class, 'addprojectupdates'])->name('addprojectupdates');
+        Route::post('/updates/edit', [projectcontroller::class, 'editprojectupdates'])->name('editprojectupdates');
+
+        Route::get('/deleteupdates/{id}', [projectcontroller::class, 'deleteupdates'])->name('deleteupdates');
+        Route::get('/expenses/{id}', [projectcontroller::class, 'viewprojectexpense'])->name('viewprojectexpense');
+    });
 
 
     Route::get('/cashbook', [InvoiceController::class, 'cashbooklist'])->name('cashbooklist');
@@ -111,23 +130,6 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::get('/filemanager', [InvoiceController::class, 'filemanager'])->name('filemanager');
     
-    Route::get('/projects', [ProjectController::class, 'listofprojects'])->name('listofprojects');
-    Route::post('/projects/new/save', [ProjectController::class, 'createnewproject'])->name('createnewproject');
-    Route::post('/projects/update/save', [ProjectController::class, 'updateproject'])->name('updateproject');
-    Route::post('/projects/descrip/save', [ProjectController::class, 'updateprojectdescript'])->name('updateprojectdescript');
-    Route::post('/projects/status/change', [ProjectController::class, 'projectstatuschange'])->name('projectstatuschange');
-    Route::get('/project/{id}', [ProjectController::class, 'viewproject'])->name('viewproject');
-    Route::get('/project/delete/{id}', [ProjectController::class, 'deleteproject'])->name('deleteproject');
-    Route::get('/project/tasks/{id}', [ProjectController::class, 'viewtasks'])->name('viewtasksprjct');
-    Route::post('/project/tasks/save', [ProjectController::class, 'createprjcttask'])->name('createprjcttask');
-    Route::post('/project/tasks/update', [ProjectController::class, 'projecttaskupdate'])->name('projecttaskupdate');
-    Route::get('/project/tasks/delete/{id}', [ProjectController::class, 'deletetasks'])->name('deletetasks');
-    Route::get('/project/note/{id}', [ProjectController::class, 'viewnote'])->name('viewnoteprjct');
-    Route::post('/project/note/save', [ProjectController::class, 'updatenote'])->name('updatenoteprjct');
-    Route::post('/projects/updates/new', [ProjectController::class, 'addprojectupdates'])->name('addprojectupdates');
-    Route::post('/projects/updates/edit', [ProjectController::class, 'editprojectupdates'])->name('editprojectupdates');
-    
-    Route::get('/project/deleteupdates/{id}', [ProjectController::class, 'deleteupdates'])->name('deleteupdates');
     
     
 
