@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class projectnote extends Model
+class ProjectNote extends Model
 {
     use HasFactory;
 
     public function admindata()
 	{
-        return  $this->belongsto(User::class, 'admin', 'id');
+        return  $this->belongsTo(User::class, 'admin', 'id');
         
     }
 }

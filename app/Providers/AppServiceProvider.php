@@ -4,8 +4,8 @@ namespace App\Providers;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Connection;
-use App\Models\setting;
-use App\Models\notifications;
+use App\Models\Setting;
+use App\Models\Notifications;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
 
           if(env('DB_USERNAME')!=NULL){
             if (Schema::hasTable('settings')) {
-                    $setings = setting::first();
+                    $setings = Setting::first();
                    
                     View::share(['settings' =>$setings]);   
                 }                            

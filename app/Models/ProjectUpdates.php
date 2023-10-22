@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class expensemanager extends Model
+class ProjectUpdates extends Model
 {
     use HasFactory;
 
-    public function projectdata()
+    public function addedby()
 	{
-        return  $this->belongsto(project::class, 'prid', 'id');
+        return  $this->belongsTo(User::class, 'auth', 'id');
         
     }
-
 }

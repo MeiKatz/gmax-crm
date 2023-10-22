@@ -5,10 +5,10 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use App\Models\invoice;
 use Illuminate\Queue\SerializesModels;
+use App\Models\invoice;
 
-class invoicemail extends Mailable
+class QuoteMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -30,6 +30,6 @@ class invoicemail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.invoicemail')->subject('Here is Your Invoice');
+        return $this->markdown('emails.quotemail')->subject('Here is Your Quote');
     }
 }
