@@ -75,36 +75,10 @@ Route::group(['middleware' => ['auth']], function(){
         DashboardController::class
     )->name('dashboard');
 
-    Route::prefix('/clients')->group(function () {
-        Route::get('', [
-            ClientController::class,
-            'listofclients'
-        ])->name('listofclients');
-        Route::get('/add', [
-            ClientController::class,
-            'addclient'
-        ])->name('addclient');
-        Route::post('/add/save', [
-            ClientController::class,
-            'addclientsave'
-        ])->name('addclientsave');
-        Route::get('/{id}', [
-            ClientController::class,
-            'viewclient'
-        ])->name('viewclient');
-        Route::get('/delete/{id}', [
-            ClientController::class,
-            'deleteclient'
-        ])->name('deleteclient');
-        Route::get('/edit/{id}', [
-            ClientController::class,
-            'editclient'
-        ])->name('editclient');
-        Route::post('/edit/save', [
-            ClientController::class,
-            'editclientsave'
-        ])->name('editclientsave');
-    });
+    Route::resource(
+        'clients',
+        ClientController::class
+    );
 
     Route::prefix('/invoices')->group(function () {
         Route::get('', [

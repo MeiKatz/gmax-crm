@@ -142,7 +142,7 @@
                 <input type="text" class="form-control" name="projectname" placeholder="Project Title Here">
             </div>
             <div class="mb-2">
-                <label class="form-label">Select Client <a href="{{route('addclient')}}" style="float:right;"> Add New Client </a></label>
+                <label class="form-label">Select Client <a href="{{route('clients.create')}}" style="float:right;"> Add New Client </a></label>
                 <select name="client" id="select-users" class="form-select">
                    @foreach($clients as $client)
                     <option value="{{$client->id}}">{{$client->name}}</option>
