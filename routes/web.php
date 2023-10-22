@@ -91,19 +91,20 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/delete/{id}', [projectcontroller::class, 'deleteexpense'])->name('deleteexpense');
     });
 
+    Route::prefix('/mytasks')->group(function () {
+        Route::get('', [projectcontroller::class, 'mytasks'])->name('mytasks');
+        Route::get('/view/{id}', [projectcontroller::class, 'viewtask'])->name('viewtask');
+        Route::post('/task/addtodo', [projectcontroller::class, 'addtasktodo'])->name('addtasktodo');
+        Route::post('/task/addtodo/update', [projectcontroller::class, 'todostatusupdate'])->name('todostatusupdate');
+        Route::get('/task/todo/delete/{id}', [projectcontroller::class, 'tasktododelete'])->name('tasktododelete');
+        Route::post('/task/addcomment', [projectcontroller::class, 'addtaskcomment'])->name('addtaskcomment');
+        Route::get('/view/complete/{id}', [projectcontroller::class, 'taskcomplete'])->name('taskcomplete');
+    });
+
     Route::get('/project/expenses/{id}', [projectcontroller::class, 'viewprojectexpense'])->name('viewprojectexpense');
 
 
     Route::get('/cashbook', [InvoiceController::class, 'cashbooklist'])->name('cashbooklist');
-    
-
-    Route::get('/mytasks', [ProjectController::class, 'mytasks'])->name('mytasks');
-    Route::get('/mytasks/view/{id}', [ProjectController::class, 'viewtask'])->name('viewtask');
-    Route::post('/mytasks/task/addtodo', [ProjectController::class, 'addtasktodo'])->name('addtasktodo');
-    Route::post('/mytasks/task/addtodo/update', [ProjectController::class, 'todostatusupdate'])->name('todostatusupdate');
-    Route::get('/mytasks/task/todo/delete/{id}', [ProjectController::class, 'tasktododelete'])->name('tasktododelete');
-    Route::post('/mytasks/task/addcomment', [ProjectController::class, 'addtaskcomment'])->name('addtaskcomment');
-    Route::get('/mytasks/view/complete/{id}', [ProjectController::class, 'taskcomplete'])->name('taskcomplete');
 
     Route::get('/notification/update/{id}', [ProjectController::class, 'notificationupdate'])->name('notificationupdate');
  
