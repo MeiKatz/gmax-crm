@@ -369,10 +369,10 @@ Route::prefix('admin')
                         Route::get('', 'show')->name('show');
                         Route::put('', 'update')->name('update');
                     });
-/*
+
                 Route::put(
                     'payment-gateway/status',
                     AdminSettings\PaymentGatewayStatusController::class
-                )->name('payment-gateway.status');*/
+                )->name('payment-gateway.status');
         });
     });
