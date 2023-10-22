@@ -143,23 +143,23 @@ function() {
     Route::post('/createnewadmin', [AdminController::class, 'createnewadmin'])->name('createnewadmin');
     Route::post('/updateadmin', [AdminController::class, 'updateadmin'])->name('updateadmin');
     Route::get('/deleteadmin/{id}', [AdminController::class, 'deleteadmin'])->name('deleteadmin');
-    
-    Route::get('/settings', [SettingsController::class, 'settings'])->name('adminsettings');
-    Route::post('/settings/save', [SettingsController::class, 'updatesettings'])->name('updatesettingssave');
 
-    Route::get('/settings/billing', [SettingsController::class, 'billingsetting'])->name('billingsetting');
-    Route::post('/settings/billing/save', [SettingsController::class, 'billingsettingsave'])->name('billingsettingsave');
+    Route::prefix('/settings')->group(function () {
+        Route::get('', [SettingsController::class, 'settings'])->name('adminsettings');
+        Route::post('/save', [SettingsController::class, 'updatesettings'])->name('updatesettingssave');
 
-    Route::get('/settings/invoice', [SettingsController::class, 'invoicesettings'])->name('invoicesettings');
-    Route::post('/settings/invoice/save', [SettingsController::class, 'invoicesettingssave'])->name('invoicesettingssave');
+        Route::get('/billing', [SettingsController::class, 'billingsetting'])->name('billingsetting');
+        Route::post('/billing/save', [SettingsController::class, 'billingsettingsave'])->name('billingsettingsave');
+
+        Route::get('/invoice', [SettingsController::class, 'invoicesettings'])->name('invoicesettings');
+        Route::post('/invoice/save', [SettingsController::class, 'invoicesettingssave'])->name('invoicesettingssave');
 
 
-    Route::get('/admin/settings/paymentgateway', [GatewayController::class, 'paymentgatewaysettings'])->name('paymentgatewaysettings');
-    Route::post('/admin/settings/paymentgateway/save', [GatewayController::class, 'paymentgatewaysettingssave'])->name('paymentgatewaysettingssave');
-    Route::post('/admin/settings/paymentgateway/enable', [GatewayController::class, 'paymentgatewayenable'])->name('paymentgatewayenable');
-    
-    Route::get('/admin/settings/business', [SettingsController::class, 'businesssetting'])->name('businesssetting');
-    Route::post('/admin/settings/business/save', [SettingsController::class, 'businesssettingsave'])->name('businesssettingsave');
-    
-  
-});	
+        Route::get('/paymentgateway', [gatewaycontroller::class, 'paymentgatewaysettings'])->name('paymentgatewaysettings');
+        Route::post('/paymentgateway/save', [gatewaycontroller::class, 'paymentgatewaysettingssave'])->name('paymentgatewaysettingssave');
+        Route::post('/paymentgateway/enable', [gatewaycontroller::class, 'paymentgatewayenable'])->name('paymentgatewayenable');
+
+        Route::get('/business', [SettingsController::class, 'businesssetting'])->name('businesssetting');
+        Route::post('/business/save', [SettingsController::class, 'businesssettingsave'])->name('businesssettingsave');
+    });
+});
