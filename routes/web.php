@@ -31,22 +31,18 @@ Route::get('/runupdate', [AdminController::class, 'runupdate'])->name('runupdate
 
 Route::get('/dailycron', [InvoiceController::class, 'recorringinvoicecron'])->name('recorringinvoicecron');
 
-Route::get('/invoice/pay/{id}', [InvoiceController::class, 'payinvoice'])->name('payinvoice');
+Route::prefix('/invoices')->group(function () {
+    Route::get('/pay/{id}', [InvoiceController::class, 'payinvoice'])->name('payinvoice');
+    Route::post('/capture/razorpaypayment', [gatewaycontroller::class, 'razorpaypayment'])->name('razorpaypayment');
+    Route::post('/capture/stripe', [gatewaycontroller::class, 'stripepayment'])->name('stripepayment');
+    Route::post('/capture/paypal', [gatewaycontroller::class, 'paypalhandlePayment'])->name('paypalhandlePayment');
+});
+
 Route::get('/quote/public/{id}', [InvoiceController::class, 'viewquotepublic'])->name('viewquotepublic');
 Route::get('/quote/stat/public/{id}/{stat}', [InvoiceController::class, 'quotestatuschangepublic'])->name('quotestatuschangepublic');
 
-
-Route::post('/invoices/capture/razorpaypayment', [GatewayController::class, 'razorpaypayment'])->name('razorpaypayment');
-Route::post('/invoices/capture/stripe', [GatewayController::class, 'stripepayment'])->name('stripepayment');
-Route::post('/invoices/capture/paypal', [GatewayController::class, 'paypalhandlePayment'])->name('paypalhandlePayment');
-
-
-
-
 Route::group(['middleware' => ['auth']], function(){
     Route::get('/dashboard', [InvoiceController::class, 'dashboard'])->name('dashboard');
-
-
     Route::get('/client/add', [ClientController::class, 'addclient'])->name('addclient');
     Route::post('/client/add/save', [ClientController::class, 'addclientsave'])->name('addclientsave');
     Route::get('/clients', [ClientController::class, 'listofclients'])->name('listofclients');
@@ -55,27 +51,26 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/client/edit/{id}', [ClientController::class, 'editclient'])->name('editclient');
     Route::post('/client/edit/save', [ClientController::class, 'editclientsave'])->name('editclientsave');
 
+    Route::prefix('/invoices')->group(function () {
+        Route::get('', [InvoiceController::class, 'listofinvoices'])->name('listofinvoices');
+        Route::post('/new/save', [InvoiceController::class, 'createnewinvoice'])->name('createnewinvoice');
+        Route::post('/edit/save', [InvoiceController::class, 'editinvoicedata'])->name('editinvoicedata');
+        Route::get('/edit/{id}', [InvoiceController::class, 'editinvoice'])->name('editinvoice');
+        Route::get('/delete/{id}', [InvoiceController::class, 'deleteinvoice'])->name('deleteinvoice');
+        Route::get('/{id}', [InvoiceController::class, 'viewinvoice'])->name('viewinvoice');
+        Route::post('/meta/save', [InvoiceController::class, 'newinvoicemeta'])->name('newinvoicemeta');
+        Route::post('/meta/edit', [InvoiceController::class, 'editinvoicemeta'])->name('editinvoicemeta');
+        Route::get('/deleteinvoicemeta/{id}/{invo}', [InvoiceController::class, 'deleteinvoicemeta'])->name('deleteinvoicemeta');
+        Route::post('/payments/save', [InvoiceController::class, 'invopaymentsave'])->name('invopaymentsave');
+        Route::get('/reversepayment/{id}/{invo}', [InvoiceController::class, 'deletepayment'])->name('deletepayment');
+        Route::get('/cancel/{id}', [InvoiceController::class, 'cancelinvoice'])->name('cancelinvoice');
+        Route::post('/refund/initiate', [InvoiceController::class, 'refundinvoice'])->name('refundinvoice');
+        Route::get('/email/{id}', [InvoiceController::class, 'emailinvoice'])->name('emailinvoice');
+        Route::post('/edit/taxenable', [InvoiceController::class, 'invoicetaxenable'])->name('invoicetaxenable');
+        Route::post('/recurring/save', [InvoiceController::class, 'createrecorringinvoice'])->name('createrecorringinvoice');
+        Route::get('/cancelrecurring/{id}', [InvoiceController::class, 'cancelrecurring'])->name('cancelrecurring');
+    });
 
-    Route::get('/invoices', [InvoiceController::class, 'listofinvoices'])->name('listofinvoices');
-    Route::post('/invoices/new/save', [InvoiceController::class, 'createnewinvoice'])->name('createnewinvoice');
-    Route::post('/invoices/edit/save', [InvoiceController::class, 'editinvoicedata'])->name('editinvoicedata');    
-    Route::get('/invoice/edit/{id}', [InvoiceController::class, 'editinvoice'])->name('editinvoice');
-    Route::get('/invoice/delete/{id}', [InvoiceController::class, 'deleteinvoice'])->name('deleteinvoice');
-    Route::get('/invoice/{id}', [InvoiceController::class, 'viewinvoice'])->name('viewinvoice');
-    Route::post('/invoices/meta/save', [InvoiceController::class, 'newinvoicemeta'])->name('newinvoicemeta');
-    Route::post('/invoices/meta/edit', [InvoiceController::class, 'editinvoicemeta'])->name('editinvoicemeta');
-    Route::get('/invoices/deleteinvoicemeta/{id}/{invo}', [InvoiceController::class, 'deleteinvoicemeta'])->name('deleteinvoicemeta');
-    Route::post('/invoices/payments/save', [InvoiceController::class, 'invopaymentsave'])->name('invopaymentsave');
-    Route::get('/invoices/reversepayment/{id}/{invo}', [InvoiceController::class, 'deletepayment'])->name('deletepayment');
-    Route::get('/invoice/cancel/{id}', [InvoiceController::class, 'cancelinvoice'])->name('cancelinvoice');
-    Route::post('/invoice/refund/initiate', [InvoiceController::class, 'refundinvoice'])->name('refundinvoice');  
-    Route::get('/invoice/email/{id}', [InvoiceController::class, 'emailinvoice'])->name('emailinvoice'); 
-    Route::post('/invoice/edit/taxenable', [InvoiceController::class, 'invoicetaxenable'])->name('invoicetaxenable'); 
-    Route::post('/invoices/recurring/save', [InvoiceController::class, 'createrecorringinvoice'])->name('createrecorringinvoice'); 
-    Route::get('/invoice/cancelrecurring/{id}', [InvoiceController::class, 'cancelrecurring'])->name('cancelrecurring'); 
-    
-    
-    
     Route::get('/quotes', [InvoiceController::class, 'listofquotes'])->name('listofquotes');
     Route::post('/quotes/new/save', [InvoiceController::class, 'createnewquotes'])->name('createnewquotes');
     Route::get('/quote/edit/{id}', [InvoiceController::class, 'editquote'])->name('editquote');
