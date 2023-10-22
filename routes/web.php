@@ -74,13 +74,15 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/cancelrecurring/{id}', [InvoiceController::class, 'cancelrecurring'])->name('cancelrecurring');
     });
 
-    Route::get('/quotes', [InvoiceController::class, 'listofquotes'])->name('listofquotes');
-    Route::post('/quotes/new/save', [InvoiceController::class, 'createnewquotes'])->name('createnewquotes');
-    Route::get('/quote/edit/{id}', [InvoiceController::class, 'editquote'])->name('editquote');
-    Route::get('/quote/{id}', [InvoiceController::class, 'viewquote'])->name('viewquote');
-    Route::get('/quote/stat/{id}/{stat}', [InvoiceController::class, 'quotestatuschange'])->name('quotestatuschange');
-    Route::get('/quote/convert/{id}', [InvoiceController::class, 'converttoinvo'])->name('converttoinvo');
-    Route::get('/quote/email/{id}', [InvoiceController::class, 'emailquote'])->name('emailquote'); 
+    Route::prefix('/quotes')->group(function () {
+        Route::get('', [InvoiceController::class, 'listofquotes'])->name('listofquotes');
+        Route::post('/new/save', [InvoiceController::class, 'createnewquotes'])->name('createnewquotes');
+        Route::get('/edit/{id}', [InvoiceController::class, 'editquote'])->name('editquote');
+        Route::get('/{id}', [InvoiceController::class, 'viewquote'])->name('viewquote');
+        Route::get('/stat/{id}/{stat}', [InvoiceController::class, 'quotestatuschange'])->name('quotestatuschange');
+        Route::get('/convert/{id}', [InvoiceController::class, 'converttoinvo'])->name('converttoinvo');
+        Route::get('/email/{id}', [InvoiceController::class, 'emailquote'])->name('emailquote');
+    });
 
 
     Route::get('/expenses', [InvoiceController::class, 'expensemanagerlist'])->name('expensemanagerlist');
