@@ -8,7 +8,6 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\GatewayController;
 use App\Http\Controllers\ProjectController;
 
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,10 +24,8 @@ Route::get('/', function () {
 });
 
 Route::get('/lang/{lang}', [AdminController::class, 'languageswitch'])->name('languageswitch');
-
 Route::get('/softwareupdate', [AdminController::class, 'softwareupdate'])->name('softwareupdate');
 Route::get('/runupdate', [AdminController::class, 'runupdate'])->name('runupdate');
-
 Route::get('/dailycron', [InvoiceController::class, 'recorringinvoicecron'])->name('recorringinvoicecron');
 
 Route::prefix('/invoices')->group(function () {
@@ -117,28 +114,15 @@ Route::group(['middleware' => ['auth']], function(){
         Route::post('/note/save', [projectcontroller::class, 'updatenote'])->name('updatenoteprjct');
         Route::post('/updates/new', [projectcontroller::class, 'addprojectupdates'])->name('addprojectupdates');
         Route::post('/updates/edit', [projectcontroller::class, 'editprojectupdates'])->name('editprojectupdates');
-
         Route::get('/deleteupdates/{id}', [projectcontroller::class, 'deleteupdates'])->name('deleteupdates');
         Route::get('/expenses/{id}', [projectcontroller::class, 'viewprojectexpense'])->name('viewprojectexpense');
     });
 
-
     Route::get('/cashbook', [InvoiceController::class, 'cashbooklist'])->name('cashbooklist');
-
-    Route::get('/notification/update/{id}', [ProjectController::class, 'notificationupdate'])->name('notificationupdate');
- 
-
+    Route::get('/notification/update/{id}', [projectcontroller::class, 'notificationupdate'])->name('notificationupdate');
     Route::get('/filemanager', [InvoiceController::class, 'filemanager'])->name('filemanager');
-    
-    
-    
-
     Route::get('/update', [AdminController::class, 'updatesystem'])->name('updatesystem');
-    
-  
-
 });	
-
 
 Route::group([
     'middleware' => ['auth','admin'],
@@ -159,7 +143,6 @@ function() {
 
         Route::get('/invoice', [SettingsController::class, 'invoicesettings'])->name('invoicesettings');
         Route::post('/invoice/save', [SettingsController::class, 'invoicesettingssave'])->name('invoicesettingssave');
-
 
         Route::get('/paymentgateway', [gatewaycontroller::class, 'paymentgatewaysettings'])->name('paymentgatewaysettings');
         Route::post('/paymentgateway/save', [gatewaycontroller::class, 'paymentgatewaysettingssave'])->name('paymentgatewaysettingssave');
