@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Notifications extends Model
+class ProjectUpdate extends Model
 {
     use HasFactory;
-    public function added()
+
+    public function addedby()
 	{
-        return  $this->belongsTo(User::class, 'fromid', 'id');
+        return  $this->belongsTo(User::class, 'auth', 'id');
         
     }
 }

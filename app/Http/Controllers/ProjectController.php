@@ -9,11 +9,11 @@ use Spatie\QueryBuilder\QueryBuilder;
 use App\Models\Project;
 use App\Models\ProjectTask;
 use App\Models\ProjectNote;
-use App\Models\ProjectUpdates;
+use App\Models\ProjectUpdate;
 use App\Models\User;
 use App\Models\Invoice;
-use App\Models\TaskTodos;
-use App\Models\Notifications;
+use App\Models\TaskTodo;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Models\ExpenseManager;
@@ -62,7 +62,7 @@ class ProjectController extends Controller
     {         
         $client = Client::all();
         $project = Project::findOrFail($request->id);
-        $projectupdates = ProjectUpdates::where('projectid',$request->id)->orderby('id','desc')->paginate(5);
+        $projectupdates = ProjectUpdate::where('projectid',$request->id)->orderby('id','desc')->paginate(5);
         $startdate = Carbon::parse($project->startdate);
         $deadline = Carbon::parse($project->deadline);
         $totaldays =   $startdate->diffInDays($deadline);           
@@ -111,7 +111,7 @@ class ProjectController extends Controller
 
         //send notification 
         if($request->assignedto){
-            $notif =new Notifications();
+            $notif =new Notification();
             $notif->fromid =Auth::id();  
             $notif->toid =$request->assignedto;
             $notif->message ='New Project Task Assigned #'.$project->id;
@@ -127,7 +127,7 @@ class ProjectController extends Controller
 
     public function notificationupdate(Request $request)
     {   
-        $project = Notifications::findOrFail($request->id);
+        $project = Notification::findOrFail($request->id);
         $project->status =0;
         $project->save();     
         return redirect()->back()->with('success', 'Notification Updated');
@@ -201,7 +201,7 @@ class ProjectController extends Controller
 
     public function todostatusupdate(Request $request)
     {   
-        $project = TaskTodos::findOrFail($request->id);
+        $project = TaskTodo::findOrFail($request->id);
         $project->status = $request->status;     
         $project->save();     
         return redirect()->back()->with('success', 'Status Updated');
@@ -209,7 +209,7 @@ class ProjectController extends Controller
 
     public function tasktododelete(Request $request)
     {   
-        $project = TaskTodos::findOrFail($request->id);
+        $project = TaskTodo::findOrFail($request->id);
          $project->delete();
         return redirect()->back()->with('success', 'Status Updated');
     }
@@ -218,15 +218,15 @@ class ProjectController extends Controller
     public function viewtask(Request $request)
     {   
         $task = ProjectTask::where('assignedto',Auth::id())->where('id',$request->id)->firstOrFail();
-        $todos = TaskTodos::where('taskid',$request->id)->orderby('id','desc')->get();
-        $taskcomments =  ProjectUpdates::where('taskid',$request->id)->orderby('id','desc')->paginate(7);
+        $todos = TaskTodo::where('taskid',$request->id)->orderby('id','desc')->get();
+        $taskcomments =  ProjectUpdate::where('taskid',$request->id)->orderby('id','desc')->paginate(7);
         return view('app.viewtask')->with(['task' =>$task])->with(['todos' =>$todos])->with(['taskcomments' =>$taskcomments]);   
     }
 
        
     public function addtasktodo(Request $request)
     {   
-        $updates = new TaskTodos();
+        $updates = new TaskTodo();
         $updates->taskid =$request->taskid;   
         $updates->task =$request->task;   
         $updates->auth =Auth::id();  
@@ -241,7 +241,7 @@ class ProjectController extends Controller
 
     public function addprojectupdates(Request $request)
     {   
-        $updates = new ProjectUpdates();
+        $updates = new ProjectUpdate();
         $updates->projectid =$request->projectid;   
         $updates->taskid =$request->taskid;   
         $updates->auth =Auth::id();  
@@ -252,7 +252,7 @@ class ProjectController extends Controller
 
     public function editprojectupdates(Request $request)
     {   
-        $updates = ProjectUpdates::find($request->id);
+        $updates = ProjectUpdate::find($request->id);
         $updates->message =$request->message;     
         $updates->save();     
         return redirect()->back()->with('success', 'Comment Updated');
@@ -261,7 +261,7 @@ class ProjectController extends Controller
 
     public function deleteupdates(Request $request)
     {
-     $project = ProjectUpdates::findOrFail($request->id);
+     $project = ProjectUpdate::findOrFail($request->id);
      $project->delete();
      return redirect()->back()->with('success', ' Update Deleted');
     }

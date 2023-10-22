@@ -20,7 +20,7 @@ class ProjectTask extends Model
     }
     public function comments()
 	{
-        return  $this->hasMany(ProjectUpdates::class, 'taskid', 'id');
+        return  $this->hasMany(ProjectUpdate::class, 'taskid', 'id');
         
     }
 }

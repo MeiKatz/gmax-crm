@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\InvoiceMail;
 use App\Mail\QuoteMail;
 use App\Models\Setting;
-use App\Models\Notifications;
+use App\Models\Notification;
 use App\Models\Project;
 use App\Models\ProjectTask;
 use App\Models\Business;
@@ -57,7 +57,7 @@ class InvoiceController extends Controller
 
         $tasks = ProjectTask::where('assignedto',Auth::id())->where('status',1)->orderby('id','desc')->get();
         $invoices = Invoice::where('invostatus','1')->orWhere('invostatus','2')->orderby('id','desc')->paginate(3);
-        $notifications = Notifications::where('status',1)->where('toid',Auth::id())->orderby('id','desc')->paginate(5);
+        $notifications = Notification::where('status',1)->where('toid',Auth::id())->orderby('id','desc')->paginate(5);
         return view('dashboard')->with(['invoices' =>$invoices])->with(['clients'=> $client])->with('datas', $data)
         ->with('quotedata', $quotedata)->with('counts', $counts)->with('tasks', $tasks)->with('notifications', $notifications);  
     }
