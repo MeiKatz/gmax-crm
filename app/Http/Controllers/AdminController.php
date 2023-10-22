@@ -19,7 +19,7 @@ class AdminController extends Controller
     {   
         app()->setLocale($request->lang);
         session()->put('locale', $request->lang);      
-        return redirect('/dashboard');
+        return redirect()->route('dashboard');
     }
 
     public function softwareupdate(Request $request)
