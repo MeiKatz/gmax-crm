@@ -77,7 +77,9 @@
                                             Edit User
                                         </a>
                                         <a class="dropdown-item" onclick="return confirm('Are you sure?')"
-                                    href="/admin/deleteadmin/{{$user->id}}">
+                                    href="{{route('admin.users.destroy', [
+                                        'user' => $user,
+                                    ])}}">
                                             Delete User
                                         </a>
                                     </div>
@@ -100,7 +102,7 @@
                                    </svg>
                                   </b>
                                 </div>
-                            <form action="{{route('updateadmin')}}" method="post">
+                            <form action="{{route('admin.users.update')}}" method="post">
                                 @csrf
                             <input type="hidden" value="{{$user->id}}" name="id">
                                 <div class="modal-body">
@@ -161,7 +163,7 @@
                </svg>
               </b>
             </div>
-        <form action="{{route('createnewadmin')}}" method="post">
+        <form action="{{route('admin.users.store')}}" method="post">
             @csrf
             <div class="modal-body">
                 <div class="mb-2">

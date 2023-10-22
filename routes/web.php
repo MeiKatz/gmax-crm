@@ -319,22 +319,15 @@ Route::prefix('admin')
     ->name('admin.')
     ->middleware(['auth','admin'])
     ->group(function() {
-        Route::get('/listofusers', [
-            AdminController::class,
-            'index'
-        ])->name('listofadmins');
-        Route::post('/createnewadmin', [
-            AdminController::class,
-            'createnewadmin'
-        ])->name('createnewadmin');
-        Route::post('/updateadmin', [
-            AdminController::class,
-            'updateadmin'
-        ])->name('updateadmin');
-        Route::get('/deleteadmin/{id}', [
-            AdminController::class,
-            'deleteadmin'
-        ])->name('deleteadmin');
+        Route::prefix('users')
+            ->name('users.')
+            ->controller(Admin\UserController::class)
+            ->group(function () {
+                Route::get('', 'index')->name('index');
+                Route::post('', 'store')->name('store');
+                Route::put('', 'update')->name('update');
+                Route::delete('{user}', 'destroy')->name('destroy');
+            });
 
         Route::prefix('settings')
             ->name('settings.')
@@ -376,10 +369,10 @@ Route::prefix('admin')
                         Route::get('', 'show')->name('show');
                         Route::put('', 'update')->name('update');
                     });
-
+/*
                 Route::put(
                     'payment-gateway/status',
                     AdminSettings\PaymentGatewayStatusController::class
-                )->name('payment-gateway.status');
+                )->name('payment-gateway.status');*/
         });
     });
