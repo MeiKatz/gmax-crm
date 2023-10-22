@@ -134,20 +134,24 @@ Route::group(['middleware' => ['auth']], function(){
 });	
 
 
-Route::group(['middleware' => ['auth','admin']], function(){
-    Route::get('/admin/listofusers', [AdminController::class, 'index'])->name('listofadmins');
-    Route::post('/admin/createnewadmin', [AdminController::class, 'createnewadmin'])->name('createnewadmin');
-    Route::post('/admin/updateadmin', [AdminController::class, 'updateadmin'])->name('updateadmin');
-    Route::get('/admin/deleteadmin/{id}', [AdminController::class, 'deleteadmin'])->name('deleteadmin');
+Route::group([
+    'middleware' => ['auth','admin'],
+    'prefix' => '/admin',
+],
+function() {
+    Route::get('/listofusers', [AdminController::class, 'index'])->name('listofadmins');
+    Route::post('/createnewadmin', [AdminController::class, 'createnewadmin'])->name('createnewadmin');
+    Route::post('/updateadmin', [AdminController::class, 'updateadmin'])->name('updateadmin');
+    Route::get('/deleteadmin/{id}', [AdminController::class, 'deleteadmin'])->name('deleteadmin');
     
-    Route::get('/admin/settings', [SettingsController::class, 'settings'])->name('adminsettings');
-    Route::post('/admin/settings/save', [SettingsController::class, 'updatesettings'])->name('updatesettingssave');
+    Route::get('/settings', [SettingsController::class, 'settings'])->name('adminsettings');
+    Route::post('/settings/save', [SettingsController::class, 'updatesettings'])->name('updatesettingssave');
 
-    Route::get('/admin/settings/billing', [SettingsController::class, 'billingsetting'])->name('billingsetting');
-    Route::post('/admin/settings/billing/save', [SettingsController::class, 'billingsettingsave'])->name('billingsettingsave');
+    Route::get('/settings/billing', [SettingsController::class, 'billingsetting'])->name('billingsetting');
+    Route::post('/settings/billing/save', [SettingsController::class, 'billingsettingsave'])->name('billingsettingsave');
 
-    Route::get('/admin/settings/invoice', [SettingsController::class, 'invoicesettings'])->name('invoicesettings');
-    Route::post('/admin/settings/invoice/save', [SettingsController::class, 'invoicesettingssave'])->name('invoicesettingssave');
+    Route::get('/settings/invoice', [SettingsController::class, 'invoicesettings'])->name('invoicesettings');
+    Route::post('/settings/invoice/save', [SettingsController::class, 'invoicesettingssave'])->name('invoicesettingssave');
 
 
     Route::get('/admin/settings/paymentgateway', [GatewayController::class, 'paymentgatewaysettings'])->name('paymentgatewaysettings');
