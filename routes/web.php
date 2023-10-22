@@ -43,13 +43,16 @@ Route::get('/quote/stat/public/{id}/{stat}', [InvoiceController::class, 'quotest
 
 Route::group(['middleware' => ['auth']], function(){
     Route::get('/dashboard', [InvoiceController::class, 'dashboard'])->name('dashboard');
-    Route::get('/client/add', [ClientController::class, 'addclient'])->name('addclient');
-    Route::post('/client/add/save', [ClientController::class, 'addclientsave'])->name('addclientsave');
-    Route::get('/clients', [ClientController::class, 'listofclients'])->name('listofclients');
-    Route::get('/client/{id}', [ClientController::class, 'viewclient'])->name('viewclient');
-    Route::get('/client/delete/{id}', [ClientController::class, 'deleteclient'])->name('deleteclient');
-    Route::get('/client/edit/{id}', [ClientController::class, 'editclient'])->name('editclient');
-    Route::post('/client/edit/save', [ClientController::class, 'editclientsave'])->name('editclientsave');
+
+    Route::prefix('/clients')->group(function () {
+        Route::get('', [ClientController::class, 'listofclients'])->name('listofclients');
+        Route::get('/add', [ClientController::class, 'addclient'])->name('addclient');
+        Route::post('/add/save', [ClientController::class, 'addclientsave'])->name('addclientsave');
+        Route::get('/{id}', [ClientController::class, 'viewclient'])->name('viewclient');
+        Route::get('/delete/{id}', [ClientController::class, 'deleteclient'])->name('deleteclient');
+        Route::get('/edit/{id}', [ClientController::class, 'editclient'])->name('editclient');
+        Route::post('/edit/save', [ClientController::class, 'editclientsave'])->name('editclientsave');
+    });
 
     Route::prefix('/invoices')->group(function () {
         Route::get('', [InvoiceController::class, 'listofinvoices'])->name('listofinvoices');
