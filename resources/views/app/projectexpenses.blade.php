@@ -13,7 +13,7 @@
                 <h4 class="card-title">Add Project Expense</h4>
             </div>
             <div class="card-body">
-                <form action="{{route('createnewexpense')}}" method="post" enctype="multipart/form-data">
+                <form action="{{route('expenses.create')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" value="{{$prid}}" name="prid">
                     <div class="modal-body">
@@ -125,7 +125,7 @@
                                </svg>
                               </b>
                           </div>
-                      <form action="{{route('editexpense')}}" method="post" enctype="multipart/form-data">
+                      <form action="{{route('expenses.update')}}" method="post" enctype="multipart/form-data">
                           @csrf
                           <input type="hidden" name="id" value="{{$expense->id}}">
                           <div class="modal-body">

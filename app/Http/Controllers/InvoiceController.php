@@ -465,64 +465,6 @@ class InvoiceController extends Controller
       $invoices->save();   
       return redirect('/invoice/edit/'.$request->id)->with('success', 'Converted as Invoice');  
      }
-     
-     /*****************expense manager and cashbook************** */
-     
-     public function expensemanagerlist(Request $request)
-     { 
-         $projects = Project::all();
-         $expenses = QueryBuilder::for(ExpenseManager::class)
-         ->allowedFilters(['prid','date','status'])
-         ->orderBy('id','desc')->paginate(15);   
-
-         $thisday = Carbon::now()->format('Y-m-d');  
-
-        $counts=[];
-        $counts['today']=ExpenseManager::where('date',$thisday)->sum('amount');
-        $counts['thismonth']=ExpenseManager::whereMonth('date',date('m'))->sum('amount');
-        $counts['lastmonth']=ExpenseManager::whereMonth('date', '=', Carbon::now()->subMonth()->month)->sum('amount');
-        $counts['thisyear']=ExpenseManager::whereYear('date', date('Y'))->sum('amount');
-
-         return view('app.listofexpenses')->with(['expenses' =>$expenses])->with(['projects'=> $projects])->with('counts', $counts);       
-     }
-
-     public function createnewexpense(Request $request)
-     {
-      
-             $expense =new ExpenseManager();
-             $expense->prid =$request->prid;  
-             $expense->item =$request->item;  
-             $expense->amount =$request->amount;  
-             $expense->date =$request->date;         
-             $expense->auth =Auth::id();  
-             $expense->status =1;       
-             $bill = $request->bill;
-             if($bill!=NULL) {               
-                 $filename    = time().'.'.$request->bill->extension();  
-                 $request->bill->move(public_path('storage/uploads/'), $filename);                        
-                 $expense->bill =$filename;       
-             }                      
-             $expense->save();        
-             return redirect()->back()->with('success', 'Expense Added');  
-     }
-
-     public function editexpense(Request $request)
-     {
-      
-             $expense = ExpenseManager::findOrFail($request->id);
-             $expense->prid =$request->prid;  
-             $expense->item =$request->item;  
-             $expense->amount =$request->amount;  
-             $expense->date =$request->date;           
-             $bill = $request->bill;
-             if($bill!=NULL) {               
-                 $filename    = time().'.'.$request->bill->extension();  
-                 $request->bill->move(public_path('storage/uploads/'), $filename);                        
-                 $expense->bill =$filename;       
-             }                      
-             $expense->save();        
-             return redirect()->back()->with('success', 'Expense Updated');  
-     }
  
 
      public function cashbooklist(Request $request)

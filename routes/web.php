@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\GatewayController;
 use App\Http\Controllers\ProjectController;
@@ -79,6 +80,15 @@ Route::group(['middleware' => ['auth']], function(){
         'clients',
         ClientController::class
     );
+
+    Route::resource(
+        'expenses',
+        ExpenseController::class
+    )->except([
+        'create',
+        'show',
+        'edit',
+    ]);
 
     Route::prefix('/invoices')->group(function () {
         Route::get('', [
@@ -180,25 +190,6 @@ Route::group(['middleware' => ['auth']], function(){
             InvoiceController::class,
             'emailquote'
         ])->name('emailquote');
-    });
-
-    Route::prefix('/expenses')->group(function () {
-        Route::get('', [
-            InvoiceController::class,
-            'expensemanagerlist'
-        ])->name('expensemanagerlist');
-        Route::post('/new/save', [
-            InvoiceController::class,
-            'createnewexpense'
-        ])->name('createnewexpense');
-        Route::post('/edit/save', [
-            InvoiceController::class,
-            'editexpense'
-        ])->name('editexpense');
-        Route::get('/delete/{id}', [
-            projectcontroller::class,
-            'deleteexpense'
-        ])->name('deleteexpense');
     });
 
     Route::prefix('/mytasks')->group(function () {

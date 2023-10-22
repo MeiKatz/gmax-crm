@@ -278,15 +278,4 @@ class ProjectController extends Controller
          return view('app.projectexpenses')->with(['expenses' =>$expenses])->with(['projects'=> $projects])->with(['prid' =>$request->id]);         
    
     }
-
-    public function deleteexpense(Request $request)
-    {
-     $expense = ExpenseManager::findOrFail($request->id);
-     $expense->delete();
-     return redirect()->back()->with('success', ' Expense Deleted');
-    }
-
-    
-    
-    
 }
