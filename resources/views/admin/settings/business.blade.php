@@ -7,7 +7,7 @@
 <div class="container-xl">
     <div class="row">
         <div class="col-lg-4">
-          @include('settings.settingsmenu')
+          @include('admin.settings._settingsmenu')
         </div>
         <div class="col-lg-8">
             <div class="card">

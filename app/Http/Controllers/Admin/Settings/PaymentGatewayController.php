@@ -17,7 +17,7 @@ class PaymentGatewayController extends Controller
     {
         $gateways = PaymentGateway::get();
 
-        return view('settings.paymentgateways')->with([
+        return view('admin.settings.paymentgateways')->with([
             'gateways' => $gateways,
         ]);
     }

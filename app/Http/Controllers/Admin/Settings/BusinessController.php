@@ -17,7 +17,7 @@ class BusinessController extends Controller
     {
         $business = Business::find(1);
 
-        return view('settings.business')->with([
+        return view('admin.settings.business')->with([
             'business' => $business,
         ]);
     }

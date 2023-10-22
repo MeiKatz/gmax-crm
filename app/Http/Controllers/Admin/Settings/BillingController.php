@@ -18,7 +18,7 @@ class BillingController extends Controller
     {
         $settings = Setting::first();
 
-        return view('settings.billing')->with([
+        return view('admin.settings.billing')->with([
             'settings' => $settings,
         ]);
     }

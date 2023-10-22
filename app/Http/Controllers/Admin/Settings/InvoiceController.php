@@ -17,7 +17,7 @@ class InvoiceController extends Controller
     {
         $business = Business::find(1);
 
-        return view('settings.invoicesettings')->with([
+        return view('admin.settings.invoicesettings')->with([
             'business' => $business,
         ]);
     }
