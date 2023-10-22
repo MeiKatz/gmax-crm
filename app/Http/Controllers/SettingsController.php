@@ -28,27 +28,6 @@ class SettingsController extends Controller
             return redirect()->back()->with('success', 'Software information updated'); 
     }
 
-    public function billingsetting(Request $request)
-    {
-       $setings = Setting::first();
-       return view('settings.billing')->with(['settings' =>$setings]);
-    }
-
-    public function billingsettingsave(Request $request)
-    {
-     
-            $settings =Setting::find(1);
-            $settings->prefix =$request->prefix;   
-            $settings->suffix =$request->suffix;
-            $settings->taxstatus =$request->taxstatus;   
-            $settings->taxname =$request->taxname;
-            $settings->taxpercent =$request->taxpercent;   
-            $settings->invoicenote =$request->invoicenote;
-            $settings->quotenote =$request->quotenote;           
-            $settings->save();        
-            return redirect()->back()->with('success', 'Billing information updated'); 
-    }
-
     public function businesssetting(Request $request)
     {
        $business = Business::find(1);

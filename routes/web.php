@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\Settings as AdminSettings;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\ClientController;
@@ -345,14 +346,14 @@ function() {
             'updatesettings'
         ])->name('updatesettingssave');
 
-        Route::get('/billing', [
-            SettingsController::class,
-            'billingsetting'
-        ])->name('billingsetting');
-        Route::post('/billing/save', [
-            SettingsController::class,
-            'billingsettingsave'
-        ])->name('billingsettingsave');
+        Route::get(
+            'billing',
+            [AdminSettings\BillingController::class, 'show']
+        )->name('billing.show');
+        Route::put(
+            'billing',
+            [AdminSettings\BillingController::class, 'update']
+        )->name('billing.update');
 
         Route::get('/invoice', [
             SettingsController::class,
