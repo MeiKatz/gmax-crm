@@ -364,14 +364,14 @@ function() {
             [AdminSettings\BusinessController::class, 'update']
         )->name('business.update');
 
-        Route::get('/invoice', [
-            SettingsController::class,
-            'invoicesettings'
-        ])->name('invoicesettings');
-        Route::post('/invoice/save', [
-            SettingsController::class,
-            'invoicesettingssave'
-        ])->name('invoicesettingssave');
+        Route::get(
+            'invoice',
+            [AdminSettings\InvoiceController::class, 'show']
+        )->name('invoice.show');
+        Route::put(
+            'invoice',
+            [AdminSettings\InvoiceController::class, 'update']
+        )->name('invoice.update');
 
         Route::get('/paymentgateway', [
             GatewayController::class,

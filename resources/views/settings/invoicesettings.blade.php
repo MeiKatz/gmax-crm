@@ -14,7 +14,7 @@
                 <div class="card-body">
                 
                    
-                    <form action="{{route('invoicesettingssave')}}" method="post" enctype="multipart/form-data">
+                    <form action="{{route('admin.settings.invoice.update')}}" method="post" enctype="multipart/form-data">
                         @csrf
 
                                                            
