@@ -355,6 +355,15 @@ function() {
             [AdminSettings\BillingController::class, 'update']
         )->name('billing.update');
 
+        Route::get(
+            'business',
+            [AdminSettings\BusinessController::class, 'show']
+        )->name('business.show');
+        Route::put(
+            'business',
+            [AdminSettings\BusinessController::class, 'update']
+        )->name('business.update');
+
         Route::get('/invoice', [
             SettingsController::class,
             'invoicesettings'
@@ -376,14 +385,5 @@ function() {
             GatewayController::class,
             'paymentgatewayenable'
         ])->name('paymentgatewayenable');
-
-        Route::get('/business', [
-            SettingsController::class,
-            'businesssetting'
-        ])->name('businesssetting');
-        Route::post('/business/save', [
-            SettingsController::class,
-            'businesssettingsave'
-        ])->name('businesssettingsave');
     });
 });

@@ -14,7 +14,7 @@
                 <div class="card-body">
                 
                    
-                    <form action="{{route('businesssettingsave')}}" method="post" enctype="multipart/form-data">
+                    <form action="{{route('admin.settings.business.update')}}" method="post" enctype="multipart/form-data">
                         @csrf
 
                                                            
