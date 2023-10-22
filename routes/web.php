@@ -84,12 +84,15 @@ Route::group(['middleware' => ['auth']], function(){
         Route::get('/email/{id}', [InvoiceController::class, 'emailquote'])->name('emailquote');
     });
 
+    Route::prefix('/expenses')->group(function () {
+        Route::get('', [InvoiceController::class, 'expensemanagerlist'])->name('expensemanagerlist');
+        Route::post('/new/save', [InvoiceController::class, 'createnewexpense'])->name('createnewexpense');
+        Route::post('/edit/save', [InvoiceController::class, 'editexpense'])->name('editexpense');
+        Route::get('/delete/{id}', [projectcontroller::class, 'deleteexpense'])->name('deleteexpense');
+    });
 
-    Route::get('/expenses', [InvoiceController::class, 'expensemanagerlist'])->name('expensemanagerlist');
-    Route::post('/expenses/new/save', [InvoiceController::class, 'createnewexpense'])->name('createnewexpense');
-    Route::post('/expenses/edit/save', [InvoiceController::class, 'editexpense'])->name('editexpense');
-    Route::get('/project/expenses/{id}', [ProjectController::class, 'viewprojectexpense'])->name('viewprojectexpense');
-    Route::get('/expenses/delete/{id}', [ProjectController::class, 'deleteexpense'])->name('deleteexpense');
+    Route::get('/project/expenses/{id}', [projectcontroller::class, 'viewprojectexpense'])->name('viewprojectexpense');
+
 
     Route::get('/cashbook', [InvoiceController::class, 'cashbooklist'])->name('cashbooklist');
     
