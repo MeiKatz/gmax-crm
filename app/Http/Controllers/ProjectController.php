@@ -265,17 +265,4 @@ class ProjectController extends Controller
      $project->delete();
      return redirect()->back()->with('success', ' Update Deleted');
     }
-
-
-    /********expense manager******** */
-
-    public function viewprojectexpense(Request $request)
-    { 
-        $projects = Project::all();
-         $expenses = QueryBuilder::for(ExpenseManager::class)
-         ->allowedFilters(['prid','date','status'])
-         ->where('prid',$request->id)->orderBy('id','desc')->paginate(15);   
-         return view('app.projectexpenses')->with(['expenses' =>$expenses])->with(['projects'=> $projects])->with(['prid' =>$request->id]);         
-   
-    }
 }

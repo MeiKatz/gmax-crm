@@ -9,6 +9,7 @@ use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\GatewayController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\Project;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,15 +49,15 @@ Route::prefix('/invoices')->group(function () {
         'payinvoice'
     ])->name('payinvoice');
     Route::post('/capture/razorpaypayment', [
-        gatewaycontroller::class,
+        GatewayController::class,
         'razorpaypayment'
     ])->name('razorpaypayment');
     Route::post('/capture/stripe', [
-        gatewaycontroller::class,
+        GatewayController::class,
         'stripepayment'
     ])->name('stripepayment');
     Route::post('/capture/paypal', [
-        gatewaycontroller::class,
+        GatewayController::class,
         'paypalhandlePayment'
     ])->name('paypalhandlePayment');
 });
@@ -194,104 +195,104 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::prefix('/mytasks')->group(function () {
         Route::get('', [
-            projectcontroller::class,
+            ProjectController::class,
             'mytasks'
         ])->name('mytasks');
         Route::get('/view/{id}', [
-            projectcontroller::class,
+            ProjectController::class,
             'viewtask'
         ])->name('viewtask');
         Route::post('/task/addtodo', [
-            projectcontroller::class,
+            ProjectController::class,
             'addtasktodo'
         ])->name('addtasktodo');
         Route::post('/task/addtodo/update', [
-            projectcontroller::class,
+            ProjectController::class,
             'todostatusupdate'
         ])->name('todostatusupdate');
         Route::get('/task/todo/delete/{id}', [
-            projectcontroller::class,
+            ProjectController::class,
             'tasktododelete'
         ])->name('tasktododelete');
         Route::post('/task/addcomment', [
-            projectcontroller::class,
+            ProjectController::class,
             'addtaskcomment'
         ])->name('addtaskcomment');
         Route::get('/view/complete/{id}', [
-            projectcontroller::class,
+            ProjectController::class,
             'taskcomplete'
         ])->name('taskcomplete');
     });
 
     Route::prefix('/projects')->group(function () {
         Route::get('', [
-            projectcontroller::class,
+            ProjectController::class,
             'listofprojects'
         ])->name('listofprojects');
         Route::post('/new/save', [
-            projectcontroller::class,
+            ProjectController::class,
             'createnewproject'
         ])->name('createnewproject');
         Route::post('/update/save', [
-            projectcontroller::class,
+            ProjectController::class,
             'updateproject'
         ])->name('updateproject');
         Route::post('/descrip/save', [
-            projectcontroller::class,
+            ProjectController::class,
             'updateprojectdescript'
         ])->name('updateprojectdescript');
         Route::post('/status/change', [
-            projectcontroller::class,
+            ProjectController::class,
             'projectstatuschange'
         ])->name('projectstatuschange');
         Route::get('/{id}', [
-            projectcontroller::class,
+            ProjectController::class,
             'viewproject'
         ])->name('viewproject');
         Route::get('/delete/{id}', [
-            projectcontroller::class,
+            ProjectController::class,
             'deleteproject'
         ])->name('deleteproject');
         Route::get('/tasks/{id}', [
-            projectcontroller::class,
+            ProjectController::class,
             'viewtasks'
         ])->name('viewtasksprjct');
         Route::post('/tasks/save', [
-            projectcontroller::class,
+            ProjectController::class,
             'createprjcttask'
         ])->name('createprjcttask');
         Route::post('/tasks/update', [
-            projectcontroller::class,
+            ProjectController::class,
             'projecttaskupdate'
         ])->name('projecttaskupdate');
         Route::get('/tasks/delete/{id}', [
-            projectcontroller::class,
+            ProjectController::class,
             'deletetasks'
         ])->name('deletetasks');
         Route::get('/note/{id}', [
-            projectcontroller::class,
+            ProjectController::class,
             'viewnote'
         ])->name('viewnoteprjct');
         Route::post('/note/save', [
-            projectcontroller::class,
+            ProjectController::class,
             'updatenote'
         ])->name('updatenoteprjct');
         Route::post('/updates/new', [
-            projectcontroller::class,
+            ProjectController::class,
             'addprojectupdates'
         ])->name('addprojectupdates');
         Route::post('/updates/edit', [
-            projectcontroller::class,
+            ProjectController::class,
             'editprojectupdates'
         ])->name('editprojectupdates');
         Route::get('/deleteupdates/{id}', [
-            projectcontroller::class,
+            ProjectController::class,
             'deleteupdates'
         ])->name('deleteupdates');
-        Route::get('/expenses/{id}', [
-            projectcontroller::class,
-            'viewprojectexpense'
-        ])->name('viewprojectexpense');
+        Route::get(
+            '{project}/expenses',
+            Project\ExpenseController::class,
+        )->name('projects.expenses');
     });
 
     Route::get('/cashbook', [
@@ -299,7 +300,7 @@ Route::group(['middleware' => ['auth']], function(){
         'cashbooklist'
     ])->name('cashbooklist');
     Route::get('/notification/update/{id}', [
-        projectcontroller::class,
+        ProjectController::class,
         'notificationupdate'
     ])->name('notificationupdate');
     Route::get('/filemanager', [
@@ -363,15 +364,15 @@ function() {
         ])->name('invoicesettingssave');
 
         Route::get('/paymentgateway', [
-            gatewaycontroller::class,
+            GatewayController::class,
             'paymentgatewaysettings'
         ])->name('paymentgatewaysettings');
         Route::post('/paymentgateway/save', [
-            gatewaycontroller::class,
+            GatewayController::class,
             'paymentgatewaysettingssave'
         ])->name('paymentgatewaysettingssave');
         Route::post('/paymentgateway/enable', [
-            gatewaycontroller::class,
+            GatewayController::class,
             'paymentgatewayenable'
         ])->name('paymentgatewayenable');
 
