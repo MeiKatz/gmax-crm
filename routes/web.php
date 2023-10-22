@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\InvoiceController;
@@ -69,10 +70,10 @@ Route::get('/quote/stat/public/{id}/{stat}', [
 ])->name('quotestatuschangepublic');
 
 Route::group(['middleware' => ['auth']], function(){
-    Route::get('/dashboard', [
-        InvoiceController::class,
-        'dashboard'
-    ])->name('dashboard');
+    Route::get(
+        '/dashboard',
+        DashboardController::class
+    )->name('dashboard');
 
     Route::prefix('/clients')->group(function () {
         Route::get('', [
