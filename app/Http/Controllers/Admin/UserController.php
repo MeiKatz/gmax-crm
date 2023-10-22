@@ -17,7 +17,7 @@ class UserController extends Controller
     {
         $users = User::orderBy('id','desc')->paginate(15);
 
-        return view('admin.listofadmin')->with([
+        return view('admin.users.index')->with([
             'users' => $users,
         ]);
     }
