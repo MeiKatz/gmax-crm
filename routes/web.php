@@ -315,64 +315,59 @@ Route::group(['middleware' => ['auth']], function(){
     ])->name('updatesystem');
 });	
 
-Route::group([
-    'middleware' => ['auth','admin'],
-    'prefix' => '/admin',
-],
-function() {
-    Route::get('/listofusers', [
-        AdminController::class,
-        'index'
-    ])->name('listofadmins');
-    Route::post('/createnewadmin', [
-        AdminController::class,
-        'createnewadmin'
-    ])->name('createnewadmin');
-    Route::post('/updateadmin', [
-        AdminController::class,
-        'updateadmin'
-    ])->name('updateadmin');
-    Route::get('/deleteadmin/{id}', [
-        AdminController::class,
-        'deleteadmin'
-    ])->name('deleteadmin');
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware(['auth','admin'])
+    ->group(function() {
+        Route::get('/listofusers', [
+            AdminController::class,
+            'index'
+        ])->name('listofadmins');
+        Route::post('/createnewadmin', [
+            AdminController::class,
+            'createnewadmin'
+        ])->name('createnewadmin');
+        Route::post('/updateadmin', [
+            AdminController::class,
+            'updateadmin'
+        ])->name('updateadmin');
+        Route::get('/deleteadmin/{id}', [
+            AdminController::class,
+            'deleteadmin'
+        ])->name('deleteadmin');
 
-    Route::prefix('/settings')->group(function () {
-        Route::get(
-            '',
-            [Admin\SettingController::class, 'show']
-        )->name('admin.settings.show');
-        Route::put(
-            '',
-            [Admin\SettingController::class, 'update']
-        )->name('admin.settings.update');
+        Route::prefix('settings')
+            ->name('settings.')
+            ->group(function () {
+                Route::controller(Admin\SettingController::class)
+                    ->group(function () {
+                        Route::get('', 'show')->name('show');
+                        Route::put('', 'update')->name('update');
+                    });
 
-        Route::get(
-            'billing',
-            [AdminSettings\BillingController::class, 'show']
-        )->name('billing.show');
-        Route::put(
-            'billing',
-            [AdminSettings\BillingController::class, 'update']
-        )->name('billing.update');
+                Route::prefix('billing')
+                    ->name('billing.')
+                    ->controller(AdminSettings\BillingController::class)
+                    ->group(function () {
+                        Route::get('', 'show')->name('show');
+                        Route::put('', 'update')->name('update');
+                    });
 
-        Route::get(
-            'business',
-            [AdminSettings\BusinessController::class, 'show']
-        )->name('business.show');
-        Route::put(
-            'business',
-            [AdminSettings\BusinessController::class, 'update']
-        )->name('business.update');
+                Route::prefix('business')
+                    ->name('business.')
+                    ->controller(AdminSettings\BusinessController::class)
+                    ->group(function () {
+                        Route::get('', 'show')->name('show');
+                        Route::put('', 'update')->name('update');
+                    });
 
-        Route::get(
-            'invoice',
-            [AdminSettings\InvoiceController::class, 'show']
-        )->name('invoice.show');
-        Route::put(
-            'invoice',
-            [AdminSettings\InvoiceController::class, 'update']
-        )->name('invoice.update');
+                Route::prefix('invoice')
+                    ->name('invoice.')
+                    ->controller(AdminSettings\InvoiceController::class)
+                    ->group(function () {
+                        Route::get('', 'show')->name('show');
+                        Route::put('', 'update')->name('update');
+                    });
 
         Route::get('/paymentgateway', [
             GatewayController::class,
@@ -387,4 +382,3 @@ function() {
             'paymentgatewayenable'
         ])->name('paymentgatewayenable');
     });
-});
