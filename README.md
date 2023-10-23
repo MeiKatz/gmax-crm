@@ -14,7 +14,7 @@ Passoword :  123456
 1, Clone the repo <br />
 2, Rename the .env-sample to .env <br />
 3, Create a database and update the details in env file <br />
-4, run `composer update` <br />
+4, run `composer install` <br />
 5, run `npm install` <br />
 7, run `php arisan migrate`   <br />
 8, run `php artisan db:seed` <br />
