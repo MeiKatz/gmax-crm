@@ -29,18 +29,22 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        View::share([
+            'settings' => $this->getSettings(),
+        ]);
 
-          if(env('DB_USERNAME')!=NULL){
-            if (Schema::hasTable('settings')) {
-                    $setings = Setting::first();
-                   
-                    View::share(['settings' =>$setings]);   
-                }                            
-                Paginator::useBootstrap();
-            }
+        Paginator::useBootstrap();
+    }
 
-         
+    private function getSettings() {
+        if ( env('DB_USERNAME') === null ) {
+            return Setting::make();
+        }
 
-        
+        if ( !Schema::hasTable('settings') ) {
+            return Setting::make();
+        }
+
+        return Setting::first() ?? Setting::make();
     }
 }
