@@ -4,28 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\client;
+use App\Models\Client;
 use Spatie\QueryBuilder\QueryBuilder;
-use App\Models\project;
-use App\Models\projecttask;
-use App\Models\projectnote;
-use App\Models\projectupdates;
+use App\Models\Project;
+use App\Models\ProjectTask;
+use App\Models\ProjectNote;
+use App\Models\ProjectUpdate;
 use App\Models\User;
-use App\Models\invoice;
-use App\Models\tasktodos;
-use App\Models\notifications;
+use App\Models\Invoice;
+use App\Models\TaskTodo;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use App\Models\expensemanager;
+use App\Models\ExpenseManager;
 
 
-class projectcontroller extends Controller
+class ProjectController extends Controller
 {
     
     public function listofprojects(Request $request)
     { 
-        $client = client::all();
-        $projects = QueryBuilder::for(project::class)
+        $client = Client::all();
+        $projects = QueryBuilder::for(Project::class)
         ->allowedFilters(['projectname','client','status'])
         ->orderBy('id','desc')->paginate(15);       
         return view('app.listofprojects')->with(['projects' =>$projects])->with(['clients'=> $client]);     
@@ -33,7 +33,7 @@ class projectcontroller extends Controller
 
     public function createnewproject(Request $request)
     {   
-        $project =new project();
+        $project =new Project();
         $project->projectname=$request->projectname;
         $project->client =$request->client;
         $project->description =$request->description;
@@ -42,7 +42,7 @@ class projectcontroller extends Controller
         $project->status =1;
         $project->save();        
         $lastid = $project->id;
-        $project =new projectnote();
+        $project =new ProjectNote();
         $project->pjid=$lastid;
         $project->admin = Auth::id();  
         $project->note ='Add Something';
@@ -53,16 +53,16 @@ class projectcontroller extends Controller
 
     public function deleteproject(Request $request)
     {
-     $project = project::findOrFail($request->id);      
+     $project = Project::findOrFail($request->id);
      $project->delete();
      return redirect('/projects')->with('success', 'Project Deleted');  
     }
 
     public function viewproject(Request $request)
     {         
-        $client = client::all();
-        $project = project::findOrFail($request->id);  
-        $projectupdates = projectupdates::where('projectid',$request->id)->orderby('id','desc')->paginate(5);
+        $client = Client::all();
+        $project = Project::findOrFail($request->id);
+        $projectupdates = ProjectUpdate::where('projectid',$request->id)->orderby('id','desc')->paginate(5);
         $startdate = Carbon::parse($project->startdate);
         $deadline = Carbon::parse($project->deadline);
         $totaldays =   $startdate->diffInDays($deadline);           
@@ -72,11 +72,11 @@ class projectcontroller extends Controller
         $percentage = $balancedays * 100 / $totaldays;
 
         $counts=[];
-        $counts['income']=invoice::where('projectid',$request->id)->sum('paidamount');
-        $counts['expense']=expensemanager::where('prid',$request->id)->sum('amount');
+        $counts['income']=Invoice::where('projectid',$request->id)->sum('paidamount');
+        $counts['expense']=ExpenseManager::where('prid',$request->id)->sum('amount');
         $counts['balance']= $counts['income'] - $counts['expense'];
         
-        $invoices = invoice::where('type',2)->where('projectid',$request->id)->orderby('id','desc')->paginate(3);   
+        $invoices = Invoice::where('type',2)->where('projectid',$request->id)->orderby('id','desc')->paginate(3);
 
         return view('app.projectview')->with(['project' =>$project])->with(['prid' =>$request->id])->with(['percentage' =>$percentage])
         ->with(['balancedays' =>$balancedays])->with(['invoices' =>$invoices])->with(['projectupdates' =>$projectupdates])->with('counts', $counts); 
@@ -84,23 +84,23 @@ class projectcontroller extends Controller
 
     public function viewtasks(Request $request)
     { 
-        $client = client::all();
+        $client = Client::all();
         $users = User::all();
-        $task = Projecttask::where('prid',$request->id)->paginate(30);                
+        $task = ProjectTask::where('prid',$request->id)->paginate(30);
         return view('app.projectviewtasks')->with(['tasks' =>$task])->with(['prid' =>$request->id])->with(['users' =>$users]);     
     }
 
     public function viewnote(Request $request)
     { 
-        $client = client::all();
-        $note = projectnote::where('pjid',$request->id)->first();            
+        $client = Client::all();
+        $note = ProjectNote::where('pjid',$request->id)->first();
         return view('app.projectviewnote')->with(['note' =>$note])->with(['prid' =>$request->id]);      
     }
     
 
     public function createprjcttask(Request $request)
     {   
-        $project =new projecttask();
+        $project =new ProjectTask();
         $project->prid=$request->prid;
         $project->aid = Auth::id();  
         $project->task =$request->task;
@@ -111,7 +111,7 @@ class projectcontroller extends Controller
 
         //send notification 
         if($request->assignedto){
-            $notif =new notifications();
+            $notif =new Notification();
             $notif->fromid =Auth::id();  
             $notif->toid =$request->assignedto;
             $notif->message ='New Project Task Assigned #'.$project->id;
@@ -127,7 +127,7 @@ class projectcontroller extends Controller
 
     public function notificationupdate(Request $request)
     {   
-        $project = notifications::findOrFail($request->id);     
+        $project = Notification::findOrFail($request->id);
         $project->status =0;
         $project->save();     
         return redirect()->back()->with('success', 'Notification Updated');
@@ -135,7 +135,7 @@ class projectcontroller extends Controller
 
     public function updatenote(Request $request)
     {   
-        $project = projectnote::findOrFail($request->id);       
+        $project = ProjectNote::findOrFail($request->id);
         $project->admin = Auth::id();  
         $project->note =$request->note;
         $project->save();     
@@ -144,7 +144,7 @@ class projectcontroller extends Controller
 
     public function projecttaskupdate(Request $request)
     {   
-        $project = projecttask::findOrFail($request->id);     
+        $project = ProjectTask::findOrFail($request->id);
         $project->status =$request->status;
         $project->save();     
         return redirect()->back()->with('success', 'Task Updated');
@@ -152,7 +152,7 @@ class projectcontroller extends Controller
 
     public function deletetasks(Request $request)
     {
-     $project = projecttask::findOrFail($request->id);      
+     $project = ProjectTask::findOrFail($request->id);
      $project->delete();
      return redirect()->back()->with('success', 'Task Deleted');
     }
@@ -160,7 +160,7 @@ class projectcontroller extends Controller
     
     public function updateproject(Request $request)
     {   
-        $project = project::findOrFail($request->id);     
+        $project = Project::findOrFail($request->id);
         $project->projectname =$request->projectname;      
         $project->startdate =$request->startdate;
         $project->deadline =$request->deadline;     
@@ -170,7 +170,7 @@ class projectcontroller extends Controller
 
     public function updateprojectdescript(Request $request)
     {   
-        $project = project::findOrFail($request->id);         
+        $project = Project::findOrFail($request->id);
         $project->description =$request->description;   
         $project->save();     
         return redirect()->back()->with('success', 'Project Updated');
@@ -179,7 +179,7 @@ class projectcontroller extends Controller
     
     public function projectstatuschange(Request $request)
     {   
-        $project = project::findOrFail($request->id);       
+        $project = Project::findOrFail($request->id);
         $project->status =$request->status;     
         $project->save();     
         return redirect()->back()->with('success', 'Status Updated');
@@ -187,13 +187,13 @@ class projectcontroller extends Controller
 
     public function mytasks(Request $request)
     {   
-        $task = Projecttask::where('assignedto',Auth::id())->orderby('id','desc')->paginate(20);                
+        $task = ProjectTask::where('assignedto',Auth::id())->orderby('id','desc')->paginate(20);
         return view('app.mytasks')->with(['tasks' =>$task]);   
     } 
     
     public function taskcomplete(Request $request)
     {   
-        $project = Projecttask::findOrFail($request->id);       
+        $project = ProjectTask::findOrFail($request->id);
         $project->status =2;     
         $project->save();     
         return redirect()->back()->with('success', 'Status Updated');
@@ -201,7 +201,7 @@ class projectcontroller extends Controller
 
     public function todostatusupdate(Request $request)
     {   
-        $project = tasktodos::findOrFail($request->id);       
+        $project = TaskTodo::findOrFail($request->id);
         $project->status = $request->status;     
         $project->save();     
         return redirect()->back()->with('success', 'Status Updated');
@@ -209,7 +209,7 @@ class projectcontroller extends Controller
 
     public function tasktododelete(Request $request)
     {   
-        $project = tasktodos::findOrFail($request->id);       
+        $project = TaskTodo::findOrFail($request->id);
          $project->delete();
         return redirect()->back()->with('success', 'Status Updated');
     }
@@ -217,16 +217,16 @@ class projectcontroller extends Controller
 
     public function viewtask(Request $request)
     {   
-        $task = Projecttask::where('assignedto',Auth::id())->where('id',$request->id)->firstOrFail();         
-        $todos = tasktodos::where('taskid',$request->id)->orderby('id','desc')->get();           
-        $taskcomments =  projectupdates::where('taskid',$request->id)->orderby('id','desc')->paginate(7);          
+        $task = ProjectTask::where('assignedto',Auth::id())->where('id',$request->id)->firstOrFail();
+        $todos = TaskTodo::where('taskid',$request->id)->orderby('id','desc')->get();
+        $taskcomments =  ProjectUpdate::where('taskid',$request->id)->orderby('id','desc')->paginate(7);
         return view('app.viewtask')->with(['task' =>$task])->with(['todos' =>$todos])->with(['taskcomments' =>$taskcomments]);   
     }
 
        
     public function addtasktodo(Request $request)
     {   
-        $updates = new tasktodos();         
+        $updates = new TaskTodo();
         $updates->taskid =$request->taskid;   
         $updates->task =$request->task;   
         $updates->auth =Auth::id();  
@@ -241,7 +241,7 @@ class projectcontroller extends Controller
 
     public function addprojectupdates(Request $request)
     {   
-        $updates = new projectupdates();         
+        $updates = new ProjectUpdate();
         $updates->projectid =$request->projectid;   
         $updates->taskid =$request->taskid;   
         $updates->auth =Auth::id();  
@@ -252,7 +252,7 @@ class projectcontroller extends Controller
 
     public function editprojectupdates(Request $request)
     {   
-        $updates = projectupdates::find($request->id); 
+        $updates = ProjectUpdate::find($request->id);
         $updates->message =$request->message;     
         $updates->save();     
         return redirect()->back()->with('success', 'Comment Updated');
@@ -261,7 +261,7 @@ class projectcontroller extends Controller
 
     public function deleteupdates(Request $request)
     {
-     $project = projectupdates::findOrFail($request->id);      
+     $project = ProjectUpdate::findOrFail($request->id);
      $project->delete();
      return redirect()->back()->with('success', ' Update Deleted');
     }
@@ -271,8 +271,8 @@ class projectcontroller extends Controller
 
     public function viewprojectexpense(Request $request)
     { 
-        $projects = project::all();
-         $expenses = QueryBuilder::for(expensemanager::class)
+        $projects = Project::all();
+         $expenses = QueryBuilder::for(ExpenseManager::class)
          ->allowedFilters(['prid','date','status'])
          ->where('prid',$request->id)->orderBy('id','desc')->paginate(15);   
          return view('app.projectexpenses')->with(['expenses' =>$expenses])->with(['projects'=> $projects])->with(['prid' =>$request->id]);         
@@ -281,7 +281,7 @@ class projectcontroller extends Controller
 
     public function deleteexpense(Request $request)
     {
-     $expense = expensemanager::findOrFail($request->id);      
+     $expense = ExpenseManager::findOrFail($request->id);
      $expense->delete();
      return redirect()->back()->with('success', ' Expense Deleted');
     }

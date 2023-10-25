@@ -5,12 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class notifications extends Model
+class ExpenseManager extends Model
 {
     use HasFactory;
-    public function added()
+
+    public function projectdata()
 	{
-        return  $this->belongsto(User::class, 'fromid', 'id');
+        return  $this->belongsTo(Project::class, 'prid', 'id');
         
     }
+
 }

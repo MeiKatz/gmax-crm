@@ -3,20 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\setting;
+use App\Models\Setting;
 use App\Models\User;
-use App\Models\business;
+use App\Models\Business;
 class SettingsController extends Controller
 {
     public function settings(Request $request)
     {
-       $setings = setting::first();
+       $setings = Setting::first();
        return view('settings.settings')->with(['settings' =>$setings]);
     }
     public function updatesettings(Request $request)
     {
         if($request->businessname!=NULL){
-            $settings =setting::find(1);
+            $settings =Setting::find(1);
             $settings->companyname =$request->businessname;  
             if($request->logo!=NULL) {               
                 $filename    = time().'.'.$request->logo->extension();  
@@ -30,14 +30,14 @@ class SettingsController extends Controller
 
     public function billingsetting(Request $request)
     {
-       $setings = setting::first();
+       $setings = Setting::first();
        return view('settings.billing')->with(['settings' =>$setings]);
     }
 
     public function billingsettingsave(Request $request)
     {
      
-            $settings =setting::find(1);            
+            $settings =Setting::find(1);
             $settings->prefix =$request->prefix;   
             $settings->suffix =$request->suffix;
             $settings->taxstatus =$request->taxstatus;   
@@ -51,14 +51,14 @@ class SettingsController extends Controller
 
     public function businesssetting(Request $request)
     {
-       $business = business::find(1);
+       $business = Business::find(1);
        return view('settings.business')->with(['business' =>$business]);
     }
 
     public function businesssettingsave(Request $request)
     {
      
-            $settings =business::find(1);            
+            $settings =Business::find(1);
             $settings->businessname =$request->businessname;   
             $settings->email =$request->email;
             $settings->contactnum =$request->contactnum;   
@@ -82,14 +82,14 @@ class SettingsController extends Controller
 
     public function invoicesettings(Request $request)
     {
-       $business = business::find(1);
+       $business = Business::find(1);
        return view('settings.invoicesettings')->with(['business' =>$business]);
     }
 
     public function invoicesettingssave(Request $request)
     {
      
-            $settings =business::find(1); 
+            $settings =Business::find(1);
             $settings->enablelogo =$request->enablelogo;       
             $headerimage = $request->headerimage;
             if($headerimage!=NULL) {               

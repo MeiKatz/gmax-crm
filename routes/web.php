@@ -5,8 +5,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\InvoiceController;
-use App\Http\Controllers\gatewaycontroller;
-use App\Http\Controllers\projectcontroller;
+use App\Http\Controllers\GatewayController;
+use App\Http\Controllers\ProjectController;
 
 
 /*
@@ -36,9 +36,9 @@ Route::get('/quote/public/{id}', [InvoiceController::class, 'viewquotepublic'])-
 Route::get('/quote/stat/public/{id}/{stat}', [InvoiceController::class, 'quotestatuschangepublic'])->name('quotestatuschangepublic');
 
 
-Route::post('/invoices/capture/razorpaypayment', [gatewaycontroller::class, 'razorpaypayment'])->name('razorpaypayment');
-Route::post('/invoices/capture/stripe', [gatewaycontroller::class, 'stripepayment'])->name('stripepayment');
-Route::post('/invoices/capture/paypal', [gatewaycontroller::class, 'paypalhandlePayment'])->name('paypalhandlePayment');
+Route::post('/invoices/capture/razorpaypayment', [GatewayController::class, 'razorpaypayment'])->name('razorpaypayment');
+Route::post('/invoices/capture/stripe', [GatewayController::class, 'stripepayment'])->name('stripepayment');
+Route::post('/invoices/capture/paypal', [GatewayController::class, 'paypalhandlePayment'])->name('paypalhandlePayment');
 
 
 
@@ -88,42 +88,42 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/expenses', [InvoiceController::class, 'expensemanagerlist'])->name('expensemanagerlist');
     Route::post('/expenses/new/save', [InvoiceController::class, 'createnewexpense'])->name('createnewexpense');
     Route::post('/expenses/edit/save', [InvoiceController::class, 'editexpense'])->name('editexpense');
-    Route::get('/project/expenses/{id}', [projectcontroller::class, 'viewprojectexpense'])->name('viewprojectexpense');
-    Route::get('/expenses/delete/{id}', [projectcontroller::class, 'deleteexpense'])->name('deleteexpense');
+    Route::get('/project/expenses/{id}', [ProjectController::class, 'viewprojectexpense'])->name('viewprojectexpense');
+    Route::get('/expenses/delete/{id}', [ProjectController::class, 'deleteexpense'])->name('deleteexpense');
 
     Route::get('/cashbook', [InvoiceController::class, 'cashbooklist'])->name('cashbooklist');
     
 
-    Route::get('/mytasks', [projectcontroller::class, 'mytasks'])->name('mytasks');
-    Route::get('/mytasks/view/{id}', [projectcontroller::class, 'viewtask'])->name('viewtask');
-    Route::post('/mytasks/task/addtodo', [projectcontroller::class, 'addtasktodo'])->name('addtasktodo');
-    Route::post('/mytasks/task/addtodo/update', [projectcontroller::class, 'todostatusupdate'])->name('todostatusupdate');
-    Route::get('/mytasks/task/todo/delete/{id}', [projectcontroller::class, 'tasktododelete'])->name('tasktododelete');
-    Route::post('/mytasks/task/addcomment', [projectcontroller::class, 'addtaskcomment'])->name('addtaskcomment');
-    Route::get('/mytasks/view/complete/{id}', [projectcontroller::class, 'taskcomplete'])->name('taskcomplete');
+    Route::get('/mytasks', [ProjectController::class, 'mytasks'])->name('mytasks');
+    Route::get('/mytasks/view/{id}', [ProjectController::class, 'viewtask'])->name('viewtask');
+    Route::post('/mytasks/task/addtodo', [ProjectController::class, 'addtasktodo'])->name('addtasktodo');
+    Route::post('/mytasks/task/addtodo/update', [ProjectController::class, 'todostatusupdate'])->name('todostatusupdate');
+    Route::get('/mytasks/task/todo/delete/{id}', [ProjectController::class, 'tasktododelete'])->name('tasktododelete');
+    Route::post('/mytasks/task/addcomment', [ProjectController::class, 'addtaskcomment'])->name('addtaskcomment');
+    Route::get('/mytasks/view/complete/{id}', [ProjectController::class, 'taskcomplete'])->name('taskcomplete');
 
-    Route::get('/notification/update/{id}', [projectcontroller::class, 'notificationupdate'])->name('notificationupdate');
+    Route::get('/notification/update/{id}', [ProjectController::class, 'notificationupdate'])->name('notificationupdate');
  
 
     Route::get('/filemanager', [InvoiceController::class, 'filemanager'])->name('filemanager');
     
-    Route::get('/projects', [projectcontroller::class, 'listofprojects'])->name('listofprojects');
-    Route::post('/projects/new/save', [projectcontroller::class, 'createnewproject'])->name('createnewproject');
-    Route::post('/projects/update/save', [projectcontroller::class, 'updateproject'])->name('updateproject');
-    Route::post('/projects/descrip/save', [projectcontroller::class, 'updateprojectdescript'])->name('updateprojectdescript');
-    Route::post('/projects/status/change', [projectcontroller::class, 'projectstatuschange'])->name('projectstatuschange');
-    Route::get('/project/{id}', [projectcontroller::class, 'viewproject'])->name('viewproject');
-    Route::get('/project/delete/{id}', [projectcontroller::class, 'deleteproject'])->name('deleteproject');
-    Route::get('/project/tasks/{id}', [projectcontroller::class, 'viewtasks'])->name('viewtasksprjct');
-    Route::post('/project/tasks/save', [projectcontroller::class, 'createprjcttask'])->name('createprjcttask');
-    Route::post('/project/tasks/update', [projectcontroller::class, 'projecttaskupdate'])->name('projecttaskupdate');
-    Route::get('/project/tasks/delete/{id}', [projectcontroller::class, 'deletetasks'])->name('deletetasks');
-    Route::get('/project/note/{id}', [projectcontroller::class, 'viewnote'])->name('viewnoteprjct');
-    Route::post('/project/note/save', [projectcontroller::class, 'updatenote'])->name('updatenoteprjct');
-    Route::post('/projects/updates/new', [projectcontroller::class, 'addprojectupdates'])->name('addprojectupdates');
-    Route::post('/projects/updates/edit', [projectcontroller::class, 'editprojectupdates'])->name('editprojectupdates');
+    Route::get('/projects', [ProjectController::class, 'listofprojects'])->name('listofprojects');
+    Route::post('/projects/new/save', [ProjectController::class, 'createnewproject'])->name('createnewproject');
+    Route::post('/projects/update/save', [ProjectController::class, 'updateproject'])->name('updateproject');
+    Route::post('/projects/descrip/save', [ProjectController::class, 'updateprojectdescript'])->name('updateprojectdescript');
+    Route::post('/projects/status/change', [ProjectController::class, 'projectstatuschange'])->name('projectstatuschange');
+    Route::get('/project/{id}', [ProjectController::class, 'viewproject'])->name('viewproject');
+    Route::get('/project/delete/{id}', [ProjectController::class, 'deleteproject'])->name('deleteproject');
+    Route::get('/project/tasks/{id}', [ProjectController::class, 'viewtasks'])->name('viewtasksprjct');
+    Route::post('/project/tasks/save', [ProjectController::class, 'createprjcttask'])->name('createprjcttask');
+    Route::post('/project/tasks/update', [ProjectController::class, 'projecttaskupdate'])->name('projecttaskupdate');
+    Route::get('/project/tasks/delete/{id}', [ProjectController::class, 'deletetasks'])->name('deletetasks');
+    Route::get('/project/note/{id}', [ProjectController::class, 'viewnote'])->name('viewnoteprjct');
+    Route::post('/project/note/save', [ProjectController::class, 'updatenote'])->name('updatenoteprjct');
+    Route::post('/projects/updates/new', [ProjectController::class, 'addprojectupdates'])->name('addprojectupdates');
+    Route::post('/projects/updates/edit', [ProjectController::class, 'editprojectupdates'])->name('editprojectupdates');
     
-    Route::get('/project/deleteupdates/{id}', [projectcontroller::class, 'deleteupdates'])->name('deleteupdates');
+    Route::get('/project/deleteupdates/{id}', [ProjectController::class, 'deleteupdates'])->name('deleteupdates');
     
     
 
@@ -150,9 +150,9 @@ Route::group(['middleware' => ['auth','admin']], function(){
     Route::post('/admin/settings/invoice/save', [SettingsController::class, 'invoicesettingssave'])->name('invoicesettingssave');
 
 
-    Route::get('/admin/settings/paymentgateway', [gatewaycontroller::class, 'paymentgatewaysettings'])->name('paymentgatewaysettings');
-    Route::post('/admin/settings/paymentgateway/save', [gatewaycontroller::class, 'paymentgatewaysettingssave'])->name('paymentgatewaysettingssave');
-    Route::post('/admin/settings/paymentgateway/enable', [gatewaycontroller::class, 'paymentgatewayenable'])->name('paymentgatewayenable');
+    Route::get('/admin/settings/paymentgateway', [GatewayController::class, 'paymentgatewaysettings'])->name('paymentgatewaysettings');
+    Route::post('/admin/settings/paymentgateway/save', [GatewayController::class, 'paymentgatewaysettingssave'])->name('paymentgatewaysettingssave');
+    Route::post('/admin/settings/paymentgateway/enable', [GatewayController::class, 'paymentgatewayenable'])->name('paymentgatewayenable');
     
     Route::get('/admin/settings/business', [SettingsController::class, 'businesssetting'])->name('businesssetting');
     Route::post('/admin/settings/business/save', [SettingsController::class, 'businesssettingsave'])->name('businesssettingsave');

@@ -5,13 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class tasktodos extends Model
+class Project extends Model
 {
     use HasFactory;
-
-    public function added()
+    public function clientdata()
 	{
-        return  $this->belongsto(User::class, 'auth', 'id');
+        return  $this->belongsTo(Client::class, 'client', 'id');
         
     }
 }

@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         
         $this->call([
-            gatewayseeder::class,           
+            GatewaySeeder::class,
         ]);
         // \App\Models\User::factory(10)->create();
     }

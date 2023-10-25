@@ -5,22 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class projecttask extends Model
+class ProjectTask extends Model
 {
     use HasFactory;
     public function admindata()
 	{
-        return  $this->belongsto(User::class, 'aid', 'id');
+        return  $this->belongsTo(User::class, 'aid', 'id');
         
     }
     public function assigned()
 	{
-        return  $this->belongsto(User::class, 'assignedto', 'id');
+        return  $this->belongsTo(User::class, 'assignedto', 'id');
         
     }
     public function comments()
 	{
-        return  $this->hasMany(projectupdates::class, 'taskid', 'id');
+        return  $this->hasMany(ProjectUpdate::class, 'taskid', 'id');
         
     }
 }
