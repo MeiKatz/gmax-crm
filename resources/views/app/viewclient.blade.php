@@ -59,19 +59,12 @@
         <div class="card">
             <div class="card-body">
                 <div class="card-title">Basic info
-                   
-                        <a href="/client/delete/{{$client->id}}" style="float: right; margin-left:10px;" class="btn btn-sm btn-warning ml-2">
-
-                          Delete Client
-                        </a>
-                   
-                   
-                        <a href="/client/edit/{{$client->id}}" style="float: right; margin-left:10px;" class="btn btn-sm btn-primary ml-2">
-
-                            Edit Client
-                        </a>
-                 
-                    
+                  <form method="post" action="{{ route('clients.destroy', [ $client ]) }}">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" style="float: right; margin-left:10px;" class="btn btn-sm btn-warning ml-2">Delete Client</button>
+                  </form>
+                  <a href="{{ route('clients.edit', [ $client ]) }}" style="float: right; margin-left:10px;" class="btn btn-sm btn-primary ml-2">Edit Client</a>
                 </div>
                 <div class="mb-2">
                 
@@ -165,7 +158,7 @@
                           </td>
                           <td><a href="{{route('viewproject', ['id' => $project->id])}}"> {{$project->projectname}}</a></td>
                           <td>
-                            <a href="/client/{{$project->clientdata->id}}">  {{$project->clientdata->name}} </a>
+                            <a href="{{ route('clients.show', [ 'client' => $project->clientdata->id ]) }}">{{$project->clientdata->name}}</a>
                           </td>
                           <td>
                               {{$project->startdate}}
@@ -264,13 +257,14 @@
                                   <button class="btn  btn-sm dropdown-toggle align-text-top"
                                       data-boundary="viewport" data-toggle="dropdown">Actions</button>
                                   <div class="dropdown-menu dropdown-menu-right">
-                                      <a class="dropdown-item" href="/invoice/edit/{{$invoice->id}}">
+                                      <a class="dropdown-item" href="{{ route('invoices.edit', [ $invoice ]) }}">
                                           Edit Invoice
                                       </a>
-                                      <a class="dropdown-item" onclick="return confirm('Are you sure?')"
-                                          href="/invoice/delete/{{$invoice->id}}">
-                                          Delete Invoice
-                                      </a>
+                                      <form method="post" action="{{ route('invoices.destroy', [ $invoice ]) }}"  onsubmit="return confirm('Are you sure?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="dropdown-item">Delete Invoice</button>
+                                      </form>
                                   </div>
                               </span>
                           </td>

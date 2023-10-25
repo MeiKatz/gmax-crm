@@ -196,9 +196,13 @@
                   
                    # {{$invoice->invoid}}
                 </td>
-                <td><a href="{{route('editinvoice', ['id' => $invoice->id])}}"> {{$invoice->title}}</a></td>
-                <td> 
-                  <a href="/client/ {{ !empty($invoice->clientdata) ? $invoice->clientdata->id:'' }}">   {{ !empty($invoice->clientdata) ? $invoice->clientdata->name:'Removed' }} </a>
+                <td><a href="{{route('invoices.edit', [ $invoice ])}}"> {{$invoice->title}}</a></td>
+                <td>
+                  @if ( empty( $invoice->clientdata ) )
+                  <span>Removed</span>
+                  @else
+                  <a href="{{ route('clients.show', [ 'client' => $invoice->clientdata->id ]) }}">{{ $invoice->clientdata->name }}</a>
+                  @endif
                 </td>
                 <td>
                     {{$invoice->invodate}}
