@@ -21,7 +21,7 @@ class ClientController extends Controller
     {
         $clients = Client::orderby('id','desc')->paginate(15);
 
-        return view('app.listofclients')->with([
+        return view('clients.index')->with([
             'clients' => $clients,
         ]);
     }
@@ -33,7 +33,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        return view('app.addclient');
+        return view('clients.create');
     }
 
     /**
@@ -70,7 +70,7 @@ class ClientController extends Controller
         $invoices = Invoice::where('userid', $client->id)->where('type',2)->orderby('id','desc')->paginate(10);
         $quotes = Invoice::where('userid', $client->id)->where('type',1)->orderby('id','desc')->paginate(10);
 
-        return view('app.viewclient')->with([
+        return view('clients.show')->with([
             'client' => $client,
             'invoices' => $invoices,
             'projects' => $projects,
@@ -86,7 +86,7 @@ class ClientController extends Controller
      */
     public function edit(Client $client)
     {
-        return view('app.editclient')->with([
+        return view('clients.edit')->with([
             'client' => $client,
         ]);
     }
