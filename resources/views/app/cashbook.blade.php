@@ -244,7 +244,7 @@
            </svg>
           </b>
         </div>
-    <form action="{{route('expenses.create')}}" method="post" enctype="multipart/form-data">
+    <form action="{{route('expenses.store')}}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="modal-body">
             <div class="mb-2">

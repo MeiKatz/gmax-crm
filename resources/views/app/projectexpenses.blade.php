@@ -13,7 +13,7 @@
                 <h4 class="card-title">Add Project Expense</h4>
             </div>
             <div class="card-body">
-                <form action="{{route('expenses.create')}}" method="post" enctype="multipart/form-data">
+                <form action="{{route('expenses.store')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" value="{{$prid}}" name="prid">
                     <div class="modal-body">
