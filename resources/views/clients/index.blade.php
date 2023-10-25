@@ -52,10 +52,12 @@
                             <a class="dropdown-item" href="/client/edit/{{$client->id}}">
                                 Edit Client
                             </a>
-                            <a class="dropdown-item" onclick="return confirm('Warning: All Projects and Invoices will deleted with client. Are you sure?')"
-                                href="/client/delete/{{$client->id}}">
-                                Delete Client
-                            </a>
+                            <form class="dropdown-item" method="post" action="{{ route('clients.destroy', [ $client ]) }}" onsubmit="return confirm('Warning: All Projects and Invoices will deleted with client. Are you sure?')">
+                                @method('delete')
+                                @csrf
+                                <input type="hidden" name="id" value="{{ $client->id }}" />
+                                <button type="submit">Delete Client</button>
+                            </form>
                         </div>
                     </span>
                 </td>
