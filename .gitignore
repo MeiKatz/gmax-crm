@@ -1,6 +1,9 @@
+/.idea
+.env
 vendor/
 !public/vendor
 node_modules/
 npm-debug.log
 .php_cs.cache
+.phpunit.result.cache
 .vscode
