@@ -25,43 +25,6 @@ use Illuminate\Support\Facades\Auth;
 
 class InvoiceController extends Controller
 {
-    public function dashboard(Request $request)
-    { 
-        $today =date("Y-m-d");
-        $client = Client::all();
-        $data=[];
-        for($x=0; $x<40; $x++){
-          $seldate = Carbon::now()->subDays($x)->toDateString();
-          $invoice = PaymentReceipt::whereDate('created_at', $seldate)->get();
-          $count = $invoice->sum('amount');
-          $data[$x]['count']=$count;
-          $data[$x]['date']=$seldate;
-        }        
-        $quotedata=[];
-        for($x=0; $x<40; $x++){
-          $seldate = Carbon::now()->subDays($x)->toDateString();
-          $expense = ExpenseManager::whereDate('date', $seldate)->get();
-          $count = $expense->sum('amount');
-          $quotedata[$x]['count']=$count;
-          $quotedata[$x]['date']=$seldate;
-        }
-
-        $counts=[];
-        $counts['unpaid']=Invoice::where('invostatus',1)->count();
-        $counts['paid']=Invoice::where('invostatus',3)->count();
-        $counts['quotes']=Invoice::where('type',1)->count();
-        $counts['prjnotstart']=Project::where('status',1)->count();
-        $counts['prjinprogress']=Project::where('status',2)->count();
-        $counts['prjinreview']=Project::where('status',3)->count();
-        $counts['prjincompleted']=Project::where('status',5)->count();
-
-        $tasks = ProjectTask::where('assignedto',Auth::id())->where('status',1)->orderby('id','desc')->get();
-        $invoices = Invoice::where('invostatus','1')->orWhere('invostatus','2')->orderby('id','desc')->paginate(3);
-        $notifications = Notification::where('status',1)->where('toid',Auth::id())->orderby('id','desc')->paginate(5);
-        return view('dashboard')->with(['invoices' =>$invoices])->with(['clients'=> $client])->with('datas', $data)
-        ->with('quotedata', $quotedata)->with('counts', $counts)->with('tasks', $tasks)->with('notifications', $notifications);  
-    }
-
     public function listofinvoices(Request $request)
     { 
         $counts=[];
@@ -501,64 +464,6 @@ class InvoiceController extends Controller
       $invoices->type =2;             
       $invoices->save();   
       return redirect('/invoice/edit/'.$request->id)->with('success', 'Converted as Invoice');  
-     }
-     
-     /*****************expense manager and cashbook************** */
-     
-     public function expensemanagerlist(Request $request)
-     { 
-         $projects = Project::all();
-         $expenses = QueryBuilder::for(ExpenseManager::class)
-         ->allowedFilters(['prid','date','status'])
-         ->orderBy('id','desc')->paginate(15);   
-
-         $thisday = Carbon::now()->format('Y-m-d');  
-
-        $counts=[];
-        $counts['today']=ExpenseManager::where('date',$thisday)->sum('amount');
-        $counts['thismonth']=ExpenseManager::whereMonth('date',date('m'))->sum('amount');
-        $counts['lastmonth']=ExpenseManager::whereMonth('date', '=', Carbon::now()->subMonth()->month)->sum('amount');
-        $counts['thisyear']=ExpenseManager::whereYear('date', date('Y'))->sum('amount');
-
-         return view('app.listofexpenses')->with(['expenses' =>$expenses])->with(['projects'=> $projects])->with('counts', $counts);       
-     }
-
-     public function createnewexpense(Request $request)
-     {
-      
-             $expense =new ExpenseManager();
-             $expense->prid =$request->prid;  
-             $expense->item =$request->item;  
-             $expense->amount =$request->amount;  
-             $expense->date =$request->date;         
-             $expense->auth =Auth::id();  
-             $expense->status =1;       
-             $bill = $request->bill;
-             if($bill!=NULL) {               
-                 $filename    = time().'.'.$request->bill->extension();  
-                 $request->bill->move(public_path('storage/uploads/'), $filename);                        
-                 $expense->bill =$filename;       
-             }                      
-             $expense->save();        
-             return redirect()->back()->with('success', 'Expense Added');  
-     }
-
-     public function editexpense(Request $request)
-     {
-      
-             $expense = ExpenseManager::findOrFail($request->id);
-             $expense->prid =$request->prid;  
-             $expense->item =$request->item;  
-             $expense->amount =$request->amount;  
-             $expense->date =$request->date;           
-             $bill = $request->bill;
-             if($bill!=NULL) {               
-                 $filename    = time().'.'.$request->bill->extension();  
-                 $request->bill->move(public_path('storage/uploads/'), $filename);                        
-                 $expense->bill =$filename;       
-             }                      
-             $expense->save();        
-             return redirect()->back()->with('success', 'Expense Updated');  
      }
  
 

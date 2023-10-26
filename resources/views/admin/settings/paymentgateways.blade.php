@@ -7,7 +7,7 @@
 <div class="container-xl">
     <div class="row">
         <div class="col-lg-4">
-          @include('settings.settingsmenu')
+          @include('admin.settings._settingsmenu')
         </div>
         <div class="col-lg-8">
             <div class="card">
@@ -23,7 +23,8 @@
                 <div class="card-header">
                   <h3 class="card-title">{!!$gateway->icon!!} {{$gateway->gatewayname}}</h3>
                   <div class="col-auto ms-auto">
-                      <form action="{{route('paymentgatewayenable')}}" method="post">
+                      <form action="{{route('admin.settings.payment-gateway.status')}}" method="post">
+                        @method('PUT')
                           @csrf
                           <input type="hidden" name="id" value="{{$gateway->id}}">
                             <label class="form-check form-switch m-0">
@@ -34,7 +35,8 @@
                 </div>
                 @if($gateway->status==1) 
                 <div class="card-body">
-                    <form action="{{route('paymentgatewaysettingssave')}}" method="post">
+                    <form action="{{route('admin.settings.payment-gateway.update')}}" method="post">
+                        @method('PUT')
                         @csrf
                         <input type="hidden" name="id" value="{{$gateway->id}}">
                    <div class="row">

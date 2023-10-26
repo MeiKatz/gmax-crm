@@ -7,7 +7,7 @@
 <div class="container-xl">
     <div class="row">
         <div class="col-lg-4">
-          @include('settings.settingsmenu')
+          @include('admin.settings._settingsmenu')
         </div>
         <div class="col-lg-8">
             <div class="card">
@@ -17,7 +17,8 @@
                        Configure Your Business name and logo etc
                     </div>
                    
-                    <form action="{{route('updatesettingssave')}}" method="post" enctype="multipart/form-data">
+                    <form action="{{route('admin.settings.update')}}" method="post" enctype="multipart/form-data">
+                        @method('PUT')
                         @csrf
                         <div class="mb-3">
                             <label class="form-label">Your Business Name</label>

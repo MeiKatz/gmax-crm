@@ -19,43 +19,6 @@ use Srmklive\PayPal\Services\ExpressCheckout;
 
 class GatewayController extends Controller
 {
-
-    // gateway settings
-    
-    public function paymentgatewaysettings()
-    {    
-        $gateways = PaymentGateway::get();
-        return view('settings.paymentgateways')->with(['gateways' =>$gateways]);    
-     
-    }
-
-    public function paymentgatewaysettingssave(Request $request)
-    {    
-        $gateways =PaymentGateway::findOrFail($request->id);
-        $gateways->paytitle =$request->paytitle;
-        $gateways->apikey =$request->apikey;
-        $gateways->apisecret =$request->apisecret;
-        $gateways->apiextra =$request->apiextra;             
-        $gateways->save();  
-        return redirect()->back()->with('success', 'Payment Gateway Updated');
-    }
-
-    public function paymentgatewayenable(Request $request)
-    {    
-        $gateways =PaymentGateway::findOrFail($request->id);
-        $gateways->status =$request->status;             
-        $gateways->save();  
-        return redirect()->back()->with('success', 'Payment Gateway Updated');
-    }
-
-
-
-
-
-
-
-
-    
     ////////////////////////// razor pay //////////////////////////////
 
     public function razorpayview()

@@ -196,9 +196,13 @@
                   
                    # {{$invoice->invoid}}
                 </td>
-                <td><a href="{{route('editinvoice', ['id' => $invoice->id])}}"> {{$invoice->title}}</a></td>
-                <td> 
-                  <a href="/client/ {{ !empty($invoice->clientdata) ? $invoice->clientdata->id:'' }}">   {{ !empty($invoice->clientdata) ? $invoice->clientdata->name:'Removed' }} </a>
+                <td><a href="{{route('invoices.edit', [ $invoice ])}}"> {{$invoice->title}}</a></td>
+                <td>
+                  @if ( empty( $invoice->clientdata ) )
+                  <span>Removed</span>
+                  @else
+                  <a href="{{ route('clients.show', [ 'client' => $invoice->clientdata->id ]) }}">{{ $invoice->clientdata->name }}</a>
+                  @endif
                 </td>
                 <td>
                     {{$invoice->invodate}}
@@ -275,7 +279,7 @@
                 <input type="text" class="form-control" name="title" placeholder="Invoice Title Here">
             </div>
             <div class="mb-2">
-                <label class="form-label">Select Client <a href="{{route('addclient')}}" style="float:right;"> Add New Client </a></label>
+                <label class="form-label">Select Client <a href="{{route('clients.create')}}" style="float:right;"> Add New Client </a></label>
                 <select name="userid" id="select-users" class="form-select">
                    @foreach($clients as $client)
                     <option value="{{$client->id}}">{{$client->name}}</option>
@@ -316,7 +320,7 @@
                 <input type="text" class="form-control" name="title" placeholder="Invoice Title Here">
             </div>
             <div class="mb-2">
-                <label class="form-label">Select Client <a href="{{route('addclient')}}" style="float:right;"> Add New Client </a></label>
+                <label class="form-label">Select Client <a href="{{route('clients.create')}}" style="float:right;"> Add New Client </a></label>
                 <select name="userid" id="select-users" class="form-select">
                    @foreach($clients as $client)
                     <option value="{{$client->id}}">{{$client->name}}</option>

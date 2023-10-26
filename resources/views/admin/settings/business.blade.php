@@ -7,14 +7,14 @@
 <div class="container-xl">
     <div class="row">
         <div class="col-lg-4">
-          @include('settings.settingsmenu')
+          @include('admin.settings._settingsmenu')
         </div>
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-body">
                 
                    
-                    <form action="{{route('businesssettingsave')}}" method="post" enctype="multipart/form-data">
+                    <form action="{{route('admin.settings.business.update')}}" method="post" enctype="multipart/form-data">
                         @csrf
 
                                                            

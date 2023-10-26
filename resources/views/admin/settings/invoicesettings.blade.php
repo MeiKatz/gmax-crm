@@ -7,14 +7,15 @@
 <div class="container-xl">
     <div class="row">
         <div class="col-lg-4">
-          @include('settings.settingsmenu')
+          @include('admin.settings._settingsmenu')
         </div>
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-body">
                 
                    
-                    <form action="{{route('invoicesettingssave')}}" method="post" enctype="multipart/form-data">
+                    <form action="{{route('admin.settings.invoice.update')}}" method="post" enctype="multipart/form-data">
+                        @method('PUT')
                         @csrf
 
                                                            

@@ -127,7 +127,7 @@
       </div> 
     </div>
       <div id="advancedsearch" style="display:none;">
-        <form action="{{ route('expensemanagerlist') }}" method="get">
+        <form action="{{ route('expenses.index') }}" method="get">
           <div class="row" style=" margin:10px;">				
             <div class="col-md-2">					
                 <label class="form-label" style="margin-bottom: 0px;  padding-left:2px; font-size:13px;">Title</label>
@@ -242,7 +242,7 @@
                      </svg>
                     </b>
                   </div>
-              <form action="{{route('editexpense')}}" method="post" enctype="multipart/form-data">
+              <form action="{{route('expenses.update')}}" method="post" enctype="multipart/form-data">
                   @csrf
                   <input type="hidden" name="id" value="{{$expense->id}}">
                   <div class="modal-body">
@@ -316,7 +316,7 @@
            </svg>
           </b>
         </div>
-    <form action="{{route('createnewexpense')}}" method="post" enctype="multipart/form-data">
+    <form action="{{route('expenses.store')}}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="modal-body">
             <div class="mb-2">

@@ -292,12 +292,12 @@
                     </a>
                     <ul class="dropdown-menu  ">
                       <li >
-                        <a class="dropdown-item" href="{{route('listofadmins')}}" >
+                        <a class="dropdown-item" href="{{route('admin.users.index')}}" >
                           {{ __('Admin_Manager') }}
                         </a>
                       </li>
                       <li >
-                        <a class="dropdown-item" href="{{route('adminsettings')}}" >
+                        <a class="dropdown-item" href="{{route('admin.settings.show')}}" >
                           {{ __('Settings') }}
                         </a>
                       </li>
@@ -630,12 +630,12 @@
                       </a>
                       <ul class="dropdown-menu  ">
                         <li >
-                          <a class="dropdown-item" href="{{route('listofadmins')}}" >
+                          <a class="dropdown-item" href="{{route('admin.users.index')}}" >
                             {{ __('Admin_Manager') }}
                           </a>
                         </li>
                         <li >
-                          <a class="dropdown-item" href="{{route('adminsettings')}}" >
+                          <a class="dropdown-item" href="{{route('admin.settings.show')}}" >
                             {{ __('Settings') }}
                           </a>
                         </li>

@@ -7,7 +7,7 @@
 <div class="card">
     <div class="card-body">
       <h3 class="card-title">Add New Client</h3>
-      <form action="{{ route('addclientsave') }}" method="POST">
+      <form action="{{ route('clients.store') }}" method="POST">
         @csrf
       <div class="row">
         <div class="col-md-4">
