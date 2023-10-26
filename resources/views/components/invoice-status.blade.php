@@ -7,7 +7,7 @@
         @endif
         @break
 
-    @case( \App\Models\Invoice::STATUS_PARTIAL_PAID )
+    @case( \App\Models\Invoice::STATUS_PARTIALLY_PAID )
         @if ( $invoice->duedate < $today )
             <span class="badge bg-red text-uppercase">Overdue</span>
         @else
