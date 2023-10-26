@@ -88,13 +88,7 @@
                 </td>  
               
                 <td>
-                    @if($project->status ==1)<span class="badge btn-white">Not Started</span>@endif
-                            @if($project->status ==2)<span class="badge bg-blue">In Progress</span>@endif
-                            @if($project->status ==3)<span class="badge bg-purple">In Review</span>@endif
-                            @if($project->status ==4)<span class="badge bg-yellow">On Hold</span>@endif
-                            @if($project->status ==5)<span class="badge bg-green">Completed</span>@endif
-                            @if($project->status ==6)<span class="badge bg-dark">Cancelled</span>@endif   
-                       
+                  <x-project-status :project="$project" />
                 </td>
                
                 <td class="text-right">
