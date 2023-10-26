@@ -149,11 +149,7 @@
                         
                         <dt class="col-5">Status:</dt>
                         <dd class="col-7">
-                            @if($invoice->invostatus ==1)<span class="badge bg-yellow">Unpaid</span>@endif
-                            @if($invoice->invostatus ==2)<span class="badge bg-indigo">Part Paid</span>@endif
-                            @if($invoice->invostatus ==3)<span class="badge bg-green">Paid</span>@endif
-                            @if($invoice->invostatus ==4)<span class="badge bg-purple">Refuned</span>@endif
-                            @if($invoice->invostatus ==5)<span class="badge bg-dark">Cancelled</span>@endif                        
+                          <x-invoice-status :invoice="$invoice" />
                         </dd>
                         
                         <dt class="col-5">Amount:</dt>
