@@ -48,15 +48,11 @@
     <div class="m-3">
         <form action="{{route('projectstatuschange')}}" method="post">
             @csrf
-            <select name="status" id="status" class="form-select">
-               
-              <option value="1" @if($project->status ==1) selected @endif>Not Started</option>
-              <option value="2"  @if($project->status ==2) selected @endif>In Progress</option>
-              <option value="3"  @if($project->status ==3) selected @endif>In Review</option>
-              <option value="4"  @if($project->status ==4) selected @endif>On Hold</option>
-              <option value="5"  @if($project->status ==5) selected @endif>Completed</option>  
-              <option value="6"  @if($project->status ==6) selected @endif>Cancelled</option>  
-            </select>
+            <x-select-project-status
+              :project="$project"
+              name="status"
+              id="status"
+            />
             <input type="hidden" value="{{$project->id}}" name="id">
         </form>
     </div>
@@ -113,12 +109,7 @@
                     <dd class="col-7"><strong>{{$project->deadline}}</strong></dd>
                     <dt class="col-5">Status:</dt>
                     <dd class="col-7">
-                      @if($project->status ==1)<span class="badge btn-white">Not Started</span>@endif
-                      @if($project->status ==2)<span class="badge bg-blue">In Progress</span>@endif
-                      @if($project->status ==3)<span class="badge bg-purple">In Review</span>@endif
-                      @if($project->status ==4)<span class="badge bg-yellow">On Hold</span>@endif
-                      @if($project->status ==5)<span class="badge bg-green">Completed</span>@endif
-                      @if($project->status ==6)<span class="badge bg-dark">Cancelled</span>@endif                                                                                                                         
+                      <x-project-status :project="$project" />
                     </dd>
                     
                     <dt class="col-5"></dt>
@@ -371,12 +362,8 @@
                           </td>
                           <td> {{$invoice->paidamount}}
                           </td>
-                          <td>@php $todaydate = date('Y-m-d');  @endphp
-                                      @if($invoice->invostatus ==1)@if($invoice->duedate < $todaydate)<span class="badge bg-red">Overdue</span> @else <span class="badge bg-yellow">Unpaid</span>   @endif @endif
-                                      @if($invoice->invostatus ==2)@if($invoice->duedate < $todaydate)<span class="badge bg-red">Overdue</span> @else <span class="badge bg-indigo">Part Paid</span>  @endif @endif
-                                      @if($invoice->invostatus ==3)<span class="badge bg-green">Paid</span>@endif
-                                      @if($invoice->invostatus ==4)<span class="badge bg-purple">Refuned</span>@endif
-                                      @if($invoice->invostatus ==5)<span class="badge bg-dark">Cancelled</span>@endif    
+                          <td>
+                            <x-invoice-status :invoice="$invoice" />
                           </td>
                          
                           <td class="text-right">

@@ -30,12 +30,10 @@
         </div>
           <div class="col-md-2">					
             <label class="form-label" style="margin-bottom: 0px;  padding-left:2px; font-size:13px;">Client</label>
-            <select class="form-select  form-select-sm" name="filter[userid]">
-              <option value="">Select Client</option>
-              @foreach($clients as $client)
-              <option value="{{$client->id}}">{{$client->name}}</option>
-              @endforeach
-              </select>					 
+            <x-select-client
+              class="form-select-sm"
+              name="filter[userid]"
+            />
           </div>
           <div class="col-md-2">					
             <label class="form-label" style="margin-bottom: 0px;  padding-left:2px; font-size:13px;">Status</label>
@@ -93,10 +91,7 @@
                 </td>
                 
                 <td>
-                    @if($invoice->quotestat ==1)<span class="badge bg-yellow">Pending</span>@endif
-                    @if($invoice->quotestat ==2)<span class="badge bg-green">Approved</span>@endif
-                    @if($invoice->quotestat ==3)<span class="badge bg-red">Rejected</span>@endif                 
-                    @if($invoice->quotestat ==4)<span class="badge bg-dark">Cancelled</span>@endif    
+                  <x-offer-status :offer="$quote" />
                 </td>
                
                 <td class="text-right">
@@ -151,11 +146,10 @@
             </div>
             <div class="mb-2">
                 <label class="form-label">Select Client <a href="{{route('clients.create')}}" style="float:right;"> Add New Client </a></label>
-                <select name="userid" id="select-users" class="form-select">
-                   @foreach($clients as $client)
-                    <option value="{{$client->id}}">{{$client->name}}</option>
-                   @endforeach
-                  </select>
+                <x-select-client
+                  name="userid"
+                  id="select-users"
+                />
             </div>
             
            

@@ -167,13 +167,7 @@
                           </td>  
                         
                           <td>
-                              @if($project->status ==1)<span class="badge ">Not Started</span>@endif
-                                      @if($project->status ==2)<span class="badge bg-blue">In Progress</span>@endif
-                                      @if($project->status ==3)<span class="badge bg-purple">In Review</span>@endif
-                                      @if($project->status ==4)<span class="badge bg-yellow">On Hold</span>@endif
-                                      @if($project->status ==5)<span class="badge bg-green">Completed</span>@endif
-                                      @if($project->status ==6)<span class="badge bg-dark">Cancelled</span>@endif   
-                                 
+                            <x-project-status :project="$project" />
                           </td>
                          
                           <td class="text-right">
@@ -245,11 +239,7 @@
                             @if($invoice->recorringtype==4)Yearly @endif
                         </td>                        
                           <td>
-                              @if($invoice->invostatus ==1)<span class="badge bg-yellow">Unpaid</span>@endif
-                                      @if($invoice->invostatus ==2)<span class="badge bg-indigo">Part Paid</span>@endif
-                                      @if($invoice->invostatus ==3)<span class="badge bg-green">Paid</span>@endif
-                                      @if($invoice->invostatus ==4)<span class="badge bg-purple">Refuned</span>@endif
-                                      @if($invoice->invostatus ==5)<span class="badge bg-dark">Cancelled</span>@endif    
+                            <x-invoice-status :invoice="$invoice" />
                           </td>
                          
                           <td class="text-right">
@@ -321,11 +311,7 @@
                           </td>
                          
                           <td>
-                            @if($quote->quotestat ==1)<span class="badge bg-yellow">Pending</span>@endif
-                            @if($quote->quotestat ==2)<span class="badge bg-green">Approved</span>@endif
-                            @if($quote->quotestat ==3)<span class="badge bg-red">Rejected</span>@endif                       
-                            @if($quote->quotestat ==4)<span class="badge bg-dark">Cancelled</span>@endif        
-
+                            <x-offer-status :offer="$quote" />
                           </td>
                          
                           <td class="text-right">

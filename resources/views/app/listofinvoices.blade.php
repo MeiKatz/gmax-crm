@@ -142,12 +142,10 @@
           </div>
             <div class="col-md-2">					
               <label class="form-label" style="margin-bottom: 0px;  padding-left:2px; font-size:13px;">Client</label>
-              <select class="form-select  form-select-sm" name="filter[userid]">
-                <option value="">Select Client</option>
-                @foreach($clients as $client)
-                <option value="{{$client->id}}">{{$client->name}}</option>
-                @endforeach
-                </select>					 
+              <x-select-client
+                class="form-select-sm"
+                name="filter[userid]"
+              />
             </div>
             <div class="col-md-2">					
               <label class="form-label" style="margin-bottom: 0px;  padding-left:2px; font-size:13px;">Status</label>
@@ -221,11 +219,7 @@
                   @if($invoice->recorringtype==4)Yearly @endif
               </td>  
                 <td>
-                    @if($invoice->invostatus ==1)<span class="badge bg-yellow">Unpaid</span>@endif
-                            @if($invoice->invostatus ==2)<span class="badge bg-indigo">Part Paid</span>@endif
-                            @if($invoice->invostatus ==3)<span class="badge bg-green">Paid</span>@endif
-                            @if($invoice->invostatus ==4)<span class="badge bg-purple">Refuned</span>@endif
-                            @if($invoice->invostatus ==5)<span class="badge bg-dark">Cancelled</span>@endif    
+                  <x-invoice-status :invoice="$invoice" />
                 </td>
                
                 <td class="text-right">
@@ -280,11 +274,10 @@
             </div>
             <div class="mb-2">
                 <label class="form-label">Select Client <a href="{{route('clients.create')}}" style="float:right;"> Add New Client </a></label>
-                <select name="userid" id="select-users" class="form-select">
-                   @foreach($clients as $client)
-                    <option value="{{$client->id}}">{{$client->name}}</option>
-                   @endforeach
-                  </select>
+                <x-select-client
+                  name="userid"
+                  id="select-users"
+                />
             </div>
             
            
@@ -321,11 +314,10 @@
             </div>
             <div class="mb-2">
                 <label class="form-label">Select Client <a href="{{route('clients.create')}}" style="float:right;"> Add New Client </a></label>
-                <select name="userid" id="select-users" class="form-select">
-                   @foreach($clients as $client)
-                    <option value="{{$client->id}}">{{$client->name}}</option>
-                   @endforeach
-                  </select>
+                <x-select-client
+                  name="userid"
+                  id="select-users"
+                />
             </div>
             <div class="mb-2">
               <label class="form-label">Invoice Date</label>
