@@ -196,7 +196,7 @@
                   
                    # {{$invoice->invoid}}
                 </td>
-                <td><a href="{{route('invoices.edit', [ $invoice ])}}"> {{$invoice->title}}</a></td>
+                <td><a href="{{route('editinvoice', [ $invoice ])}}"> {{$invoice->title}}</a></td>
                 <td>
                   @if ( empty( $invoice->clientdata ) )
                   <span>Removed</span>
@@ -233,11 +233,11 @@
                         <button class="btn btn-sm dropdown-toggle align-text-top"
                             data-boundary="viewport" data-toggle="dropdown">Actions</button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="/invoice/edit/{{$invoice->id}}">
+                            <a class="dropdown-item" href="/invoices/edit/{{$invoice->id}}">
                                 Edit Invoice
                             </a>
                             <a class="dropdown-item" onclick="return confirm('Are you sure?')"
-                                href="/invoice/delete/{{$invoice->id}}">
+                                href="/invoices/delete/{{$invoice->id}}">
                                 Delete Invoice
                             </a>
                         </div>

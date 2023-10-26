@@ -182,7 +182,7 @@ $footerimagedataUri = 'data:image/' . $footerimagetype . ';base64,' . base64_enc
             <div class="col-md-3">
                 <div class="dropdown-menu dropdown-menu-demo">
                     <span class="dropdown-header">Menu</span>
-                    <a class="dropdown-item " href="/invoice/edit/{{$invoice->id}}">                  
+                    <a class="dropdown-item " href="/invoices/edit/{{$invoice->id}}">
                    
                 	<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"   style="margin-right: 10px;" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" /><path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" /><line x1="16" y1="5" x2="19" y2="8" /></svg>
                          Edit Invoice
@@ -196,7 +196,7 @@ $footerimagedataUri = 'data:image/' . $footerimagetype . ';base64,' . base64_enc
 	                <svg xmlns="http://www.w3.org/2000/svg"  style="margin-right: 10px;" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11 7h-5a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-5" /><line x1="10" y1="14" x2="20" y2="4" /><polyline points="15 4 20 4 20 9" /></svg>
                             Payment Link
                     </a>
-                    <a class="dropdown-item " href="/invoice/email/{{$invoice->id}}" onclick="return confirm('Are you sure?')"  >            
+                    <a class="dropdown-item " href="/invoices/email/{{$invoice->id}}" onclick="return confirm('Are you sure?')"  >
                        
 	                <svg xmlns="http://www.w3.org/2000/svg"  style="margin-right: 10px;" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="4" /><path d="M16 12v1.5a2.5 2.5 0 0 0 5 0v-1.5a9 9 0 1 0 -5.5 8.28" /></svg>
                                 Send Email
@@ -235,7 +235,7 @@ $footerimagedataUri = 'data:image/' . $footerimagetype . ';base64,' . base64_enc
                   
                   <div class="mb-2">
                       <label class="form-label">Payment Link</label>
-                      <input type="text" class="form-control" placeholder="Payment link" value="@php echo URL::to('/');@endphp/invoice/pay/{{$invoice->id}}">
+                      <input type="text" class="form-control" placeholder="Payment link" value="@php echo URL::to('/');@endphp/invoices/pay/{{$invoice->id}}">
                   </div>
                   
               </div>
