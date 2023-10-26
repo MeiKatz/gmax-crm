@@ -352,11 +352,10 @@
             </div>
             <div class="mb-2">
                 <label class="form-label">Select Client <a href="{{route('clients.create')}}" style="float:right;"> Add New Client </a></label>
-                <select name="userid" id="select-users" class="form-select">
-                   @foreach($clients as $client)
-                    <option value="{{$client->id}}">{{$client->name}}</option>
-                   @endforeach
-                  </select>
+                <x-select-client
+                  name="userid"
+                  id="select-users"
+                />
             </div>
             
            

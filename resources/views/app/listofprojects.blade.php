@@ -26,12 +26,10 @@
             
             <div class="col-md-2">					
               <label class="form-label" style="margin-bottom: 0px;  padding-left:2px; font-size:13px;">Client</label>
-              <select class="form-select  form-select-sm" name="filter[client]">
-                <option value="">Select Client</option>
-                @foreach($clients as $client)
-                <option value="{{$client->id}}">{{$client->name}}</option>
-                @endforeach
-                </select>					 
+              <x-select-client
+                class="form-select-sm"
+                name="filter[client]"
+              />
             </div>
             <div class="col-md-2">					
               <label class="form-label" style="margin-bottom: 0px;  padding-left:2px; font-size:13px;">Status</label>
@@ -143,11 +141,10 @@
             </div>
             <div class="mb-2">
                 <label class="form-label">Select Client <a href="{{route('clients.create')}}" style="float:right;"> Add New Client </a></label>
-                <select name="client" id="select-users" class="form-select">
-                   @foreach($clients as $client)
-                    <option value="{{$client->id}}">{{$client->name}}</option>
-                   @endforeach
-                  </select>
+                <x-select-client
+                  name="client"
+                  id="select-users"
+                />
             </div>
             <div class="mb-2">
                 <label class="form-label">Start Date</label>
