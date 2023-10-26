@@ -135,10 +135,8 @@ $dataUri = 'data:image/' . $type . ';base64,' . base64_encode($data);
                         <address>
                             <strong>  Quote Date:</strong>  {{ $invoice->invodate}}<br>
                               <strong>  Due Date :</strong> {{ $invoice->duedate}}<br>
-                                <strong >  Status :</strong>    @if($invoice->quotestat ==1)<span class="badge bg-yellow">Pending</span>@endif
-                                @if($invoice->quotestat ==2)<span class="badge bg-green">Accepted</span>@endif
-                                @if($invoice->quotestat ==3)<span class="badge bg-red">Rejected</span>@endif                 
-                                @if($invoice->quotestat ==4)<span class="badge bg-dark">Cancelled</span>@endif    
+                                <strong >  Status :</strong>
+                                <x-offer-status :offer="$invoice" />
                           </address>
                     </div>
                   </div>

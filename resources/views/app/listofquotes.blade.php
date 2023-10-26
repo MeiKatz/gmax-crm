@@ -91,10 +91,7 @@
                 </td>
                 
                 <td>
-                    @if($invoice->quotestat ==1)<span class="badge bg-yellow">Pending</span>@endif
-                    @if($invoice->quotestat ==2)<span class="badge bg-green">Approved</span>@endif
-                    @if($invoice->quotestat ==3)<span class="badge bg-red">Rejected</span>@endif                 
-                    @if($invoice->quotestat ==4)<span class="badge bg-dark">Cancelled</span>@endif    
+                  <x-offer-status :offer="$quote" />
                 </td>
                
                 <td class="text-right">
