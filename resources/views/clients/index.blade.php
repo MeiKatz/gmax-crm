@@ -49,14 +49,13 @@
                         <button class="btn  btn-sm dropdown-toggle align-text-top"
                             data-boundary="viewport" data-toggle="dropdown">Actions</button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="/client/edit/{{$client->id}}">
+                            <a class="dropdown-item" href="{{ route('clients.edit', [ $client ]) }}">
                                 Edit Client
                             </a>
-                            <form class="dropdown-item" method="post" action="{{ route('clients.destroy', [ $client ]) }}" onsubmit="return confirm('Warning: All Projects and Invoices will deleted with client. Are you sure?')">
+                            <form method="post" action="{{ route('clients.destroy', [ $client ]) }}" onsubmit="return confirm('Warning: All Projects and Invoices will deleted with client. Are you sure?')">
                                 @method('delete')
                                 @csrf
-                                <input type="hidden" name="id" value="{{ $client->id }}" />
-                                <button type="submit">Delete Client</button>
+                                <button class="dropdown-item" type="submit">Delete Client</button>
                             </form>
                         </div>
                     </span>

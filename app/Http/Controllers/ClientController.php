@@ -119,8 +119,8 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-        Invoice::where('userid',$request->id)->delete();
-        Project::where('client',$request->id)->delete();
+        Invoice::where('userid', $client->id)->delete();
+        Project::where('client', $client->id)->delete();
 
         $client->delete();
 

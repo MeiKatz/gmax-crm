@@ -7,7 +7,7 @@
 <div class="card">
     <div class="card-body">
       <h3 class="card-title">Edit Client - {{$client->name}}</h3>
-      <form action="{{ route('clients.update') }}" method="POST">
+      <form action="{{ route('clients.update', [ $client ]) }}" method="POST">
         @csrf
         <input type="hidden" name="id" value="{{ $client->id }}"/>
       <div class="row">
