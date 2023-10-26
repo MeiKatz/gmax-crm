@@ -96,12 +96,12 @@
                     </a>
                     <ul class="dropdown-menu  ">
                       <li >
-                        <a class="dropdown-item" href="/clients" >
+                        <a class="dropdown-item" href="{{ route('clients.index') }}" >
                           {{ __('Client_Manager') }}
                         </a>
                       </li>
                       <li >
-                        <a class="dropdown-item" href="/client/add" >
+                        <a class="dropdown-item" href="{{ route('clients.create') }}" >
                           {{ __('Add_New_Client') }}
                         </a>
                       </li>

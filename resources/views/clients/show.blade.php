@@ -337,7 +337,7 @@
                                           Edit Quote
                                       </a>
                                       <a class="dropdown-item" onclick="return confirm('Are you sure?')"
-                                          href="/invoice/delete/{{$quote->id}}">
+                                          href="/invoices/delete/{{$quote->id}}">
                                           Delete Delete
                                       </a>
                                   </div>
