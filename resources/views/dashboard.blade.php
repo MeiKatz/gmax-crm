@@ -292,12 +292,8 @@
                 </td>
                 <td> {{$invoice->paidamount}}
                 </td>
-                <td>@php $todaydate = date('Y-m-d');  @endphp
-                            @if($invoice->invostatus ==1)@if($invoice->duedate < $todaydate)<span class="badge bg-red">Overdue</span> @else <span class="badge bg-yellow">Unpaid</span>   @endif @endif
-                            @if($invoice->invostatus ==2)@if($invoice->duedate < $todaydate)<span class="badge bg-red">Overdue</span> @else <span class="badge bg-indigo">Part Paid</span>  @endif @endif
-                            @if($invoice->invostatus ==3)<span class="badge bg-green">Paid</span>@endif
-                            @if($invoice->invostatus ==4)<span class="badge bg-purple">Refuned</span>@endif
-                            @if($invoice->invostatus ==5)<span class="badge bg-dark">Cancelled</span>@endif    
+                <td>
+                  <x-invoice-status :invoice="$invoice" />
                 </td>
                
                 <td class="text-right">

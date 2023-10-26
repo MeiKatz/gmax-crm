@@ -158,11 +158,8 @@ $footerimagedataUri = 'data:image/' . $footerimagetype . ';base64,' . base64_enc
                         <address>
                             <strong>  Invoice Date:</strong>  {{ $invoice->invodate}}<br>
                               <strong>  Due Date :</strong> {{ $invoice->duedate}}<br>
-                                <strong >  Status :</strong>  @if($invoice->invostatus ==1)<span class="badge bg-yellow text-uppercase">Unpaid</span>@endif
-                                      @if($invoice->invostatus ==2)<span class="badge bg-indigo text-uppercase">partly paid</span>@endif
-                                      @if($invoice->invostatus ==3)<span class="badge bg-green text-uppercase">Paid</span>@endif
-                                      @if($invoice->invostatus ==4)<span class="badge bg-purple text-uppercase">Refuned</span>@endif
-                                      @if($invoice->invostatus ==5)<span class="badge bg-dark text-uppercase">Cancelled</span>@endif    
+                                <strong >  Status :</strong>
+                                <x-invoice-status :invoice="$invoice" />
                           </address>
                     </div>
                   </div>
