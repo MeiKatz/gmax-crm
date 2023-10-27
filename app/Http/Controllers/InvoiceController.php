@@ -81,7 +81,7 @@ class InvoiceController extends Controller
         $gettaxedamount =0;                  
          $invoiceItem =new InvoiceItem();
          $invoiceItem->invoiceid=$request->invoiceid;
-         $invoiceItem->authid = Auth::id();
+         $invoiceItem->creator_id = Auth::id();
          $invoiceItem->quantity =$request->quantity;
          $invoiceItem->qtykey =$request->qtykey;
          $invoiceItem->meta =$request->meta;
@@ -108,7 +108,7 @@ class InvoiceController extends Controller
         $settings = Setting::find(1);
         $gettaxedamount =0;     
         $invoiceItem =InvoiceItem::findOrFail($request->metaid);
-         $invoiceItem->authid = Auth::id();
+         $invoiceItem->creator_id = Auth::id();
          $invoiceItem->invoiceid=$request->invoiceid;
          $invoiceItem->quantity =$request->quantity;
          $invoiceItem->qtykey =$request->qtykey;
@@ -582,7 +582,7 @@ class InvoiceController extends Controller
                 $gettaxedamount =0;                  
                  $invoiceItem =new InvoiceItem();
                  $invoiceItem->invoiceid=$invoice->id;
-                 $invoiceItem->authid = Auth::id();
+                 $invoiceItem->creator_id = Auth::id();
                  $invoiceItem->quantity =$recrmeta->quantity;
                  $invoiceItem->qtykey =$recrmeta->qtykey;
                  $invoiceItem->meta =$recrmeta->meta;
