@@ -80,10 +80,10 @@ class InvoiceController extends Controller
 
     public function editinvoice(Request $request)
     {
-     $invoices = Invoice::findOrFail($request->id);      
-     $invometas = InvoiceMeta::where('invoiceid',$request->id)->paginate(100);
+     $invoices = Invoice::findOrFail($request->id);
+     $invoiceItems = $invoices->items()->paginate(100);
      $paymentreceipt = PaymentReceipt::where('invoiceid',$request->id)->paginate(100);
-     return view('app.editinvoice')->with(['invoice'=> $invoices])->with(['invometas'=> $invometas])->with(['payments'=> $paymentreceipt]);
+     return view('app.editinvoice')->with(['invoice'=> $invoices])->with(['invometas'=> $invoiceItems])->with(['payments'=> $paymentreceipt]);
     }
  
     public function newinvoicemeta(Request $request)
@@ -107,8 +107,8 @@ class InvoiceController extends Controller
          $invoicemeta->save();      
 
           //get invoice updated             
-          $invoicemetadata =InvoiceMeta::where('invoiceid',$request->invoiceid)->sum('total');
-         $invoices->totalamount = $invoicemetadata;  
+          $totalAmount = $invoices->items()->sum('total');
+         $invoices->totalamount = $totalAmount;
           $invoices->save();               
         return redirect()->back();   
      }
@@ -137,7 +137,7 @@ class InvoiceController extends Controller
 
          //get invoice updated   
       
-         $invoicemetadata =InvoiceMeta::where('invoiceid',$request->invoiceid)->get();
+         $invoicemetadata = $invoices->items;
          $totalamt = 0;      
          foreach ($invoicemetadata as $value) {
            $totalamt += $value->total;
@@ -159,14 +159,14 @@ class InvoiceController extends Controller
      {       
          $invometa =$request->id;      
          $invoid =$request->invo;        
+         $invoices = Invoice::findOrFail($request->invo);
          if($invometa!=NULL)
          {
-            $meta = InvoiceMeta::where('invoiceid',$invoid)->where('id',$invometa)->first();
+            $meta = $invoices->items()->find( $invometa );
            $meta->delete();
 
           //get invoice updated   
-          $invoices = Invoice::findOrFail($request->invo); 
-          $invoicemetadata =InvoiceMeta::where('invoiceid',$request->invo)->get();
+          $invoicemetadata = $invoices->items;
           $totalamt = 0;      
           foreach ($invoicemetadata as $value) {
             $totalamt += $value->total;
@@ -319,7 +319,7 @@ class InvoiceController extends Controller
       
       $invoices = Invoice::findOrFail($request->id);      
       $business = Business::find(1);
-      $invometas = InvoiceMeta::where('invoiceid',$request->id)->paginate(100);
+      $invometas = $invoices->items()->paginate(100);
       $paymentreceipt = PaymentReceipt::where('invoiceid',$request->id)->paginate(100);
       return view('app.viewinvoice')->with(['invoice'=> $invoices])->with(['invometas'=> $invometas])->with(['payments'=> $paymentreceipt])->with(['business'=> $business]);
      }
@@ -339,7 +339,7 @@ class InvoiceController extends Controller
       $invoices = Invoice::findOrFail($request->id);      
       $business = Business::find(1);
       $gateways = PaymentGateway::where('status',1)->get();
-      $invometas = InvoiceMeta::where('invoiceid',$request->id)->paginate(100);
+      $invometas = $invoices->items()->paginate(100);
       $paymentreceipt = PaymentReceipt::where('invoiceid',$request->id)->paginate(100);
       return view('app.payinvoice')->with(['invoice'=> $invoices])->with(['invometas'=> $invometas])->with(['payments'=> $paymentreceipt])->with(['business'=> $business])->with(['gateways'=> $gateways]);
      }
@@ -392,7 +392,7 @@ class InvoiceController extends Controller
      public function editquote(Request $request)
      {
       $invoices = Invoice::findOrFail($request->id);      
-      $invometas = InvoiceMeta::where('invoiceid',$request->id)->paginate(100);
+      $invometas = $invoices->items()->paginate(100);
       $paymentreceipt = PaymentReceipt::where('invoiceid',$request->id)->paginate(100);
       return view('app.editquote')->with(['invoice'=> $invoices])->with(['invometas'=> $invometas])->with(['payments'=> $paymentreceipt]);
      }
@@ -410,7 +410,7 @@ class InvoiceController extends Controller
       
       $invoices = Invoice::findOrFail($request->id);      
       $business = Business::find(1);
-      $invometas = InvoiceMeta::where('invoiceid',$request->id)->paginate(100);
+      $invometas = $invoices->items()->paginate(100);
       $paymentreceipt = PaymentReceipt::where('invoiceid',$request->id)->paginate(100);
       return view('app.viewquote')->with(['invoice'=> $invoices])->with(['invometas'=> $invometas])->with(['payments'=> $paymentreceipt])->with(['business'=> $business]);
      }
@@ -420,7 +420,7 @@ class InvoiceController extends Controller
       
       $invoices = Invoice::findOrFail($request->id);      
       $business = Business::find(1);
-      $invometas = InvoiceMeta::where('invoiceid',$request->id)->paginate(100);
+      $invometas = $invoices->items()->paginate(100);
       $paymentreceipt = PaymentReceipt::where('invoiceid',$request->id)->paginate(100);
       return view('app.viewquotepublic')->with(['invoice'=> $invoices])->with(['invometas'=> $invometas])->with(['payments'=> $paymentreceipt])->with(['business'=> $business]);
      }

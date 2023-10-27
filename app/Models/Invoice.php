@@ -60,4 +60,11 @@ class Invoice extends Model
             'id'
         );
     }
+
+    public function items() {
+        return $this->hasMany(
+            InvoiceMeta::class,
+            'invoiceid'
+        );
+    }
 }
