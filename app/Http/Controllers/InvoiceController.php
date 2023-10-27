@@ -107,7 +107,6 @@ class InvoiceController extends Controller
         $settings = Setting::find(1);
         $gettaxedamount =0;     
         $invoiceItem =InvoiceItem::findOrFail($request->metaid);
-         $invoiceItem->creator_id = Auth::id();
          $invoiceItem->invoiceid=$request->invoiceid;
          $invoiceItem->quantity =$request->quantity;
          $invoiceItem->qtykey =$request->qtykey;
