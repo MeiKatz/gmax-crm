@@ -82,7 +82,7 @@ class InvoiceController extends Controller
     {
      $invoices = Invoice::findOrFail($request->id);
      $invoiceItems = $invoices->items()->paginate(100);
-     $paymentreceipt = PaymentReceipt::where('invoiceid',$request->id)->paginate(100);
+     $paymentreceipt = $invoices->payments()->paginate(100);
      return view('app.editinvoice')->with(['invoice'=> $invoices])->with(['invometas'=> $invoiceItems])->with(['payments'=> $paymentreceipt]);
     }
  
@@ -320,7 +320,7 @@ class InvoiceController extends Controller
       $invoices = Invoice::findOrFail($request->id);      
       $business = Business::find(1);
       $invometas = $invoices->items()->paginate(100);
-      $paymentreceipt = PaymentReceipt::where('invoiceid',$request->id)->paginate(100);
+      $paymentreceipt = $invoices->payments()->paginate(100);
       return view('app.viewinvoice')->with(['invoice'=> $invoices])->with(['invometas'=> $invometas])->with(['payments'=> $paymentreceipt])->with(['business'=> $business]);
      }
 
@@ -340,7 +340,7 @@ class InvoiceController extends Controller
       $business = Business::find(1);
       $gateways = PaymentGateway::where('status',1)->get();
       $invometas = $invoices->items()->paginate(100);
-      $paymentreceipt = PaymentReceipt::where('invoiceid',$request->id)->paginate(100);
+      $paymentreceipt = $invoices->payments()->paginate(100);
       return view('app.payinvoice')->with(['invoice'=> $invoices])->with(['invometas'=> $invometas])->with(['payments'=> $paymentreceipt])->with(['business'=> $business])->with(['gateways'=> $gateways]);
      }
      
@@ -393,7 +393,7 @@ class InvoiceController extends Controller
      {
       $invoices = Invoice::findOrFail($request->id);      
       $invometas = $invoices->items()->paginate(100);
-      $paymentreceipt = PaymentReceipt::where('invoiceid',$request->id)->paginate(100);
+      $paymentreceipt = $invoices->payments()->paginate(100);
       return view('app.editquote')->with(['invoice'=> $invoices])->with(['invometas'=> $invometas])->with(['payments'=> $paymentreceipt]);
      }
 
@@ -411,7 +411,7 @@ class InvoiceController extends Controller
       $invoices = Invoice::findOrFail($request->id);      
       $business = Business::find(1);
       $invometas = $invoices->items()->paginate(100);
-      $paymentreceipt = PaymentReceipt::where('invoiceid',$request->id)->paginate(100);
+      $paymentreceipt = $invoices->payments()->paginate(100);
       return view('app.viewquote')->with(['invoice'=> $invoices])->with(['invometas'=> $invometas])->with(['payments'=> $paymentreceipt])->with(['business'=> $business]);
      }
 
@@ -421,7 +421,7 @@ class InvoiceController extends Controller
       $invoices = Invoice::findOrFail($request->id);      
       $business = Business::find(1);
       $invometas = $invoices->items()->paginate(100);
-      $paymentreceipt = PaymentReceipt::where('invoiceid',$request->id)->paginate(100);
+      $paymentreceipt = $invoices->payments()->paginate(100);
       return view('app.viewquotepublic')->with(['invoice'=> $invoices])->with(['invometas'=> $invometas])->with(['payments'=> $paymentreceipt])->with(['business'=> $business]);
      }
 

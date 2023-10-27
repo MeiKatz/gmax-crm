@@ -94,4 +94,14 @@ class Invoice extends Model
             'invoiceid'
         );
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function payments() {
+        return $this->hasMany(
+            PaymentReceipt::class,
+            'invoiceid'
+        );
+    }
 }
