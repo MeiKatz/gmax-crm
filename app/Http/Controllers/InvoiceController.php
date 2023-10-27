@@ -89,7 +89,7 @@ class InvoiceController extends Controller
              $gettaxedamount = $settings->taxpercent * $invoiceItem->total_amount /100;
             $invoiceItem->tax =$gettaxedamount;
          }
-         $invoiceItem->amount = $request->amount;
+         $invoiceItem->amount_per_item = $request->amount;
          $invoiceItem->total =$request->qty * $request->amount + $gettaxedamount;
          $invoiceItem->save();
 
@@ -118,7 +118,7 @@ class InvoiceController extends Controller
             $gettaxedamount = $settings->taxpercent * $ttcost /100;
            $invoiceItem->tax =$gettaxedamount;
         }
-         $invoiceItem->amount = $request->amount;
+         $invoiceItem->amount_per_item = $request->amount;
          $invoiceItem->total =$request->qty * $request->amount  + $gettaxedamount;
          $invoiceItem->save();
 
@@ -587,11 +587,11 @@ class InvoiceController extends Controller
                  $invoiceItem->meta =$recrmeta->meta;
                  
                  if ( $invoice->is_taxable ) {
-                     $ttcost = $recrmeta->qty * $recrmeta->amount;
+                     $ttcost = $recrmeta->qty * $recrmeta->amount_per_item;
                      $gettaxedamount = $settings->taxpercent * $ttcost /100;
                     $invoiceItem->tax =$gettaxedamount;
                  }
-                 $invoiceItem->amount = $recrmeta->amount;
+                 $invoiceItem->amount_per_item = $recrmeta->amount;
                  $invoiceItem->total =$recrmeta->qty * $recrmeta->amount + $gettaxedamount;
                  $invoiceItem->save();
         

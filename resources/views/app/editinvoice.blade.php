@@ -221,7 +221,7 @@
                                       </select>
                                   </td>
                                   <td>                                         
-                                    <input class="form-control form-control-sm" type="text" name="amount"  value="{{$invoice_item->amount}}"  placeholder="amount">
+                                    <input class="form-control form-control-sm" type="text" name="amount"  value="{{$invoice_item->amount_per_item}}"  placeholder="amount">
                                  </td>
                                  @if($invoice->is_taxable)
                                  <td> 
