@@ -81,7 +81,6 @@ class InvoiceController extends Controller
         $gettaxedamount =0;                  
          $invoiceItem =new InvoiceItem();
          $invoiceItem->invoiceid=$request->invoiceid;
-         $invoiceItem->creator_id = Auth::id();
          $invoiceItem->quantity =$request->quantity;
          $invoiceItem->qtykey =$request->qtykey;
          $invoiceItem->meta =$request->meta;
@@ -582,7 +581,6 @@ class InvoiceController extends Controller
                 $gettaxedamount =0;                  
                  $invoiceItem =new InvoiceItem();
                  $invoiceItem->invoiceid=$invoice->id;
-                 $invoiceItem->creator_id = Auth::id();
                  $invoiceItem->quantity =$recrmeta->quantity;
                  $invoiceItem->qtykey =$recrmeta->qtykey;
                  $invoiceItem->meta =$recrmeta->meta;

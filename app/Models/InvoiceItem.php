@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class InvoiceItem extends Model
 {
@@ -26,6 +27,14 @@ class InvoiceItem extends Model
     protected $appends = [
         'total_amount',
     ];
+
+    protected static function booting() {
+        self::creating(function ( $model ) {
+            if ( empty( $model->creator_id ) ) {
+                $model->creator_id = Auth::id();
+            }
+        });
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
