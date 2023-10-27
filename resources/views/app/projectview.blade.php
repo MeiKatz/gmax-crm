@@ -12,23 +12,20 @@
         <div class="dropdown-menu dropdown-menu-demo ">
             <span class="dropdown-header">Project</span>
 
-            <a class="dropdown-item " href="#timeline"  data-toggle="modal" data-target="#modal-simple"   >       
-           
+            <a class="dropdown-item" href="#timeline"  data-toggle="modal" data-target="#modal-simple">
               <x-icon.invoice style="margin-right: 10px;" />
-                             Invoice Project
-                        </a>
+              <span>Invoice Project</span>
+            </a>
            
-            <a class="dropdown-item " href="#timeline"  data-toggle="modal" data-target="#editproject">       
+            <a class="dropdown-item" href="#timeline"  data-toggle="modal" data-target="#editproject">
               <x-icon.edit style="margin-right: 10px;" />
-                 Edit Project
+              <span>Edit Project</span>
             </a>
 
-            <a class="dropdown-item " href="/project/delete/{{$prid}}" onclick="return confirm('Are you sure?')" >
+            <a class="dropdown-item" href="/project/delete/{{$prid}}" onclick="return confirm('Are you sure?')">
               <x-icon.delete style="margin-right: 10px;" />
-                   Delete Project
-              </a>
-          
-
+              <span>Delete Project</span>
+            </a>
         </div>
 
         <br> <br>
