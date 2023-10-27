@@ -63,6 +63,9 @@ class Invoice extends Model
         return ( $this->isUnpaid() || $this->isPartiallyPaid() );
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function client() {
         return $this->belongsTo(
             Client::class,
@@ -71,6 +74,9 @@ class Invoice extends Model
         );
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function project() {
         return $this->belongsTo(
             Project::class,
@@ -79,6 +85,9 @@ class Invoice extends Model
         );
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function items() {
         return $this->hasMany(
             InvoiceMeta::class,
