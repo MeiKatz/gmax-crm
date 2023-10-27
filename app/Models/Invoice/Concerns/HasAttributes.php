@@ -14,7 +14,9 @@ trait HasAttributes {
    * @return int
    */
   public function getTotalAmountAttribute() {
-    return $this->items()->sum('total');
+    return $this->items->reduce(function ( $carry, $current ) {
+      return $carry + $current->total_amount;
+    }, 0);
   }
 
   /**

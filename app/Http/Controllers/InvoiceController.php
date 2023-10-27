@@ -76,60 +76,36 @@ class InvoiceController extends Controller
  
     public function newinvoicemeta(Request $request)
      { 
-        $invoices = Invoice::findOrFail($request->invoiceid);   
-        $settings = Setting::find(1);
-        $gettaxedamount =0;                  
-         $invoiceItem =new InvoiceItem();
-         $invoiceItem->invoiceid=$request->invoiceid;
-         $invoiceItem->quantity =$request->quantity;
-         $invoiceItem->qtykey =$request->qtykey;
-         $invoiceItem->meta =$request->meta;
-         $invoiceItem->amount_per_item = $request->amount;
+        $invoice = Invoice::findOrFail($request->invoiceid);
 
-         if ( $invoices->is_taxable ) {
-             $gettaxedamount = $settings->taxpercent * $invoiceItem->total_amount /100;
-            $invoiceItem->tax =$gettaxedamount;
-         }
-         $invoiceItem->total = $invoiceItem->total_amount + $gettaxedamount;
-         $invoiceItem->save();
+        $invoiceItem = $invoice->items()->create([
+            'quantity' => $request->quantity,
+            'qtykey' => $request->qtykey,
+            'meta' => $request->meta,
+            'amount_per_item' => $request->amount,
+        ]);
 
-          //get invoice updated             
-         $invoices->totalamount = $invoices->total_amount;
-          $invoices->save();               
-        return redirect()->back();   
+        //get invoice updated
+        $invoice->totalamount = $invoice->total_amount;
+        $invoice->save();
+
+        return redirect()->back();
      }
 
      public function editinvoicemeta(Request $request)
      {             
         if($request->meta!=NULL)
         {
-        $invoices = Invoice::findOrFail($request->invoiceid);   
-        $settings = Setting::find(1);
-        $gettaxedamount =0;     
-        $invoiceItem =InvoiceItem::findOrFail($request->metaid);
-         $invoiceItem->invoiceid=$request->invoiceid;
-         $invoiceItem->quantity =$request->quantity;
-         $invoiceItem->qtykey =$request->qtykey;
-         $invoiceItem->meta =$request->meta;
-         $invoiceItem->amount_per_item = $request->amount;
+        $invoice = Invoice::findOrFail($request->invoiceid);
 
-         if ( $invoices->is_taxable ) {
-            $ttcost = $invoiceItem->total_amount;
-            $gettaxedamount = $settings->taxpercent * $ttcost /100;
-           $invoiceItem->tax =$gettaxedamount;
-        }
-         $invoiceItem->total = $invoiceItem->total_amount + $gettaxedamount;
-         $invoiceItem->save();
+        $invoiceItem = $invoice->items()->find( $request->metaid );
 
-         //get invoice updated   
-      
-         $invoiceItemdata = $invoices->items;
-         $totalamt = 0;      
-         foreach ($invoiceItemdata as $value) {
-           $totalamt += $value->total;
-         }                   
-         $invoices->totalamount = $totalamt;  
-         $invoices->save();                    
+        $invoiceItem->update([
+            'quantity' => $request->quantity,
+            'qtykey' => $request->qtykey,
+            'meta' => $request->meta,
+            'amount_per_item' => $request->amount,
+        ]);
          
          return redirect()->back()->with('success', 'Invoice Updated'); 
         }
@@ -575,27 +551,13 @@ class InvoiceController extends Controller
             $invoiceItems = Invoice::with('items')->findOrFail( $rcinvo->id )->items;
             foreach($invoiceItems as $recrmeta)
             { 
-                echo "New Meta Added <br>";   
-                $settings = Setting::find(1);
-                $gettaxedamount =0;                  
-                 $invoiceItem =new InvoiceItem();
-                 $invoiceItem->invoiceid=$invoice->id;
-                 $invoiceItem->quantity =$recrmeta->quantity;
-                 $invoiceItem->qtykey =$recrmeta->qtykey;
-                 $invoiceItem->meta =$recrmeta->meta;
-                 $invoiceItem->amount_per_item = $recrmeta->amount;
-
-                 if ( $invoice->is_taxable ) {
-                     $ttcost = $recrmeta->total_amount;
-                     $gettaxedamount = $settings->taxpercent * $ttcost /100;
-                    $invoiceItem->tax =$gettaxedamount;
-                 }
-                 $invoiceItem->total = $recrmeta->total_amount + $gettaxedamount;
-                 $invoiceItem->save();
-        
-                  //get invoice updated             
-                 $invoice->totalamount = $invoice->total_amount;
-                  $invoice->save();               
+                echo "New Meta Added <br>";
+                $invoiceItem = $invoice->items()->create([
+                    'quantity' => $recrmeta->quantity,
+                    'qtykey' => $recrmeta->qtykey,
+                    'meta' => $recrmeta->meta,
+                    'amount_per_item' => $recrmeta->amount_per_item,
+                ]);
             }
 
             echo "New Invoice Completed <br>";   

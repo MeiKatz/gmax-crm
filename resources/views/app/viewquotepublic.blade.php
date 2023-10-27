@@ -153,10 +153,13 @@ $dataUri = 'data:image/' . $type . ';base64,' . base64_encode($data);
                         <th class="text-end" style="width: 1%">Total</th>
                       </tr>
                     </thead>
-                    @php $totalamt =0;  $invokey =1; $tottax =0; @endphp
+                    @php
+                      $invokey = 1;
+                      $tottax = 0;
+                    @endphp
                     @foreach($invoice_items as $invoice_item)
                     <tr>
-                      <td class="text-center">@php echo $invokey; $invokey ++; @endphp </td>
+                      <td class="text-center">{{ $invokey++ }}</td>
                       <td>
                       
                         <div class="">{{$invoice_item->meta}}</div>
@@ -168,13 +171,13 @@ $dataUri = 'data:image/' . $type . ';base64,' . base64_encode($data);
                       <td class="text-end">{{$settings->prefix}}{{$invoice_item->amount_per_item}}</td>
                       @endif
                       <td class="text-end">{{$settings->prefix}}@php echo $invoice_item->tax; $tottax +=$invoice_item->tax;  @endphp </td>
-                      <td class="text-end">{{$settings->prefix}}{{$invoice_item->total}} @php $totalamt +=$invoice_item->total_amount; @endphp</td>
+                      <td class="text-end">{{$settings->prefix}}{{$invoice_item->total}}</td>
                     </tr>
               
                     @endforeach
                     <tr>
                       <td colspan="@if($invoice->is_taxable) 5 @else 4 @endif" class="strong text-end"> @if($invoice->is_taxable)Total Before Tax @else Sub Total @endif</td>
-                      <td class="text-end">{{$settings->prefix}}{{$totalamt}}</td>
+                      <td class="text-end">{{$settings->prefix}}{{$invoice->total_amount}}</td>
                     </tr>
                     @if($invoice->is_taxable)
                     <tr>
@@ -188,7 +191,7 @@ $dataUri = 'data:image/' . $type . ';base64,' . base64_encode($data);
                     @endif
                     <tr>
                       <td colspan="@if($invoice->is_taxable) 5 @else 4 @endif" class="font-weight-bold text-uppercase text-end">Total Due</td>
-                      <td class="font-weight-bold text-end">{{$settings->prefix}}{{$invoice->totalamount}}</td>
+                      <td class="font-weight-bold text-end">{{$settings->prefix}}{{$invoice->total_amount}}</td>
                     </tr>
                   </table>
                   @if($payments->count()>0)
@@ -225,7 +228,7 @@ $dataUri = 'data:image/' . $type . ';base64,' . base64_encode($data);
                     </tr>
                     <tr>
                         <td colspan="3" class="font-weight-bold text-uppercase text-end">Balance Due</td>
-                        <td class="font-weight-bold text-end">{{$settings->prefix}}@php echo $invoice->totalamount - $invoice->paidamount  @endphp</td>
+                        <td class="font-weight-bold text-end">{{$settings->prefix}}{{ $invoice->total_amount - $invoice->paidamount }}</td>
                       </tr>
                   </table>
                   @endif

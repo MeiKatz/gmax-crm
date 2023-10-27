@@ -11,6 +11,19 @@ class InvoiceItem extends Model
     use HasFactory;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'invoiceid',
+        'quantity',
+        'qtykey',
+        'meta',
+        'amount_per_item',
+    ];
+
+    /**
      * The relationships that should always be loaded.
      *
      * @var array
@@ -26,6 +39,7 @@ class InvoiceItem extends Model
      */
     protected $appends = [
         'total_amount',
+        'total_amount_without_taxes',
     ];
 
     protected static function booting() {
@@ -46,7 +60,25 @@ class InvoiceItem extends Model
         );
     }
 
-    public function getTotalAmountAttribute() {
+    public function getTotalAmountWithoutTaxesAttribute() {
         return $this->quantity * $this->amount_per_item;
+    }
+
+    public function getTotalAmountAttribute() {
+        $totalAmountWithoutTaxes = $this->total_amount_without_taxes;
+
+        if ( !$this->invoice->is_taxable ) {
+            return $totalAmountWithoutTaxes;
+        }
+
+        return $this->getTax() * $totalAmountWithoutTaxes / 100;
+    }
+
+    /**
+     * @return int
+     */
+    private function getTax() {
+        $settings = Setting::find(1);
+        return $settings->taxpercent;
     }
 }
