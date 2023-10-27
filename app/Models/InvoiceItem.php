@@ -38,6 +38,6 @@ class InvoiceItem extends Model
     }
 
     public function getTotalAmountAttribute() {
-        return $this->quantity * $this->qtykey;
+        return $this->quantity * $this->amount_per_item;
     }
 }
