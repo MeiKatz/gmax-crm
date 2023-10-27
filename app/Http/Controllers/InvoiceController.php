@@ -29,10 +29,10 @@ class InvoiceController extends Controller
     { 
         $counts = Invoice::getCounts();
         $client = Client::all();
-        $invoices = QueryBuilder::for(invoice::class)
+        $invoices = QueryBuilder::for(Invoice::class)
         ->allowedFilters(['title','userid','invoid','invostatus'])
         ->where('type',2)->orderBy('id','desc')->paginate(15);
-        //$invoices = invoice::orderby('id','desc')->where('type',2)->paginate(15);     
+        //$invoices = Invoice::orderby('id','desc')->where('type',2)->paginate(15);
         return view('app.listofinvoices')->with(['invoices' =>$invoices])->with(['clients'=> $client])->with('counts', $counts);     
     }
 
@@ -346,7 +346,7 @@ class InvoiceController extends Controller
      public function listofquotes(Request $request)
      { 
          $client = client::all();
-         $invoices = QueryBuilder::for(invoice::class)
+         $invoices = QueryBuilder::for(Invoice::class)
         ->allowedFilters(['title','userid','quoteid','quotestat'])
         ->where('type',1)->orderBy('id','desc')->paginate(15);
         // $invoices = invoice::orderby('id','desc')->where('type',1)->paginate(15);     
