@@ -10,6 +10,7 @@ class Project extends Model
 {
     use HasFactory;
     use Concerns\HasAttributes;
+    use Concerns\HasScopes;
 
     const STATUS_NOT_STARTED = 1;
     const STATUS_IN_PROGRESS = 2;
