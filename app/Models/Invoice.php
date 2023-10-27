@@ -10,6 +10,7 @@ class Invoice extends Model
 {
     use HasFactory;
     use Concerns\HasActions;
+    use Concerns\HasAttributes;
     use Concerns\HasRelations;
 
     const STATUS_UNPAID    = 1;
@@ -29,6 +30,20 @@ class Invoice extends Model
         'invostatus' => 1, // unpaid
     ];
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'is_cancelled',
+        'is_overdue',
+        'is_paid',
+        'is_partially_paid',
+        'is_refunded',
+        'is_unpaid',
+    ];
+
     protected static function booting() {
         self::creating(function ( $model ) {
             $today = date('Y-m-d');
@@ -41,53 +56,5 @@ class Invoice extends Model
                 $model->duedate = $today;
             }
         });
-    }
-
-    /**
-     * @return bool
-     */
-    public function isUnpaid() {
-        return $this->invostatus === self::STATUS_UNPAID;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isPartiallyPaid() {
-        return $this->invostatus === self::STATUS_PARTIALLY_PAID;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isPaid() {
-        return $this->invostatus === self::STATUS_PAID;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isRefunded() {
-        return $this->invostatus === self::STATUS_REFUNDED;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isCancelled() {
-        return $this->invostatus === self::STATUS_CANCELLED;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isOverdue() {
-        $today = date('Y-m-d');
-
-        if ( $this->duedate >= $today ) {
-            return false;
-        }
-
-        return ( $this->isUnpaid() || $this->isPartiallyPaid() );
     }
 }
