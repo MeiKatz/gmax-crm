@@ -44,7 +44,6 @@ class InvoiceController extends Controller
 
     public function createnewinvoice(Request $request)
     {       
-        $todaydate = date('Y-m-d');
         $invoices = Invoice::where('type',2)->orderby('id','desc')->first();  
         $invoice =new Invoice();
         $invoice->type=2;
@@ -56,11 +55,6 @@ class InvoiceController extends Controller
         else{
             $invoice->invoid =$invoices->invoid+1; 
         }
-        $invoice->invodate = $todaydate;       
-        $invoice->duedate = $todaydate;   
-        $invoice->totalamount =0;       
-        $invoice->paidamount = 0;     
-        $invoice->markAsUnpaid();
         $invoice->projectid = $request->projectid;     
         $invoice->save();        
         $lastid = $invoice->id;
@@ -367,7 +361,6 @@ class InvoiceController extends Controller
  
      public function createnewquotes(Request $request)
      {       
-         $todaydate = date('Y-m-d');
          $invoices = Invoice::orderby('id','desc')->where('type',1)->first();  
          $invoice =new Invoice();
          $invoice->type=1;
@@ -379,10 +372,6 @@ class InvoiceController extends Controller
          else{
              $invoice->quoteid =$invoices->quoteid+1; 
          }
-         $invoice->invodate = $todaydate;       
-         $invoice->duedate = $todaydate;   
-         $invoice->totalamount =0;       
-         $invoice->paidamount = 0;     
          $invoice->quotestat = 1;             
          $invoice->save();        
          $lastid = $invoice->id;
@@ -496,7 +485,6 @@ class InvoiceController extends Controller
 
      public function createrecorringinvoice(Request $request)
      {       
-         $todaydate = date('Y-m-d');
          $invoices = Invoice::where('type',2)->orderby('id','desc')->first();  
          $invoice =new Invoice();
          $invoice->type=2;
@@ -508,13 +496,10 @@ class InvoiceController extends Controller
          else{
              $invoice->invoid =$invoices->invoid+1; 
          }         
-         $invoice->totalamount =0;       
-         $invoice->paidamount = 0;     
-         $invoice->markAsUnpaid();
-         $invoice->projectid = $request->projectid;     
 
-         $invoice->recorring = 1;     
-         $invoice->recorringtype = $request->recorringtype; 
+         $invoice->projectid = $request->projectid;
+         $invoice->recorring = 1;
+         $invoice->recorringtype = $request->recorringtype;
          
          $getinvocedate = new Carbon($request->invodate);
          $invoice->invodate = $request->invodate;       
@@ -566,18 +551,13 @@ class InvoiceController extends Controller
             $invoice->invoid =1; }
             else{
                 $invoice->invoid =$invoices->invoid+1; 
-            }         
-            $invoice->totalamount =0;       
-            $invoice->paidamount = 0;     
-            $invoice->markAsUnpaid();
-            $invoice->projectid = $rcinvo->projectid;     
+            }
 
-            $invoice->recorring = 1;     
-            $invoice->recorringtype = $rcinvo->recorringtype; 
+            $invoice->projectid = $rcinvo->projectid;
+            $invoice->recorring = 1;
+            $invoice->recorringtype = $rcinvo->recorringtype;
             
             $getinvocedate = new Carbon($todaydate);
-            $invoice->invodate = $todaydate;       
-            $invoice->duedate = $todaydate;  
 
             if($rcinvo->recorringtype==1) //daily
             {           

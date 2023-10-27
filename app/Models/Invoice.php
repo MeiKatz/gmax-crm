@@ -16,6 +16,31 @@ class Invoice extends Model
     const STATUS_CANCELLED = 5;
 
     /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'totalamount' => 0,
+        'paidamount' => 0,
+        'invostatus' => 1, // unpaid
+    ];
+
+    protected static function booting() {
+        self::creating(function ( $model ) {
+            $today = date('Y-m-d');
+
+            if ( empty( $model->invodate ) ) {
+                $model->invodate = $today;
+            }
+
+            if ( empty( $model->duedate ) ) {
+                $model->duedate = $today;
+            }
+        });
+    }
+
+    /**
      * @return void
      */
     public function cancel() {
