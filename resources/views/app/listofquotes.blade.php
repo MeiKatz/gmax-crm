@@ -80,7 +80,7 @@
                 </td>
                 <td><a href="{{route('editquote', ['id' => $invoice->id])}}"> {{$invoice->title}}</a></td>
                 <td>
-                  <a href="/client/ {{ !empty($invoice->clientdata) ? $invoice->clientdata->id:'' }}">   {{ !empty($invoice->clientdata) ? $invoice->clientdata->name:'Removed' }} </a>
+                  <a href="/client/ {{ !empty($invoice->client) ? $invoice->client->id:'' }}">   {{ !empty($invoice->client) ? $invoice->client->name:'Removed' }} </a>
                 </td>
                 <td>
                     {{$invoice->invodate}}

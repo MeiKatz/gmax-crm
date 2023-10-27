@@ -44,7 +44,6 @@ class InvoiceController extends Controller
 
     public function createnewinvoice(Request $request)
     {       
-        $todaydate = date('Y-m-d');
         $invoices = Invoice::where('type',2)->orderby('id','desc')->first();  
         $invoice =new Invoice();
         $invoice->type=2;
@@ -56,11 +55,6 @@ class InvoiceController extends Controller
         else{
             $invoice->invoid =$invoices->invoid+1; 
         }
-        $invoice->invodate = $todaydate;       
-        $invoice->duedate = $todaydate;   
-        $invoice->totalamount =0;       
-        $invoice->paidamount = 0;     
-        $invoice->invostatus = 1;        
         $invoice->projectid = $request->projectid;     
         $invoice->save();        
         $lastid = $invoice->id;
@@ -80,10 +74,10 @@ class InvoiceController extends Controller
 
     public function editinvoice(Request $request)
     {
-     $invoices = Invoice::findOrFail($request->id);      
-     $invometas = InvoiceMeta::where('invoiceid',$request->id)->paginate(100);
-     $paymentreceipt = PaymentReceipt::where('invoiceid',$request->id)->paginate(100);
-     return view('app.editinvoice')->with(['invoice'=> $invoices])->with(['invometas'=> $invometas])->with(['payments'=> $paymentreceipt]);
+     $invoices = Invoice::findOrFail($request->id);
+     $invoiceItems = $invoices->items()->paginate(100);
+     $paymentreceipt = $invoices->payments()->paginate(100);
+     return view('app.editinvoice')->with(['invoice'=> $invoices])->with(['invometas'=> $invoiceItems])->with(['payments'=> $paymentreceipt]);
     }
  
     public function newinvoicemeta(Request $request)
@@ -107,8 +101,8 @@ class InvoiceController extends Controller
          $invoicemeta->save();      
 
           //get invoice updated             
-          $invoicemetadata =InvoiceMeta::where('invoiceid',$request->invoiceid)->sum('total');
-         $invoices->totalamount = $invoicemetadata;  
+          $totalAmount = $invoices->items()->sum('total');
+         $invoices->totalamount = $totalAmount;
           $invoices->save();               
         return redirect()->back();   
      }
@@ -137,7 +131,7 @@ class InvoiceController extends Controller
 
          //get invoice updated   
       
-         $invoicemetadata =InvoiceMeta::where('invoiceid',$request->invoiceid)->get();
+         $invoicemetadata = $invoices->items;
          $totalamt = 0;      
          foreach ($invoicemetadata as $value) {
            $totalamt += $value->total;
@@ -159,14 +153,14 @@ class InvoiceController extends Controller
      {       
          $invometa =$request->id;      
          $invoid =$request->invo;        
+         $invoices = Invoice::findOrFail($request->invo);
          if($invometa!=NULL)
          {
-            $meta = InvoiceMeta::where('invoiceid',$invoid)->where('id',$invometa)->first();
+            $meta = $invoices->items()->find( $invometa );
            $meta->delete();
 
           //get invoice updated   
-          $invoices = Invoice::findOrFail($request->invo); 
-          $invoicemetadata =InvoiceMeta::where('invoiceid',$request->invo)->get();
+          $invoicemetadata = $invoices->items;
           $totalamt = 0;      
           foreach ($invoicemetadata as $value) {
             $totalamt += $value->total;
@@ -213,11 +207,11 @@ class InvoiceController extends Controller
             $nowpaid=  $currentpaid + $request->amount;
             if($invoices->totalamount==$nowpaid)
             {
-                $invoices->invostatus = 3;        
+                $invoices->markAsPaid();
             }   
             else
             {
-                $invoices->invostatus = 2;    
+                $invoices->markAsPartiallyPaid();
             }                    
             $invoices->save();  
 
@@ -261,8 +255,8 @@ class InvoiceController extends Controller
         if($request->id!=NULL)
         {
             $invoices = Invoice::findOrFail($request->id);         
-            $invoices->invostatus = 5;            
-            $invoices->save();  
+            $invoices->cancel();
+
             return redirect()->back()->with('success', 'Invoice Cancelled');
         }
         else
@@ -303,7 +297,7 @@ class InvoiceController extends Controller
             $invoices = Invoice::findOrFail($request->invoiceid);
             $currentpaid =  $invoices->paidamount;
             $invoices->paidamount = $currentpaid - $request->amount; 
-            $invoices->invostatus = 4;                            
+            $invoices->markAsRefunded();
             $invoices->save();              
 
             return redirect()->back()->with('success', 'Refund Issued');
@@ -319,8 +313,8 @@ class InvoiceController extends Controller
       
       $invoices = Invoice::findOrFail($request->id);      
       $business = Business::find(1);
-      $invometas = InvoiceMeta::where('invoiceid',$request->id)->paginate(100);
-      $paymentreceipt = PaymentReceipt::where('invoiceid',$request->id)->paginate(100);
+      $invometas = $invoices->items()->paginate(100);
+      $paymentreceipt = $invoices->payments()->paginate(100);
       return view('app.viewinvoice')->with(['invoice'=> $invoices])->with(['invometas'=> $invometas])->with(['payments'=> $paymentreceipt])->with(['business'=> $business]);
      }
 
@@ -339,8 +333,8 @@ class InvoiceController extends Controller
       $invoices = Invoice::findOrFail($request->id);      
       $business = Business::find(1);
       $gateways = PaymentGateway::where('status',1)->get();
-      $invometas = InvoiceMeta::where('invoiceid',$request->id)->paginate(100);
-      $paymentreceipt = PaymentReceipt::where('invoiceid',$request->id)->paginate(100);
+      $invometas = $invoices->items()->paginate(100);
+      $paymentreceipt = $invoices->payments()->paginate(100);
       return view('app.payinvoice')->with(['invoice'=> $invoices])->with(['invometas'=> $invometas])->with(['payments'=> $paymentreceipt])->with(['business'=> $business])->with(['gateways'=> $gateways]);
      }
      
@@ -367,7 +361,6 @@ class InvoiceController extends Controller
  
      public function createnewquotes(Request $request)
      {       
-         $todaydate = date('Y-m-d');
          $invoices = Invoice::orderby('id','desc')->where('type',1)->first();  
          $invoice =new Invoice();
          $invoice->type=1;
@@ -379,10 +372,6 @@ class InvoiceController extends Controller
          else{
              $invoice->quoteid =$invoices->quoteid+1; 
          }
-         $invoice->invodate = $todaydate;       
-         $invoice->duedate = $todaydate;   
-         $invoice->totalamount =0;       
-         $invoice->paidamount = 0;     
          $invoice->quotestat = 1;             
          $invoice->save();        
          $lastid = $invoice->id;
@@ -392,8 +381,8 @@ class InvoiceController extends Controller
      public function editquote(Request $request)
      {
       $invoices = Invoice::findOrFail($request->id);      
-      $invometas = InvoiceMeta::where('invoiceid',$request->id)->paginate(100);
-      $paymentreceipt = PaymentReceipt::where('invoiceid',$request->id)->paginate(100);
+      $invometas = $invoices->items()->paginate(100);
+      $paymentreceipt = $invoices->payments()->paginate(100);
       return view('app.editquote')->with(['invoice'=> $invoices])->with(['invometas'=> $invometas])->with(['payments'=> $paymentreceipt]);
      }
 
@@ -410,8 +399,8 @@ class InvoiceController extends Controller
       
       $invoices = Invoice::findOrFail($request->id);      
       $business = Business::find(1);
-      $invometas = InvoiceMeta::where('invoiceid',$request->id)->paginate(100);
-      $paymentreceipt = PaymentReceipt::where('invoiceid',$request->id)->paginate(100);
+      $invometas = $invoices->items()->paginate(100);
+      $paymentreceipt = $invoices->payments()->paginate(100);
       return view('app.viewquote')->with(['invoice'=> $invoices])->with(['invometas'=> $invometas])->with(['payments'=> $paymentreceipt])->with(['business'=> $business]);
      }
 
@@ -420,8 +409,8 @@ class InvoiceController extends Controller
       
       $invoices = Invoice::findOrFail($request->id);      
       $business = Business::find(1);
-      $invometas = InvoiceMeta::where('invoiceid',$request->id)->paginate(100);
-      $paymentreceipt = PaymentReceipt::where('invoiceid',$request->id)->paginate(100);
+      $invometas = $invoices->items()->paginate(100);
+      $paymentreceipt = $invoices->payments()->paginate(100);
       return view('app.viewquotepublic')->with(['invoice'=> $invoices])->with(['invometas'=> $invometas])->with(['payments'=> $paymentreceipt])->with(['business'=> $business]);
      }
 
@@ -460,7 +449,7 @@ class InvoiceController extends Controller
         else{
             $invoices->invoid =$invoicesold->invoid+1; 
         }
-      $invoices->invostatus =1;
+      $invoices->markAsUnpaid();
       $invoices->type =2;             
       $invoices->save();   
       return redirect('/invoice/edit/'.$request->id)->with('success', 'Converted as Invoice');  
@@ -496,7 +485,6 @@ class InvoiceController extends Controller
 
      public function createrecorringinvoice(Request $request)
      {       
-         $todaydate = date('Y-m-d');
          $invoices = Invoice::where('type',2)->orderby('id','desc')->first();  
          $invoice =new Invoice();
          $invoice->type=2;
@@ -508,13 +496,10 @@ class InvoiceController extends Controller
          else{
              $invoice->invoid =$invoices->invoid+1; 
          }         
-         $invoice->totalamount =0;       
-         $invoice->paidamount = 0;     
-         $invoice->invostatus = 1;        
-         $invoice->projectid = $request->projectid;     
 
-         $invoice->recorring = 1;     
-         $invoice->recorringtype = $request->recorringtype; 
+         $invoice->projectid = $request->projectid;
+         $invoice->recorring = 1;
+         $invoice->recorringtype = $request->recorringtype;
          
          $getinvocedate = new Carbon($request->invodate);
          $invoice->invodate = $request->invodate;       
@@ -566,18 +551,13 @@ class InvoiceController extends Controller
             $invoice->invoid =1; }
             else{
                 $invoice->invoid =$invoices->invoid+1; 
-            }         
-            $invoice->totalamount =0;       
-            $invoice->paidamount = 0;     
-            $invoice->invostatus = 1;        
-            $invoice->projectid = $rcinvo->projectid;     
+            }
 
-            $invoice->recorring = 1;     
-            $invoice->recorringtype = $rcinvo->recorringtype; 
+            $invoice->projectid = $rcinvo->projectid;
+            $invoice->recorring = 1;
+            $invoice->recorringtype = $rcinvo->recorringtype;
             
             $getinvocedate = new Carbon($todaydate);
-            $invoice->invodate = $todaydate;       
-            $invoice->duedate = $todaydate;  
 
             if($rcinvo->recorringtype==1) //daily
             {           

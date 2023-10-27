@@ -53,7 +53,7 @@ class GatewayController extends Controller
                     $currentpaid =  $invoices->paidamount;
                     $invoices->paidamount = $currentpaid + $paidamountnow; 
                     $nowpaid=  $currentpaid + $paidamountnow;           
-                    $invoices->invostatus = 3;                            
+                    $invoices->markAsPaid();
                     $invoices->save();  
 
             } 
@@ -102,7 +102,7 @@ class GatewayController extends Controller
         $currentpaid =  $invoices->paidamount;
         $invoices->paidamount = $currentpaid + $paidamountnow; 
         $nowpaid=  $currentpaid + $paidamountnow;           
-        $invoices->invostatus = 3;                            
+        $invoices->markAsPaid();
         $invoices->save();   
 
         Session::flash('success', 'Payment Successful !');
@@ -138,7 +138,7 @@ class GatewayController extends Controller
             $currentpaid =  $invoices->paidamount;
             $invoices->paidamount = $currentpaid + $paidamountnow; 
             $nowpaid=  $currentpaid + $paidamountnow;           
-            $invoices->invostatus = 3;                            
+            $invoices->markAsPaid();
             $invoices->save();  
           
 

@@ -88,7 +88,7 @@
                     <dt class="col-5">Project Name:</dt>
                     <dd class="col-7"> <strong>{{$project->projectname}} </strong></dd>
                     <dt class="col-5">Client:</dt>
-                    <dd class="col-7"><a href="/client/{{$project->clientdata->id}}">{{$project->clientdata->name}}</a></dd>
+                    <dd class="col-7"><a href="/client/{{$project->client->id}}">{{$project->client->name}}</a></dd>
                     <dt class="col-5">Start Date:</dt>
                     <dd class="col-7"><strong>{{$project->startdate}}</strong></dd>
                     
@@ -481,7 +481,7 @@
       </div>
   <form action="{{route('createnewinvoice')}}" method="post">
       @csrf
-      <input type="hidden" value="{{$project->clientdata->id}}" name="userid">
+      <input type="hidden" value="{{$project->client->id}}" name="userid">
       <input type="hidden" value="{{$project->id}}" name="projectid">
       <div class="modal-body">
           <div class="mb-2">

@@ -31,7 +31,6 @@ class InvoiceStatus extends Component
     {
         return view('components.invoice-status', [
             'invoice' => $this->invoice,
-            'today' => date('Y-m-d'),
         ]);
     }
 }

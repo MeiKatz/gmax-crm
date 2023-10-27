@@ -145,12 +145,12 @@ $footerimagedataUri = 'data:image/' . $footerimagetype . ';base64,' . base64_enc
                      
                                                     
                       <address class="mt-4"></address>                    
-                        <strong>{{$invoice->clientdata->name}}</strong> <br>
-                        {{$invoice->clientdata->business}}<br>
-                        {{$invoice->clientdata->address}}<br>
-                        {{$invoice->clientdata->state}}, {{$invoice->clientdata->city}}<br>
-                        {{$invoice->clientdata->country}}, {{$invoice->clientdata->zip}}<br>
-                        {{$invoice->clientdata->email}}
+                        <strong>{{$invoice->client->name}}</strong> <br>
+                        {{$invoice->client->business}}<br>
+                        {{$invoice->client->address}}<br>
+                        {{$invoice->client->state}}, {{$invoice->client->city}}<br>
+                        {{$invoice->client->country}}, {{$invoice->client->zip}}<br>
+                        {{$invoice->client->email}}
                       </address>
                     </div>
                     <div class="col-12 my-3">
@@ -406,9 +406,9 @@ $footerimagedataUri = 'data:image/' . $footerimagetype . ';base64,' . base64_enc
                                             data-name="{{$business->name}}"                                            
                                             data-description="Payment on Invoice #{{$invoice->id}}"
                                             data-image="/storage/uploads/{{$business->logo}}"
-                                            data-prefill.name="{{$invoice->clientdata->name}}"
-                                            data-prefill.contact="{{$invoice->clientdata->phone}}"
-                                            data-prefill.email="{{$invoice->clientdata->email}}"
+                                            data-prefill.name="{{$invoice->client->name}}"
+                                            data-prefill.contact="{{$invoice->client->phone}}"
+                                            data-prefill.email="{{$invoice->client->email}}"
                                             data-theme.color="#2b81c2">
                                     </script>
                                     <input type="hidden" name="_token" value="{!!csrf_token()!!}">
