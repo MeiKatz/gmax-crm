@@ -18,6 +18,14 @@ class Invoice extends Model
     /**
      * @return void
      */
+    public function cancel() {
+        $this->markAsCancelled();
+        $this->save();
+    }
+
+    /**
+     * @return void
+     */
     public function markAsUnpaid() {
         $this->invostatus = self::STATUS_UNPAID;
     }

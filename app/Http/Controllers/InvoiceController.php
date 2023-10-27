@@ -261,8 +261,8 @@ class InvoiceController extends Controller
         if($request->id!=NULL)
         {
             $invoices = Invoice::findOrFail($request->id);         
-            $invoices->markAsCancelled();
-            $invoices->save();  
+            $invoices->cancel();
+
             return redirect()->back()->with('success', 'Invoice Cancelled');
         }
         else
