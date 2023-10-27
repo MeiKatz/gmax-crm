@@ -211,7 +211,7 @@
                                  
                                   <td class="text-muted"> <input class="form-control form-control-sm" type="text"   value="{{$invoice_item->meta}}" name="meta"  placeholder="Particular "></td>
                                   <td class="text-muted">
-                                    <input class="form-control form-control-sm" type="text" name="qty"  value="{{$invoice_item->qty}}" placeholder="Qty">
+                                    <input class="form-control form-control-sm" type="text" name="quantity"  value="{{$invoice_item->quantity}}" placeholder="Qty">
                                   </td>
                                   <td>
                                       <select class="form-control form-control-sm" name="qtykey">
@@ -251,7 +251,7 @@
                                     
                                     <td class="text-muted"> <input class="form-control form-control-sm" type="text"  name="meta"  placeholder="Particular "></td>
                                     <td class="text-muted">
-                                      <input class="form-control form-control-sm" type="text" name="qty" id="qty"  placeholder="Qty">
+                                      <input class="form-control form-control-sm" type="text" name="quantity" id="qty"  placeholder="Qty">
                                     </td>
                                     <td>
                                         <select class="form-control form-control-sm" name="qtykey">
@@ -281,9 +281,9 @@
                     </table>
                     <script type="text/javascript">
                     function gettotal() {
-                         let qty =  document.getElementById("qty").value;
+                         let quantity =  document.getElementById("qty").value;
                          let amount =  document.getElementById("amount").value;
-                         let total =  qty * amount;
+                         let total =  quantity * amount;
                          @if($invoice->is_taxable)
                          let totalamt = {{$settings->taxpercent}} * total / 100 + total;
                          document.getElementById("totalcost").value = "{{$settings->prefix}}"+ totalamt;                         

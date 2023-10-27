@@ -82,7 +82,7 @@ class InvoiceController extends Controller
          $invoiceItem =new InvoiceItem();
          $invoiceItem->invoiceid=$request->invoiceid;
          $invoiceItem->authid = Auth::id();
-         $invoiceItem->qty =$request->qty;
+         $invoiceItem->quantity =$request->quantity;
          $invoiceItem->qtykey =$request->qtykey;
          $invoiceItem->meta =$request->meta;
          if($invoices->is_taxable){
@@ -90,7 +90,7 @@ class InvoiceController extends Controller
             $invoiceItem->tax =$gettaxedamount;
          }
          $invoiceItem->amount_per_item = $request->amount;
-         $invoiceItem->total =$request->qty * $request->amount + $gettaxedamount;
+         $invoiceItem->total =$request->quantity * $request->amount + $gettaxedamount;
          $invoiceItem->save();
 
           //get invoice updated             
@@ -109,17 +109,17 @@ class InvoiceController extends Controller
         $invoiceItem =InvoiceItem::findOrFail($request->metaid);
          $invoiceItem->authid = Auth::id();
          $invoiceItem->invoiceid=$request->invoiceid;
-         $invoiceItem->qty =$request->qty;
+         $invoiceItem->quantity =$request->quantity;
          $invoiceItem->qtykey =$request->qtykey;
          $invoiceItem->meta =$request->meta;
-
+         
          if ( $invoices->is_taxable ) {
-            $ttcost = $request->qty * $request->amount;
+            $ttcost = $request->quantity * $request->amount;
             $gettaxedamount = $settings->taxpercent * $ttcost /100;
            $invoiceItem->tax =$gettaxedamount;
         }
          $invoiceItem->amount_per_item = $request->amount;
-         $invoiceItem->total =$request->qty * $request->amount  + $gettaxedamount;
+         $invoiceItem->total =$request->quantity * $request->amount  + $gettaxedamount;
          $invoiceItem->save();
 
          //get invoice updated   
@@ -582,17 +582,17 @@ class InvoiceController extends Controller
                  $invoiceItem =new InvoiceItem();
                  $invoiceItem->invoiceid=$invoice->id;
                  $invoiceItem->authid = Auth::id();
-                 $invoiceItem->qty =$recrmeta->qty;
+                 $invoiceItem->quantity =$recrmeta->quantity;
                  $invoiceItem->qtykey =$recrmeta->qtykey;
                  $invoiceItem->meta =$recrmeta->meta;
                  
                  if ( $invoice->is_taxable ) {
-                     $ttcost = $recrmeta->qty * $recrmeta->amount_per_item;
+                     $ttcost = $recrmeta->quantity * $recrmeta->amount_per_item;
                      $gettaxedamount = $settings->taxpercent * $ttcost /100;
                     $invoiceItem->tax =$gettaxedamount;
                  }
                  $invoiceItem->amount_per_item = $recrmeta->amount;
-                 $invoiceItem->total =$recrmeta->qty * $recrmeta->amount + $gettaxedamount;
+                 $invoiceItem->total =$recrmeta->quantity * $recrmeta->amount + $gettaxedamount;
                  $invoiceItem->save();
         
                   //get invoice updated             

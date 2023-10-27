@@ -162,13 +162,13 @@ $dataUri = 'data:image/' . $type . ';base64,' . base64_encode($data);
                         <div class="">{{$invoice_item->meta}}</div>
                       </td>
                       <td class="text-center">
-                        {{$invoice_item->qty}}<small>{{$invoice_item->qtykey}}</small>
+                        {{$invoice_item->quantity}}<small>{{$invoice_item->qtykey}}</small>
                       </td>
                       @if($invoice->is_taxable)
                       <td class="text-end">{{$settings->prefix}}{{$invoice_item->amount_per_item}}</td>
                       @endif
                       <td class="text-end">{{$settings->prefix}}@php echo $invoice_item->tax; $tottax +=$invoice_item->tax;  @endphp </td>
-                      <td class="text-end">{{$settings->prefix}}{{$invoice_item->total}} @php $totalamt +=$invoice_item->amount_per_item*$invoice_item->qty; @endphp</td>
+                      <td class="text-end">{{$settings->prefix}}{{$invoice_item->total}} @php $totalamt +=$invoice_item->amount_per_item*$invoice_item->quantity; @endphp</td>
                     </tr>
               
                     @endforeach
