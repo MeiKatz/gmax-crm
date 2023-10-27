@@ -72,12 +72,7 @@
                   <li class="nav-item  @if(Request::is('dashboard')){{ 'active' }}@endif">
                     <a class="nav-link" href="/" >
                       <span class="nav-link-icon d-md-none d-lg-inline-block">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dashboard" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                          <circle cx="12" cy="13" r="2"></circle>
-                          <line x1="13.45" y1="11.55" x2="15.5" y2="9.5"></line>
-                          <path d="M6.4 20a9 9 0 1 1 11.2 0z"></path>
-                       </svg>
+                        <x-icon.dashboard />
                       </span>
                       <span class="nav-link-title">
                         {{ __('Dashboard') }}
@@ -88,7 +83,7 @@
                   <li class="nav-item  @if(Request::is('clients')){{ 'active' }}@endif dropdown">
                     <a class="nav-link dropdown-toggle" href="#navbar-base" data-toggle="dropdown" role="button" aria-expanded="false" >
                       <span class="nav-link-icon d-md-none d-lg-inline-block">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="9" cy="7" r="4" /><path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M21 21v-2a4 4 0 0 0 -3 -3.85" /></svg>
+                        <x-icon.client />
                       </span>
                       <span class="nav-link-title">
                         {{ __('Clients') }}
@@ -115,7 +110,7 @@
                   <li class="nav-item  @if(Request::is('invoices')){{ 'active' }}@endif dropdown">
                     <a class="nav-link dropdown-toggle" href="#navbar-base" data-toggle="dropdown" role="button" aria-expanded="false" >
                       <span class="nav-link-icon d-md-none d-lg-inline-block">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><line x1="9" y1="7" x2="10" y2="7" /><line x1="9" y1="13" x2="15" y2="13" /><line x1="13" y1="17" x2="15" y2="17" /></svg>
+                        <x-icon.invoice />
                       </span>
                       <span class="nav-link-title">
                         {{ __('Invoices') }}
@@ -153,11 +148,7 @@
                   <li class="nav-item  @if(Request::is('quotes')){{ 'active' }}@endif dropdown">
                     <a class="nav-link dropdown-toggle" href="#navbar-base" data-toggle="dropdown" role="button" aria-expanded="false" >
                       <span class="nav-link-icon d-md-none d-lg-inline-block">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-quote" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                          <path d="M10 11h-4a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1h3a1 1 0 0 1 1 1v6c0 2.667 -1.333 4.333 -4 5"></path>
-                          <path d="M19 11h-4a1 1 0 0 1 -1 -1v-3a1 1 0 0 1 1 -1h3a1 1 0 0 1 1 1v6c0 2.667 -1.333 4.333 -4 5"></path>
-                       </svg>
+                        <x-icon.offer />
                       </span>
                       <span class="nav-link-title">
                         {{ __('Quotation') }}
@@ -190,18 +181,7 @@
                   <li class="nav-item  @if(Request::is('projects')){{ 'active' }}@endif dropdown">
                     <a class="nav-link dropdown-toggle" href="#navbar-base" data-toggle="dropdown" role="button" aria-expanded="false" >
                       <span class="nav-link-icon d-md-none d-lg-inline-block">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-adjustments-alt" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                          <rect x="4" y="8" width="4" height="4"></rect>
-                          <line x1="6" y1="4" x2="6" y2="8"></line>
-                          <line x1="6" y1="12" x2="6" y2="20"></line>
-                          <rect x="10" y="14" width="4" height="4"></rect>
-                          <line x1="12" y1="4" x2="12" y2="14"></line>
-                          <line x1="12" y1="18" x2="12" y2="20"></line>
-                          <rect x="16" y="5" width="4" height="4"></rect>
-                          <line x1="18" y1="4" x2="18" y2="5"></line>
-                          <line x1="18" y1="9" x2="18" y2="20"></line>
-                       </svg>
+                        <x-icon.project />
                       </span>
                       <span class="nav-link-title">
                         {{ __('Projects') }}
@@ -240,7 +220,7 @@
                   <li class="nav-item  @if(Request::is('mytasks')){{ 'active' }}@endif">
                     <a class="nav-link" href="/mytasks" >
                       <span class="nav-link-icon d-md-none d-lg-inline-block">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><rect x="4" y="4" width="6" height="6" rx="1" /><rect x="4" y="14" width="6" height="6" rx="1" /><rect x="14" y="14" width="6" height="6" rx="1" /><line x1="14" y1="7" x2="20" y2="7" /><line x1="17" y1="4" x2="17" y2="10" /></svg>
+                        <x-icon.task />
                       </span>
                       <span class="nav-link-title">
                         {{ __('Tasks') }}
@@ -251,11 +231,7 @@
                   <li class="nav-item  @if(Request::is('expenses')){{ 'active' }}@endif">
                     <a class="nav-link" href="/expenses" >
                       <span class="nav-link-icon d-md-none d-lg-inline-block">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-wallet" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                          <path d="M17 8v-3a1 1 0 0 0 -1 -1h-10a2 2 0 0 0 0 4h12a1 1 0 0 1 1 1v3m0 4v3a1 1 0 0 1 -1 1h-12a2 2 0 0 1 -2 -2v-12"></path>
-                          <path d="M20 12v4h-4a2 2 0 0 1 0 -4h4"></path>
-                       </svg>
+                        <x-icon.expense />
                       </span>
                       <span class="nav-link-title">
                         {{ __('Expenses') }}
@@ -268,12 +244,7 @@
                   <li class="nav-item  @if(Request::is('filemanager')){{ 'active' }}@endif">
                     <a class="nav-link" href="/filemanager" >
                       <span class="nav-link-icon d-md-none d-lg-inline-block">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-cloud-upload" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                          <path d="M7 18a4.6 4.4 0 0 1 0 -9a5 4.5 0 0 1 11 2h1a3.5 3.5 0 0 1 0 7h-1"></path>
-                          <polyline points="9 15 12 12 15 15"></polyline>
-                          <line x1="12" y1="12" x2="12" y2="21"></line>
-                       </svg>
+                        <x-icon.file-manager />
                       </span>
                       <span class="nav-link-title">
                         {{ __('File_Manager') }}
@@ -284,7 +255,8 @@
                   @if(Auth::user()->usertype==1)
                   <li class="nav-item  @if(Request::is('lead')){{ 'active' }}@endif dropdown">
                     <a class="nav-link dropdown-toggle" href="#navbar-base" data-toggle="dropdown" role="button" aria-expanded="false" >
-                      <span class="nav-link-icon d-md-none d-lg-inline-block"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="12 3 20 7.5 20 16.5 12 21 4 16.5 4 7.5 12 3" /><line x1="12" y1="12" x2="20" y2="7.5" /><line x1="12" y1="12" x2="12" y2="21" /><line x1="12" y1="12" x2="4" y2="7.5" /><line x1="16" y1="5.25" x2="8" y2="9.75" /></svg>
+                      <span class="nav-link-icon d-md-none d-lg-inline-block">
+                        <x-icon.admin-panel />
                       </span>
                       <span class="nav-link-title">
                         {{ __('Admin_Panel') }}
