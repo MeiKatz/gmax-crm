@@ -114,7 +114,7 @@ $footerimagedata = file_get_contents($footerimage);
 $footerimagedataUri = 'data:image/' . $footerimagetype . ';base64,' . base64_encode($footerimagedata);
 }
 @endphp
-  @php $balanceamount =  $invoice->totalamount - $invoice->paidamount @endphp
+  @php $balanceamount =  $invoice->total_amount - $invoice->paidamount @endphp
     <div class="row">
        
         <div class="col-md-9">
@@ -176,28 +176,31 @@ $footerimagedataUri = 'data:image/' . $footerimagetype . ';base64,' . base64_enc
                         <th class="text-end" style="width: 1%">Total</th>
                       </tr>
                     </thead>
-                    @php $totalamt =0;  $invokey =1; $tottax =0; @endphp
-                    @foreach($invometas as $invometa)
+                    @php
+                      $invokey = 1;
+                      $tottax = 0;
+                    @endphp
+                    @foreach($invoice_items as $invoice_item)
                     <tr>
-                      <td class="text-center">@php echo $invokey; $invokey ++; @endphp </td>
+                      <td class="text-center">{{ $invokey++ }}</td>
                       <td>
                       
-                        <div class="">{{$invometa->meta}}</div>
+                        <div class="">{{$invoice_item->meta}}</div>
                       </td>
                       <td class="text-center">
-                        {{$invometa->qty}}<small>{{$invometa->qtykey}}</small>
+                        {{$invoice_item->quantity}}<small>{{$invoice_item->qtykey}}</small>
                       </td>
                       @if($invoice->is_taxable)
-                      <td class="text-end">{{$settings->prefix}}{{$invometa->amount}}</td>
+                      <td class="text-end">{{$settings->prefix}}{{$invoice_item->amount_per_item}}</td>
                       @endif
-                      <td class="text-end">{{$settings->prefix}}@php echo $invometa->tax; $tottax +=$invometa->tax;  @endphp </td>
-                      <td class="text-end">{{$settings->prefix}}{{$invometa->total}} @php $totalamt +=$invometa->amount*$invometa->qty; @endphp</td>
+                      <td class="text-end">{{$settings->prefix}}@php echo $invoice_item->tax; $tottax +=$invoice_item->tax;  @endphp </td>
+                      <td class="text-end">{{$settings->prefix}}{{$invoice_item->total}}</td>
                     </tr>
               
                     @endforeach
                     <tr>
                       <td colspan="@if($invoice->taxable==1) 5 @else 4 @endif" class="strong text-end"> @if($invoice->is_taxable)Total Before Tax @else Sub Total @endif</td>
-                      <td class="text-end">{{$settings->prefix}}{{$totalamt}}</td>
+                      <td class="text-end">{{$settings->prefix}}{{$invoice->total_amount}}</td>
                     </tr>
                     @if($invoice->is_taxable)
                     <tr>
@@ -211,7 +214,7 @@ $footerimagedataUri = 'data:image/' . $footerimagetype . ';base64,' . base64_enc
                     @endif
                     <tr>
                       <td colspan="@if($invoice->is_taxable) 5 @else 4 @endif" class="font-weight-bold text-uppercase text-end">Total Due</td>
-                      <td class="font-weight-bold text-end">{{$settings->prefix}}{{$invoice->totalamount}}</td>
+                      <td class="font-weight-bold text-end">{{$settings->prefix}}{{$invoice->total_amount}}</td>
                     </tr>
                   </table>
                   @if($payments->count()>0)
@@ -248,7 +251,7 @@ $footerimagedataUri = 'data:image/' . $footerimagetype . ';base64,' . base64_enc
                     </tr>
                     <tr>
                         <td colspan="3" class="font-weight-bold text-uppercase text-end">Balance Due</td>
-                        <td class="font-weight-bold text-end">{{$settings->prefix}}@php echo $invoice->totalamount - $invoice->paidamount  @endphp</td>
+                        <td class="font-weight-bold text-end">{{$settings->prefix}}{{ $invoice->total_amount - $invoice->paidamount }}</td>
                       </tr>
                   </table>
                   @endif

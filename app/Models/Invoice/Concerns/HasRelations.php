@@ -3,7 +3,7 @@
 namespace App\Models\Invoice\Concerns;
 
 use App\Models\Client;
-use App\Models\InvoiceMeta;
+use App\Models\InvoiceItem;
 use App\Models\PaymentReceipt;
 use App\Models\Project;
 
@@ -35,8 +35,8 @@ trait HasRelations {
    */
   public function items() {
     return $this->hasMany(
-      InvoiceMeta::class,
-      'invoiceid'
+      InvoiceItem::class,
+      'invoice_id'
     );
   }
 

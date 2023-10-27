@@ -68,28 +68,31 @@ $dataUri = 'data:image/' . $type . ';base64,' . base64_encode($data);
                         <th class="text-end" style="width: 1%">Total</th>
                       </tr>
                     </thead>
-                    @php $totalamt =0;  $invokey =1; $tottax =0; @endphp
-                    @foreach($invometas as $invometa)
+                    @php
+                      $invokey = 1;
+                      $tottax = 0;
+                    @endphp
+                    @foreach($invoice_items as $invoice_item)
                     <tr>
-                      <td class="text-center">@php echo $invokey; $invokey ++; @endphp </td>
+                      <td class="text-center">{{ $invokey++ }}</td>
                       <td>
                       
-                        <div class="">{{$invometa->meta}}</div>
+                        <div class="">{{$invoice_item->meta}}</div>
                       </td>
                       <td class="text-center">
-                        {{$invometa->qty}}<small>{{$invometa->qtykey}}</small>
+                        {{$invoice_item->quantity}}<small>{{$invoice_item->qtykey}}</small>
                       </td>
                       @if($invoice->is_taxable)
-                      <td class="text-end">{{$settings->prefix}}{{$invometa->amount}}</td>
+                      <td class="text-end">{{$settings->prefix}}{{$invoice_item->amount_per_item}}</td>
                       @endif
-                      <td class="text-end">{{$settings->prefix}}@php echo $invometa->tax; $tottax +=$invometa->tax;  @endphp </td>
-                      <td class="text-end">{{$settings->prefix}}{{$invometa->total}} @php $totalamt +=$invometa->amount*$invometa->qty; @endphp</td>
+                      <td class="text-end">{{$settings->prefix}}@php echo $invoice_item->tax; $tottax +=$invoice_item->tax;  @endphp </td>
+                      <td class="text-end">{{$settings->prefix}}{{$invoice_item->total}}</td>
                     </tr>
               
                     @endforeach
                     <tr>
                       <td colspan="@if($invoice->is_taxable) 5 @else 4 @endif" class="strong text-end"> @if($invoice->is_taxable)Total Before Tax @else Sub Total @endif</td>
-                      <td class="text-end">{{$settings->prefix}}{{$totalamt}}</td>
+                      <td class="text-end">{{$settings->prefix}}{{$invoice->total_amount}}</td>
                     </tr>
                     @if($invoice->is_taxable)
                     <tr>
