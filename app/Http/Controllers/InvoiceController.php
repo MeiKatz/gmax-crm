@@ -85,11 +85,12 @@ class InvoiceController extends Controller
          $invoiceItem->quantity =$request->quantity;
          $invoiceItem->qtykey =$request->qtykey;
          $invoiceItem->meta =$request->meta;
-         if($invoices->is_taxable){
+         $invoiceItem->amount_per_item = $request->amount;
+
+         if ( $invoices->is_taxable ) {
              $gettaxedamount = $settings->taxpercent * $invoiceItem->total_amount /100;
             $invoiceItem->tax =$gettaxedamount;
          }
-         $invoiceItem->amount_per_item = $request->amount;
          $invoiceItem->total = $invoiceItem->total_amount + $gettaxedamount;
          $invoiceItem->save();
 
@@ -112,13 +113,13 @@ class InvoiceController extends Controller
          $invoiceItem->quantity =$request->quantity;
          $invoiceItem->qtykey =$request->qtykey;
          $invoiceItem->meta =$request->meta;
-         
+         $invoiceItem->amount_per_item = $request->amount;
+
          if ( $invoices->is_taxable ) {
             $ttcost = $invoiceItem->total_amount;
             $gettaxedamount = $settings->taxpercent * $ttcost /100;
            $invoiceItem->tax =$gettaxedamount;
         }
-         $invoiceItem->amount_per_item = $request->amount;
          $invoiceItem->total = $invoiceItem->total_amount + $gettaxedamount;
          $invoiceItem->save();
 
@@ -585,13 +586,13 @@ class InvoiceController extends Controller
                  $invoiceItem->quantity =$recrmeta->quantity;
                  $invoiceItem->qtykey =$recrmeta->qtykey;
                  $invoiceItem->meta =$recrmeta->meta;
-                 
+                 $invoiceItem->amount_per_item = $recrmeta->amount;
+
                  if ( $invoice->is_taxable ) {
                      $ttcost = $recrmeta->total_amount;
                      $gettaxedamount = $settings->taxpercent * $ttcost /100;
                     $invoiceItem->tax =$gettaxedamount;
                  }
-                 $invoiceItem->amount_per_item = $recrmeta->amount;
                  $invoiceItem->total = $recrmeta->total_amount + $gettaxedamount;
                  $invoiceItem->save();
         
