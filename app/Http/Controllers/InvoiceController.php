@@ -85,10 +85,8 @@ class InvoiceController extends Controller
          $invoiceItem->qty =$request->qty;
          $invoiceItem->qtykey =$request->qtykey;
          $invoiceItem->meta =$request->meta;
-         
-         if ( $invoices->is_taxable ) {
-             $ttcost = $request->qty * $request->amount;
-             $gettaxedamount = $settings->taxpercent * $ttcost /100;
+         if($invoices->is_taxable){
+             $gettaxedamount = $settings->taxpercent * $invoiceItem->total_amount /100;
             $invoiceItem->tax =$gettaxedamount;
          }
          $invoiceItem->amount = $request->amount;

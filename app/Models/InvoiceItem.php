@@ -19,6 +19,15 @@ class InvoiceItem extends Model
     ];
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'total_amount',
+    ];
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function invoice() {
@@ -26,5 +35,9 @@ class InvoiceItem extends Model
             Invoice::class,
             'invoiceid'
         );
+    }
+
+    public function getTotalAmountAttribute() {
+        return $this->qty * $this->qtykey;
     }
 }
