@@ -103,7 +103,7 @@ $footerimagedataUri = 'data:image/' . $footerimagetype . ';base64,' . base64_enc
                       <td class="text-end">{{$settings->prefix}}{{$invoice_item->amount_per_item}}</td>
                       @endif
                       <td class="text-end">{{$settings->prefix}}@php echo $invoice_item->tax; $tottax +=$invoice_item->tax;  @endphp </td>
-                      <td class="text-end">{{$settings->prefix}}{{$invoice_item->total}} @php $totalamt +=$invoice_item->amount_per_item*$invoice_item->quantity; @endphp</td>
+                      <td class="text-end">{{$settings->prefix}}{{$invoice_item->total}} @php $totalamt +=$invoice_item->total_amount; @endphp</td>
                     </tr>
               
                     @endforeach
