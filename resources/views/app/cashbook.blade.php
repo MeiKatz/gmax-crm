@@ -172,7 +172,7 @@
               </td>
                 <td> {{$expense->item}}</td>
                 <td> 
-                  <a href="/project/{{ !empty($expense->projectdata) ? $expense->projectdata->id:'' }}">   {{ !empty($expense->projectdata) ? $expense->projectdata->projectname:'' }} </a>
+                  <a href="/project/{{ !empty($expense->project) ? $expense->project->id:'' }}">   {{ !empty($expense->project) ? $expense->project->projectname:'' }} </a>
                 </td>
                 <td>
                   <span class="badge bg-yellow">Expense</span>
@@ -199,7 +199,7 @@
               </td>
                 <td> {{$recepit->item}}</td>
                 <td> 
-                  <a href="/project/{{ !empty($expense->projectdata) ? $expense->projectdata->id:'' }}">   {{ !empty($expense->projectdata) ? $expense->projectdata->projectname:'' }} </a>
+                  <a href="/project/{{ !empty($expense->project) ? $expense->project->id:'' }}">   {{ !empty($expense->project) ? $expense->project->projectname:'' }} </a>
                 </td>
                 <td>
                   <span class="badge bg-lime">Income</span>

@@ -136,9 +136,9 @@
                       <dl class="row">
                         <dt class="col-5">Title:</dt>
                         <dd class="col-7"><strong>{{$invoice->title}}</strong></dd>
-                        @if($invoice->projectdata)
+                        @if($invoice->project)
                         <dt class="col-5">Project:</dt>
-                        <dd class="col-7"><strong><a href="/project/{{$invoice->projectid}}">{{$invoice->projectdata->projectname}} </a></strong></dd>
+                        <dd class="col-7"><strong><a href="/project/{{$invoice->projectid}}">{{$invoice->project->projectname}} </a></strong></dd>
                         @endif
                         <dt class="col-5">Date:</dt>
                         <dd class="col-7">  {{$invoice->invodate}}</dd>

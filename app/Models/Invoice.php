@@ -52,9 +52,12 @@ class Invoice extends Model
             'id'
         );
     }
-    public function projectdata()
-	{
-        return  $this->belongsTo(Project::class, 'projectid', 'id');
-        
+
+    public function project() {
+        return $this->belongsTo(
+            Project::class,
+            'projectid',
+            'id'
+        );
     }
 }
