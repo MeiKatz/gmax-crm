@@ -67,8 +67,8 @@ class ClientController extends Controller
     public function show(Client $client)
     {
         $projects = Project::where('client', $client->id)->orderBy('id','desc')->paginate(15);
-        $invoices = Invoice::where('userid', $client->id)->where('type',2)->orderby('id','desc')->paginate(10);
-        $quotes = Invoice::where('userid', $client->id)->where('type',1)->orderby('id','desc')->paginate(10);
+        $invoices = Invoice::ofClient( $client )->where('type',2)->orderby('id','desc')->paginate(10);
+        $quotes = Invoice::ofClient( $client )->where('type',1)->orderby('id','desc')->paginate(10);
 
         return view('clients.show')->with([
             'client' => $client,

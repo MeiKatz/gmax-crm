@@ -2,6 +2,8 @@
 
 namespace App\Models\Invoice\Concerns;
 
+use App\Models\Client;
+
 trait HasScopes {
   /**
    * Scope a query to only include unpaid invoices.
@@ -65,6 +67,26 @@ trait HasScopes {
     return $query->where(
       'invostatus',
       self::STATUS_CANCELLED
+    );
+  }
+
+  /**
+   * Scope a query to only include invoices of a specific client.
+   *
+   * @param  \Illuminate\Database\Eloquent\Builder  $query
+   * @param  \App\Models\Client|int  $client
+   * @return \Illuminate\Database\Eloquent\Builder
+   */
+  public function scopeOfClient( $query, $client ) {
+    if ( $client instanceof Client ) {
+      $clientId = $client->id;
+    } else {
+      $clientId = $client;
+    }
+
+    return $query->where(
+      'userid',
+      $clientId
     );
   }
 }
