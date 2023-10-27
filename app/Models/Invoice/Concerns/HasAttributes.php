@@ -6,6 +6,20 @@ trait HasAttributes {
   /**
    * @return bool
    */
+  public function getIsTaxableAttribute() {
+    return $this->taxable == 1;
+  }
+
+  /**
+   * @return int
+   */
+  public function getTotalAmountAttribute() {
+    return $this->items()->sum('total');
+  }
+
+  /**
+   * @return bool
+   */
   public function getIsUnpaidAttribute() {
     return $this->invostatus === self::STATUS_UNPAID;
   }

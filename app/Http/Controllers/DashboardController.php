@@ -47,8 +47,11 @@ class DashboardController extends Controller
         }
 
         $counts = [];
-        $counts['unpaid'] = Invoice::where('invostatus',1)->count();
-        $counts['paid'] = Invoice::where('invostatus',3)->count();
+
+        $invoiceCounts = Invoice::getCounts();
+
+        $counts['unpaid'] = $invoiceCounts['unpaid'];
+        $counts['paid']   = $invoiceCounts['paid'];
         $counts['quotes'] = Invoice::where('type',1)->count();
         $counts['prjnotstart'] = Project::where('status',1)->count();
         $counts['prjinprogress'] = Project::where('status',2)->count();

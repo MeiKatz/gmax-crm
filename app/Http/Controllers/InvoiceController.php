@@ -27,18 +27,12 @@ class InvoiceController extends Controller
 {
     public function listofinvoices(Request $request)
     { 
-        $counts=[];
-        $counts['unpaid']=Invoice::where('invostatus',1)->count();
-        $counts['partpaid']=Invoice::where('invostatus',2)->count();
-        $counts['paid']=Invoice::where('invostatus',3)->count();
-        $counts['canceled']=Invoice::where('invostatus',5)->count();
-   
-
+        $counts = Invoice::getCounts();
         $client = Client::all();
-        $invoices = QueryBuilder::for(invoice::class)
+        $invoices = QueryBuilder::for(Invoice::class)
         ->allowedFilters(['title','userid','invoid','invostatus'])
         ->where('type',2)->orderBy('id','desc')->paginate(15);
-        //$invoices = invoice::orderby('id','desc')->where('type',2)->paginate(15);     
+        //$invoices = Invoice::orderby('id','desc')->where('type',2)->paginate(15);
         return view('app.listofinvoices')->with(['invoices' =>$invoices])->with(['clients'=> $client])->with('counts', $counts);     
     }
 
@@ -91,7 +85,8 @@ class InvoiceController extends Controller
          $invoicemeta->qty =$request->qty;
          $invoicemeta->qtykey =$request->qtykey;
          $invoicemeta->meta =$request->meta;
-         if($invoices->taxable==1){
+         
+         if ( $invoices->is_taxable ) {
              $ttcost = $request->qty * $request->amount;
              $gettaxedamount = $settings->taxpercent * $ttcost /100;
             $invoicemeta->tax =$gettaxedamount;
@@ -101,8 +96,7 @@ class InvoiceController extends Controller
          $invoicemeta->save();      
 
           //get invoice updated             
-          $totalAmount = $invoices->items()->sum('total');
-         $invoices->totalamount = $totalAmount;
+         $invoices->totalamount = $invoices->total_amount;
           $invoices->save();               
         return redirect()->back();   
      }
@@ -120,7 +114,8 @@ class InvoiceController extends Controller
          $invoicemeta->qty =$request->qty;
          $invoicemeta->qtykey =$request->qtykey;
          $invoicemeta->meta =$request->meta;
-         if($invoices->taxable==1){
+         
+         if ( $invoices->is_taxable ) {
             $ttcost = $request->qty * $request->amount;
             $gettaxedamount = $settings->taxpercent * $ttcost /100;
            $invoicemeta->tax =$gettaxedamount;
@@ -352,7 +347,7 @@ class InvoiceController extends Controller
      public function listofquotes(Request $request)
      { 
          $client = client::all();
-         $invoices = QueryBuilder::for(invoice::class)
+         $invoices = QueryBuilder::for(Invoice::class)
         ->allowedFilters(['title','userid','quoteid','quotestat'])
         ->where('type',1)->orderBy('id','desc')->paginate(15);
         // $invoices = invoice::orderby('id','desc')->where('type',1)->paginate(15);     
@@ -536,7 +531,7 @@ class InvoiceController extends Controller
         echo "Gmax CRM Daily Cron job 🚀 <br>";
 
         //create a loop here and check any pending invoice
-        $reccur = Invoice::where('recorring',1)->whereDate('recorringnextdate',$todaydate)->get();
+        $reccur = Invoice::recurring()->whereDate('recorringnextdate',$todaydate)->get();
 
         foreach($reccur as $rcinvo)
         {   
@@ -592,7 +587,8 @@ class InvoiceController extends Controller
                  $invoicemeta->qty =$recrmeta->qty;
                  $invoicemeta->qtykey =$recrmeta->qtykey;
                  $invoicemeta->meta =$recrmeta->meta;
-                 if($invoice->taxable==1){
+                 
+                 if ( $invoice->is_taxable ) {
                      $ttcost = $recrmeta->qty * $recrmeta->amount;
                      $gettaxedamount = $settings->taxpercent * $ttcost /100;
                     $invoicemeta->tax =$gettaxedamount;
@@ -602,8 +598,7 @@ class InvoiceController extends Controller
                  $invoicemeta->save();      
         
                   //get invoice updated             
-                  $invoicemetadata =InvoiceMeta::where('invoiceid',$recrmeta->invoiceid)->sum('total');
-                 $invoice->totalamount = $invoicemetadata;  
+                 $invoice->totalamount = $invoice->total_amount;
                   $invoice->save();               
             }
 
