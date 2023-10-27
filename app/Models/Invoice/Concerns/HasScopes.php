@@ -6,6 +6,20 @@ use App\Models\Client;
 
 trait HasScopes {
   /**
+   * Scope a query to only include recurring invoices.
+   *
+   * @param  \Illuminate\Database\Eloquent\Builder  $query
+   * @param  bool  $isRecurring
+   * @return \Illuminate\Database\Eloquent\Builder
+   */
+  public function scopeRecurring( $query, $isRecurring = true ) {
+    return $query->where(
+      'recorring',
+      $isRecurring ? 1 : 0
+    );
+  }
+
+  /**
    * Scope a query to only include unpaid invoices.
    *
    * @param  \Illuminate\Database\Eloquent\Builder  $query

@@ -531,7 +531,7 @@ class InvoiceController extends Controller
         echo "Gmax CRM Daily Cron job 🚀 <br>";
 
         //create a loop here and check any pending invoice
-        $reccur = Invoice::where('recorring',1)->whereDate('recorringnextdate',$todaydate)->get();
+        $reccur = Invoice::recurring()->whereDate('recorringnextdate',$todaydate)->get();
 
         foreach($reccur as $rcinvo)
         {   
