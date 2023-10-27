@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Client;
 use App\Models\Invoice;
 use Carbon\Carbon;
-use App\Models\InvoiceMeta;
+use App\Models\InvoiceItem;
 use App\Models\PaymentReceipt;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\InvoiceMail;
@@ -71,7 +71,7 @@ class InvoiceController extends Controller
      $invoices = Invoice::findOrFail($request->id);
      $invoiceItems = $invoices->items()->paginate(100);
      $paymentreceipt = $invoices->payments()->paginate(100);
-     return view('app.editinvoice')->with(['invoice'=> $invoices])->with(['invometas'=> $invoiceItems])->with(['payments'=> $paymentreceipt]);
+     return view('app.editinvoice')->with(['invoice'=> $invoices])->with(['invoice_items'=> $invoiceItems])->with(['payments'=> $paymentreceipt]);
     }
  
     public function newinvoicemeta(Request $request)
@@ -79,21 +79,21 @@ class InvoiceController extends Controller
         $invoices = Invoice::findOrFail($request->invoiceid);   
         $settings = Setting::find(1);
         $gettaxedamount =0;                  
-         $invoicemeta =new InvoiceMeta();
-         $invoicemeta->invoiceid=$request->invoiceid;
-         $invoicemeta->authid = Auth::id();  
-         $invoicemeta->qty =$request->qty;
-         $invoicemeta->qtykey =$request->qtykey;
-         $invoicemeta->meta =$request->meta;
+         $invoiceItem =new InvoiceItem();
+         $invoiceItem->invoiceid=$request->invoiceid;
+         $invoiceItem->authid = Auth::id();
+         $invoiceItem->qty =$request->qty;
+         $invoiceItem->qtykey =$request->qtykey;
+         $invoiceItem->meta =$request->meta;
          
          if ( $invoices->is_taxable ) {
              $ttcost = $request->qty * $request->amount;
              $gettaxedamount = $settings->taxpercent * $ttcost /100;
-            $invoicemeta->tax =$gettaxedamount;
+            $invoiceItem->tax =$gettaxedamount;
          }
-         $invoicemeta->amount = $request->amount;
-         $invoicemeta->total =$request->qty * $request->amount + $gettaxedamount;                   
-         $invoicemeta->save();      
+         $invoiceItem->amount = $request->amount;
+         $invoiceItem->total =$request->qty * $request->amount + $gettaxedamount;
+         $invoiceItem->save();
 
           //get invoice updated             
          $invoices->totalamount = $invoices->total_amount;
@@ -108,27 +108,27 @@ class InvoiceController extends Controller
         $invoices = Invoice::findOrFail($request->invoiceid);   
         $settings = Setting::find(1);
         $gettaxedamount =0;     
-        $invoicemeta =InvoiceMeta::findOrFail($request->metaid);
-         $invoicemeta->authid = Auth::id();  
-         $invoicemeta->invoiceid=$request->invoiceid;
-         $invoicemeta->qty =$request->qty;
-         $invoicemeta->qtykey =$request->qtykey;
-         $invoicemeta->meta =$request->meta;
-         
+        $invoiceItem =InvoiceItem::findOrFail($request->metaid);
+         $invoiceItem->authid = Auth::id();
+         $invoiceItem->invoiceid=$request->invoiceid;
+         $invoiceItem->qty =$request->qty;
+         $invoiceItem->qtykey =$request->qtykey;
+         $invoiceItem->meta =$request->meta;
+
          if ( $invoices->is_taxable ) {
             $ttcost = $request->qty * $request->amount;
             $gettaxedamount = $settings->taxpercent * $ttcost /100;
-           $invoicemeta->tax =$gettaxedamount;
+           $invoiceItem->tax =$gettaxedamount;
         }
-         $invoicemeta->amount = $request->amount;
-         $invoicemeta->total =$request->qty * $request->amount  + $gettaxedamount;                               
-         $invoicemeta->save();            
+         $invoiceItem->amount = $request->amount;
+         $invoiceItem->total =$request->qty * $request->amount  + $gettaxedamount;
+         $invoiceItem->save();
 
          //get invoice updated   
       
-         $invoicemetadata = $invoices->items;
+         $invoiceItemdata = $invoices->items;
          $totalamt = 0;      
-         foreach ($invoicemetadata as $value) {
+         foreach ($invoiceItemdata as $value) {
            $totalamt += $value->total;
          }                   
          $invoices->totalamount = $totalamt;  
@@ -146,18 +146,18 @@ class InvoiceController extends Controller
 
      public function deleteinvoicemeta(Request $request)
      {       
-         $invometa =$request->id;      
+         $invoiceItemId =$request->id;
          $invoid =$request->invo;        
          $invoices = Invoice::findOrFail($request->invo);
-         if($invometa!=NULL)
+         if($invoiceItemId!=NULL)
          {
-            $meta = $invoices->items()->find( $invometa );
+            $meta = $invoices->items()->find( $invoiceItemId );
            $meta->delete();
 
           //get invoice updated   
-          $invoicemetadata = $invoices->items;
+          $invoiceItemdata = $invoices->items;
           $totalamt = 0;      
-          foreach ($invoicemetadata as $value) {
+          foreach ($invoiceItemdata as $value) {
             $totalamt += $value->total;
           }                   
          $invoices->totalamount = $totalamt;  
@@ -308,9 +308,9 @@ class InvoiceController extends Controller
       
       $invoices = Invoice::findOrFail($request->id);      
       $business = Business::find(1);
-      $invometas = $invoices->items()->paginate(100);
+      $invoiceItems = $invoices->items()->paginate(100);
       $paymentreceipt = $invoices->payments()->paginate(100);
-      return view('app.viewinvoice')->with(['invoice'=> $invoices])->with(['invometas'=> $invometas])->with(['payments'=> $paymentreceipt])->with(['business'=> $business]);
+      return view('app.viewinvoice')->with(['invoice'=> $invoices])->with(['invoice_items'=> $invoiceItems])->with(['payments'=> $paymentreceipt])->with(['business'=> $business]);
      }
 
 
@@ -328,9 +328,9 @@ class InvoiceController extends Controller
       $invoices = Invoice::findOrFail($request->id);      
       $business = Business::find(1);
       $gateways = PaymentGateway::where('status',1)->get();
-      $invometas = $invoices->items()->paginate(100);
+      $invoiceItems = $invoices->items()->paginate(100);
       $paymentreceipt = $invoices->payments()->paginate(100);
-      return view('app.payinvoice')->with(['invoice'=> $invoices])->with(['invometas'=> $invometas])->with(['payments'=> $paymentreceipt])->with(['business'=> $business])->with(['gateways'=> $gateways]);
+      return view('app.payinvoice')->with(['invoice'=> $invoices])->with(['invoice_items'=> $invoiceItems])->with(['payments'=> $paymentreceipt])->with(['business'=> $business])->with(['gateways'=> $gateways]);
      }
      
      public function deleteinvoice(Request $request)
@@ -376,9 +376,9 @@ class InvoiceController extends Controller
      public function editquote(Request $request)
      {
       $invoices = Invoice::findOrFail($request->id);      
-      $invometas = $invoices->items()->paginate(100);
+      $invoiceItems = $invoices->items()->paginate(100);
       $paymentreceipt = $invoices->payments()->paginate(100);
-      return view('app.editquote')->with(['invoice'=> $invoices])->with(['invometas'=> $invometas])->with(['payments'=> $paymentreceipt]);
+      return view('app.editquote')->with(['invoice'=> $invoices])->with(['invoice_items'=> $invoiceItems])->with(['payments'=> $paymentreceipt]);
      }
 
      
@@ -394,9 +394,9 @@ class InvoiceController extends Controller
       
       $invoices = Invoice::findOrFail($request->id);      
       $business = Business::find(1);
-      $invometas = $invoices->items()->paginate(100);
+      $invoiceItems = $invoices->items()->paginate(100);
       $paymentreceipt = $invoices->payments()->paginate(100);
-      return view('app.viewquote')->with(['invoice'=> $invoices])->with(['invometas'=> $invometas])->with(['payments'=> $paymentreceipt])->with(['business'=> $business]);
+      return view('app.viewquote')->with(['invoice'=> $invoices])->with(['invoice_items'=> $invoiceItems])->with(['payments'=> $paymentreceipt])->with(['business'=> $business]);
      }
 
      public function viewquotepublic(Request $request)
@@ -404,9 +404,9 @@ class InvoiceController extends Controller
       
       $invoices = Invoice::findOrFail($request->id);      
       $business = Business::find(1);
-      $invometas = $invoices->items()->paginate(100);
+      $invoiceItems = $invoices->items()->paginate(100);
       $paymentreceipt = $invoices->payments()->paginate(100);
-      return view('app.viewquotepublic')->with(['invoice'=> $invoices])->with(['invometas'=> $invometas])->with(['payments'=> $paymentreceipt])->with(['business'=> $business]);
+      return view('app.viewquotepublic')->with(['invoice'=> $invoices])->with(['invoice_items'=> $invoiceItems])->with(['payments'=> $paymentreceipt])->with(['business'=> $business]);
      }
 
      public function quotestatuschange(Request $request)
@@ -575,27 +575,27 @@ class InvoiceController extends Controller
                  
             echo "New Invoice Saved <br>";   
             // adding metas into it
-            $invometas = InvoiceMeta::where('invoiceid',$rcinvo->id)->get();
-            foreach($invometas as $recrmeta)
+            $invoiceItems = Invoice::with('items')->findOrFail( $rcinvo->id )->items;
+            foreach($invoiceItems as $recrmeta)
             { 
                 echo "New Meta Added <br>";   
                 $settings = Setting::find(1);
                 $gettaxedamount =0;                  
-                 $invoicemeta =new InvoiceMeta();
-                 $invoicemeta->invoiceid=$invoice->id;
-                 $invoicemeta->authid = Auth::id();  
-                 $invoicemeta->qty =$recrmeta->qty;
-                 $invoicemeta->qtykey =$recrmeta->qtykey;
-                 $invoicemeta->meta =$recrmeta->meta;
+                 $invoiceItem =new InvoiceItem();
+                 $invoiceItem->invoiceid=$invoice->id;
+                 $invoiceItem->authid = Auth::id();
+                 $invoiceItem->qty =$recrmeta->qty;
+                 $invoiceItem->qtykey =$recrmeta->qtykey;
+                 $invoiceItem->meta =$recrmeta->meta;
                  
                  if ( $invoice->is_taxable ) {
                      $ttcost = $recrmeta->qty * $recrmeta->amount;
                      $gettaxedamount = $settings->taxpercent * $ttcost /100;
-                    $invoicemeta->tax =$gettaxedamount;
+                    $invoiceItem->tax =$gettaxedamount;
                  }
-                 $invoicemeta->amount = $recrmeta->amount;
-                 $invoicemeta->total =$recrmeta->qty * $recrmeta->amount + $gettaxedamount;                   
-                 $invoicemeta->save();      
+                 $invoiceItem->amount = $recrmeta->amount;
+                 $invoiceItem->total =$recrmeta->qty * $recrmeta->amount + $gettaxedamount;
+                 $invoiceItem->save();
         
                   //get invoice updated             
                  $invoice->totalamount = $invoice->total_amount;

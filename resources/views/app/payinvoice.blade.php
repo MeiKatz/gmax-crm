@@ -177,21 +177,21 @@ $footerimagedataUri = 'data:image/' . $footerimagetype . ';base64,' . base64_enc
                       </tr>
                     </thead>
                     @php $totalamt =0;  $invokey =1; $tottax =0; @endphp
-                    @foreach($invometas as $invometa)
+                    @foreach($invoice_items as $invoice_item)
                     <tr>
                       <td class="text-center">@php echo $invokey; $invokey ++; @endphp </td>
                       <td>
                       
-                        <div class="">{{$invometa->meta}}</div>
+                        <div class="">{{$invoice_item->meta}}</div>
                       </td>
                       <td class="text-center">
-                        {{$invometa->qty}}<small>{{$invometa->qtykey}}</small>
+                        {{$invoice_item->qty}}<small>{{$invoice_item->qtykey}}</small>
                       </td>
                       @if($invoice->is_taxable)
-                      <td class="text-end">{{$settings->prefix}}{{$invometa->amount}}</td>
+                      <td class="text-end">{{$settings->prefix}}{{$invoice_item->amount}}</td>
                       @endif
-                      <td class="text-end">{{$settings->prefix}}@php echo $invometa->tax; $tottax +=$invometa->tax;  @endphp </td>
-                      <td class="text-end">{{$settings->prefix}}{{$invometa->total}} @php $totalamt +=$invometa->amount*$invometa->qty; @endphp</td>
+                      <td class="text-end">{{$settings->prefix}}@php echo $invoice_item->tax; $tottax +=$invoice_item->tax;  @endphp </td>
+                      <td class="text-end">{{$settings->prefix}}{{$invoice_item->total}} @php $totalamt +=$invoice_item->amount*$invoice_item->qty; @endphp</td>
                     </tr>
               
                     @endforeach

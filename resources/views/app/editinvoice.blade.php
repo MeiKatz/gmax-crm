@@ -202,34 +202,34 @@
                         </thead>
                         <tbody>
 
-                          @foreach($invometas as $invometa)
+                          @foreach($invoice_items as $invoice_item)
                             <tr>
                               <form action="{{route('editinvoicemeta')}}" method="post">
                                 @csrf
-                                <input type="hidden" name="metaid" value="{{$invometa->id}}">
+                                <input type="hidden" name="metaid" value="{{$invoice_item->id}}">
                                 <input type="hidden" name="invoiceid" value="{{$invoice->id}}">
                                  
-                                  <td class="text-muted"> <input class="form-control form-control-sm" type="text"   value="{{$invometa->meta}}" name="meta"  placeholder="Particular "></td>
+                                  <td class="text-muted"> <input class="form-control form-control-sm" type="text"   value="{{$invoice_item->meta}}" name="meta"  placeholder="Particular "></td>
                                   <td class="text-muted">
-                                    <input class="form-control form-control-sm" type="text" name="qty"  value="{{$invometa->qty}}" placeholder="Qty">
+                                    <input class="form-control form-control-sm" type="text" name="qty"  value="{{$invoice_item->qty}}" placeholder="Qty">
                                   </td>
                                   <td>
                                       <select class="form-control form-control-sm" name="qtykey">
-                                        <option value="Qty" @if($invometa->qtykey=="Qty") selected @endif> Qty </option>
-                                        <option value="Hour" @if($invometa->qtykey=="Hour") selected @endif> Hour </option>
-                                        <option value="Nos" @if($invometa->qtykey=="Nos") selected @endif> Nos </option>
+                                        <option value="Qty" @if($invoice_item->qtykey=="Qty") selected @endif> Qty </option>
+                                        <option value="Hour" @if($invoice_item->qtykey=="Hour") selected @endif> Hour </option>
+                                        <option value="Nos" @if($invoice_item->qtykey=="Nos") selected @endif> Nos </option>
                                       </select>
                                   </td>
                                   <td>                                         
-                                    <input class="form-control form-control-sm" type="text" name="amount"  value="{{$invometa->amount}}"  placeholder="amount">                                          
+                                    <input class="form-control form-control-sm" type="text" name="amount"  value="{{$invoice_item->amount}}"  placeholder="amount">
                                  </td>
                                  @if($invoice->is_taxable)
                                  <td> 
-                                   <input class="form-control form-control-sm" type="text"  value="{{$settings->prefix}}{{$invometa->tax}}"  placeholder="total" disabled>
+                                   <input class="form-control form-control-sm" type="text"  value="{{$settings->prefix}}{{$invoice_item->tax}}"  placeholder="total" disabled>
                                 </td>
                                 @endif
                                   <td>
-                                    <input class="form-control form-control-sm" type="text"  value="{{$settings->prefix}}{{$invometa->total}}"  placeholder="total" disabled>
+                                    <input class="form-control form-control-sm" type="text"  value="{{$settings->prefix}}{{$invoice_item->total}}"  placeholder="total" disabled>
                                  </td>
                                 
                                   <td>
@@ -237,7 +237,7 @@
                                           style="color: #fff;">Save</button>
                                   </td>
                                   <td>
-                                    <a onclick="return confirm('Are you sure?')" href="/invoices/deleteinvoicemeta/{{$invometa->id}}/{{$invoice->id}}" class="btn btn-warning btn-sm"  style="color: #fff;">Del</a>
+                                    <a onclick="return confirm('Are you sure?')" href="/invoices/deleteinvoicemeta/{{$invoice_item->id}}/{{$invoice->id}}" class="btn btn-warning btn-sm"  style="color: #fff;">Del</a>
                                 </td>
                               </form>
                           </tr>
