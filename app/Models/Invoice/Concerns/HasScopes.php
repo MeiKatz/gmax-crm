@@ -77,7 +77,7 @@ trait HasScopes {
    * @param  \App\Models\Client|int  $client
    * @return \Illuminate\Database\Eloquent\Builder
    */
-  public function scopeOfClient( $query, $client ) {
+  public function scopeForClient( $query, $client ) {
     if ( $client instanceof Client ) {
       $clientId = $client->id;
     } else {
