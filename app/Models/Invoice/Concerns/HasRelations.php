@@ -36,7 +36,7 @@ trait HasRelations {
   public function items() {
     return $this->hasMany(
       InvoiceItem::class,
-      'invoiceid'
+      'invoice_id'
     );
   }
 

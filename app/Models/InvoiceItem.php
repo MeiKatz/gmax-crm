@@ -16,7 +16,7 @@ class InvoiceItem extends Model
      * @var array
      */
     protected $fillable = [
-        'invoiceid',
+        'invoice_id',
         'quantity',
         'qtykey',
         'meta',
@@ -56,7 +56,7 @@ class InvoiceItem extends Model
     public function invoice() {
         return $this->belongsTo(
             Invoice::class,
-            'invoiceid'
+            'invoice_id'
         );
     }
 
