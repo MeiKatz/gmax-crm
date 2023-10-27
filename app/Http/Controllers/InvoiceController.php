@@ -27,12 +27,12 @@ class InvoiceController extends Controller
 {
     public function listofinvoices(Request $request)
     { 
-        $counts=[];
-        $counts['unpaid']=Invoice::where('invostatus',1)->count();
-        $counts['partpaid']=Invoice::where('invostatus',2)->count();
-        $counts['paid']=Invoice::where('invostatus',3)->count();
-        $counts['canceled']=Invoice::where('invostatus',5)->count();
-   
+        $counts = [
+            'unpaid'   => Invoice::paid()->count(),
+            'partpaid' => Invoice::partiallyPaid()->count(),
+            'paid'     => Invoice::paid()->count(),
+            'canceled' => Invoice::cancelled()->count(),
+        ];
 
         $client = Client::all();
         $invoices = QueryBuilder::for(invoice::class)

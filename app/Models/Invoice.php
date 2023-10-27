@@ -12,6 +12,7 @@ class Invoice extends Model
     use Concerns\HasActions;
     use Concerns\HasAttributes;
     use Concerns\HasRelations;
+    use Concerns\HasScopes;
 
     const STATUS_UNPAID    = 1;
     const STATUS_PARTIALLY_PAID = 2;
