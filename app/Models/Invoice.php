@@ -16,6 +16,41 @@ class Invoice extends Model
     const STATUS_CANCELLED = 5;
 
     /**
+     * @return void
+     */
+    public function markAsUnpaid() {
+        $this->invostatus = self::STATUS_UNPAID;
+    }
+
+    /**
+     * @return void
+     */
+    public function markAsPartiallyPaid() {
+        $this->invostatus = self::STATUS_PARTIALLY_PAID;
+    }
+
+    /**
+     * @return void
+     */
+    public function markAsPaid() {
+        $this->invostatus = self::STATUS_PAID;
+    }
+
+    /**
+     * @return void
+     */
+    public function markAsRefunded() {
+        $this->invostatus = self::STATUS_REFUNDED;
+    }
+
+    /**
+     * @return void
+     */
+    public function markAsCancelled() {
+        $this->invostatus = self::STATUS_CANCELLED;
+    }
+
+    /**
      * @return bool
      */
     public function isUnpaid() {

@@ -60,7 +60,7 @@ class InvoiceController extends Controller
         $invoice->duedate = $todaydate;   
         $invoice->totalamount =0;       
         $invoice->paidamount = 0;     
-        $invoice->invostatus = 1;        
+        $invoice->markAsUnpaid();
         $invoice->projectid = $request->projectid;     
         $invoice->save();        
         $lastid = $invoice->id;
@@ -213,11 +213,11 @@ class InvoiceController extends Controller
             $nowpaid=  $currentpaid + $request->amount;
             if($invoices->totalamount==$nowpaid)
             {
-                $invoices->invostatus = 3;        
+                $invoices->markAsPaid();
             }   
             else
             {
-                $invoices->invostatus = 2;    
+                $invoices->markAsPartiallyPaid();
             }                    
             $invoices->save();  
 
@@ -261,7 +261,7 @@ class InvoiceController extends Controller
         if($request->id!=NULL)
         {
             $invoices = Invoice::findOrFail($request->id);         
-            $invoices->invostatus = 5;            
+            $invoices->markAsCancelled();
             $invoices->save();  
             return redirect()->back()->with('success', 'Invoice Cancelled');
         }
@@ -303,7 +303,7 @@ class InvoiceController extends Controller
             $invoices = Invoice::findOrFail($request->invoiceid);
             $currentpaid =  $invoices->paidamount;
             $invoices->paidamount = $currentpaid - $request->amount; 
-            $invoices->invostatus = 4;                            
+            $invoices->markAsRefunded();
             $invoices->save();              
 
             return redirect()->back()->with('success', 'Refund Issued');
@@ -460,7 +460,7 @@ class InvoiceController extends Controller
         else{
             $invoices->invoid =$invoicesold->invoid+1; 
         }
-      $invoices->invostatus =1;
+      $invoices->markAsUnpaid();
       $invoices->type =2;             
       $invoices->save();   
       return redirect('/invoice/edit/'.$request->id)->with('success', 'Converted as Invoice');  
@@ -510,7 +510,7 @@ class InvoiceController extends Controller
          }         
          $invoice->totalamount =0;       
          $invoice->paidamount = 0;     
-         $invoice->invostatus = 1;        
+         $invoice->markAsUnpaid();
          $invoice->projectid = $request->projectid;     
 
          $invoice->recorring = 1;     
@@ -569,7 +569,7 @@ class InvoiceController extends Controller
             }         
             $invoice->totalamount =0;       
             $invoice->paidamount = 0;     
-            $invoice->invostatus = 1;        
+            $invoice->markAsUnpaid();
             $invoice->projectid = $rcinvo->projectid;     
 
             $invoice->recorring = 1;     
