@@ -42,6 +42,7 @@ class Invoice extends Model
         'is_paid',
         'is_partially_paid',
         'is_refunded',
+        'is_taxable',
         'is_unpaid',
     ];
 

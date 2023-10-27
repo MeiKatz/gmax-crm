@@ -6,6 +6,13 @@ trait HasAttributes {
   /**
    * @return bool
    */
+  public function getIsTaxableAttribute() {
+    return $this->taxable == 1;
+  }
+
+  /**
+   * @return bool
+   */
   public function getIsUnpaidAttribute() {
     return $this->invostatus === self::STATUS_UNPAID;
   }

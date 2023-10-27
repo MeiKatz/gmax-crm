@@ -82,7 +82,7 @@ $footerimagedataUri = 'data:image/' . $footerimagetype . ';base64,' . base64_enc
                         <th>Item</th>
                         <th class="text-center" style="width: 10%">Qnt</th>
                         <th class="text-end" style="width: 1%">Amount</th>
-                        @if($invoice->taxable==1)
+                        @if($invoice->is_taxable)
                         <th class="text-end" style="width: 1%">Tax</th>
                         @endif
                         <th class="text-end" style="width: 1%">Total</th>
@@ -99,7 +99,7 @@ $footerimagedataUri = 'data:image/' . $footerimagetype . ';base64,' . base64_enc
                       <td class="text-center">
                         {{$invometa->qty}}<small>{{$invometa->qtykey}}</small>
                       </td>
-                      @if($invoice->taxable==1)
+                      @if($invoice->is_taxable)
                       <td class="text-end">{{$settings->prefix}}{{$invometa->amount}}</td>
                       @endif
                       <td class="text-end">{{$settings->prefix}}@php echo $invometa->tax; $tottax +=$invometa->tax;  @endphp </td>
@@ -108,10 +108,10 @@ $footerimagedataUri = 'data:image/' . $footerimagetype . ';base64,' . base64_enc
               
                     @endforeach
                     <tr>
-                      <td colspan="@if($invoice->taxable==1) 5 @else 4 @endif" class="strong text-end"> @if($invoice->taxable==1)Total Before Tax @else Sub Total @endif</td>
+                      <td colspan="@if($invoice->is_taxable) 5 @else 4 @endif" class="strong text-end"> @if($invoice->is_taxable)Total Before Tax @else Sub Total @endif</td>
                       <td class="text-end">{{$settings->prefix}}{{$totalamt}}</td>
                     </tr>
-                    @if($invoice->taxable==1)
+                    @if($invoice->is_taxable)
                     <tr>
                       <td colspan="5" class="strong text-end">{{$settings->taxname}}</td>
                       <td class="text-end">{{$settings->taxpercent}}%</td>
@@ -122,7 +122,7 @@ $footerimagedataUri = 'data:image/' . $footerimagetype . ';base64,' . base64_enc
                     </tr>
                     @endif
                     <tr>
-                      <td colspan="@if($invoice->taxable==1) 5 @else 4 @endif" class="font-weight-bold text-uppercase text-end">Total Due</td>
+                      <td colspan="@if($invoice->is_taxable) 5 @else 4 @endif" class="font-weight-bold text-uppercase text-end">Total Due</td>
                       <td class="font-weight-bold text-end">{{$settings->prefix}}{{$invoice->totalamount}}</td>
                     </tr>
                   </table>

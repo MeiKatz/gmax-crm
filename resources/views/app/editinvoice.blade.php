@@ -163,7 +163,7 @@
                               @csrf
                               <input type="hidden" name="id" value="{{$invoice->id}}">
                                 <label class="form-check form-switch m-0">
-                                <input class="form-check-input position-static" name="taxable" onchange="this.form.submit()"  type="checkbox" @if($invoice->taxable==1) value="0" checked @else value="1" @endif >
+                                <input class="form-check-input position-static" name="taxable" onchange="this.form.submit()"  type="checkbox" @if($invoice->is_taxable) value="0" checked @else value="1" @endif >
                                 </label>
                           </form> 
                         </dd>
@@ -192,7 +192,7 @@
                                 <th>Qty</th>
                                 <th>Type</th>
                                 <th>amount</th>
-                                @if($invoice->taxable==1)
+                                @if($invoice->is_taxable)
                                 <th>tax</th>  
                                 @endif                           
                                 <th>Total</th>
@@ -223,7 +223,7 @@
                                   <td>                                         
                                     <input class="form-control form-control-sm" type="text" name="amount"  value="{{$invometa->amount}}"  placeholder="amount">                                          
                                  </td>
-                                 @if($invoice->taxable==1)
+                                 @if($invoice->is_taxable)
                                  <td> 
                                    <input class="form-control form-control-sm" type="text"  value="{{$settings->prefix}}{{$invometa->tax}}"  placeholder="total" disabled>
                                 </td>
@@ -263,7 +263,7 @@
                                     <td>                                         
                                         <input class="form-control form-control-sm" type="text" name="amount" id="amount"  placeholder="amount" onchange="gettotal()">                                          
                                   </td>
-                                  @if($invoice->taxable==1)
+                                  @if($invoice->is_taxable)
                                   <td> 
                                     <input class="form-control form-control-sm" type="text"  value="{{$settings->taxpercent}}%"  placeholder="total" disabled>
                                  </td>
@@ -284,7 +284,7 @@
                          let qty =  document.getElementById("qty").value;
                          let amount =  document.getElementById("amount").value;
                          let total =  qty * amount;
-                         @if($invoice->taxable==1)
+                         @if($invoice->is_taxable)
                          let totalamt = {{$settings->taxpercent}} * total / 100 + total;
                          document.getElementById("totalcost").value = "{{$settings->prefix}}"+ totalamt;                         
                           @else                        
