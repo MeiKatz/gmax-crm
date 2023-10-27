@@ -15,26 +15,44 @@ class Invoice extends Model
     const STATUS_REFUNDED  = 4;
     const STATUS_CANCELLED = 5;
 
+    /**
+     * @return bool
+     */
     public function isUnpaid() {
         return $this->invostatus === self::STATUS_UNPAID;
     }
 
+    /**
+     * @return bool
+     */
     public function isPartiallyPaid() {
         return $this->invostatus === self::STATUS_PARTIALLY_PAID;
     }
 
+    /**
+     * @return bool
+     */
     public function isPaid() {
         return $this->invostatus === self::STATUS_PAID;
     }
 
+    /**
+     * @return bool
+     */
     public function isRefunded() {
         return $this->invostatus === self::STATUS_REFUNDED;
     }
 
+    /**
+     * @return bool
+     */
     public function isCancelled() {
         return $this->invostatus === self::STATUS_CANCELLED;
     }
 
+    /**
+     * @return bool
+     */
     public function isOverdue() {
         $today = date('Y-m-d');
 
