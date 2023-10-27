@@ -1,5 +1,5 @@
 @component('mail::message')
-{{ $invoice->clientdata->name }},
+{{ $invoice->client->name }},
 
 Thank you for choosing {{$settings->companyname}}. We appreciate your business!
 

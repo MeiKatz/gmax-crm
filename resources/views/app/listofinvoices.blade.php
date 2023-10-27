@@ -196,10 +196,10 @@
                 </td>
                 <td><a href="{{route('editinvoice', [ $invoice ])}}"> {{$invoice->title}}</a></td>
                 <td>
-                  @if ( empty( $invoice->clientdata ) )
+                  @if ( empty( $invoice->client ) )
                   <span>Removed</span>
                   @else
-                  <a href="{{ route('clients.show', [ 'client' => $invoice->clientdata->id ]) }}">{{ $invoice->clientdata->name }}</a>
+                  <a href="{{ route('clients.show', [ 'client' => $invoice->client->id ]) }}">{{ $invoice->client->name }}</a>
                   @endif
                 </td>
                 <td>

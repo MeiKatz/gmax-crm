@@ -45,10 +45,12 @@ class Invoice extends Model
         return ( $this->isUnpaid() || $this->isPartiallyPaid() );
     }
 
-    public function clientdata()
-	{
-        return  $this->belongsTo(Client::class, 'userid', 'id');
-        
+    public function client() {
+        return $this->belongsTo(
+            Client::class,
+            'userid',
+            'id'
+        );
     }
     public function projectdata()
 	{

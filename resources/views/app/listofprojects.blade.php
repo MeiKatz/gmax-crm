@@ -78,7 +78,7 @@
                 </td>
                 <td><a href="{{route('viewproject', ['id' => $project->id])}}"> {{$project->projectname}}</a></td>
                 <td>
-                  <a href="/client/ {{ !empty($project->clientdata) ? $project->clientdata->id:'' }}">   {{ !empty($project->clientdata) ? $project->clientdata->name:'Removed' }} </a>
+                  <a href="/client/ {{ !empty($project->client) ? $project->client->id:'' }}">   {{ !empty($project->client) ? $project->client->name:'Removed' }} </a>
                  
                 </td>
                 <td>

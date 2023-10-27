@@ -55,12 +55,12 @@ $footerimagedataUri = 'data:image/' . $footerimagetype . ';base64,' . base64_enc
                      
                                                     
                       <address class="mt-4" style="margin-right: 5px;">             
-                        <strong>{{$invoice->clientdata->name}}</strong> <br>
-                        {{$invoice->clientdata->business}}<br>
-                        {{$invoice->clientdata->address}}<br>
-                        {{$invoice->clientdata->state}}, {{$invoice->clientdata->city}}<br>
-                        {{$invoice->clientdata->country}}, {{$invoice->clientdata->zip}}<br>
-                        {{$invoice->clientdata->email}}
+                        <strong>{{$invoice->client->name}}</strong> <br>
+                        {{$invoice->client->business}}<br>
+                        {{$invoice->client->address}}<br>
+                        {{$invoice->client->state}}, {{$invoice->client->city}}<br>
+                        {{$invoice->client->country}}, {{$invoice->client->zip}}<br>
+                        {{$invoice->client->email}}
                       </address>
                     </div>
                     <div class="col-12 my-3">

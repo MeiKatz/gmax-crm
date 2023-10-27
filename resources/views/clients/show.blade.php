@@ -158,7 +158,7 @@
                           </td>
                           <td><a href="{{route('viewproject', ['id' => $project->id])}}"> {{$project->projectname}}</a></td>
                           <td>
-                            <a href="{{ route('clients.show', [ 'client' => $project->clientdata->id ]) }}">{{$project->clientdata->name}}</a>
+                            <a href="{{ route('clients.show', [ 'client' => $project->client->id ]) }}">{{$project->client->name}}</a>
                           </td>
                           <td>
                               {{$project->startdate}}
