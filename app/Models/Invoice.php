@@ -58,4 +58,26 @@ class Invoice extends Model
             }
         });
     }
+
+    /**
+     * @return array<string,int>
+     */
+    public static function getCounts() {
+        $results = (
+            self::groupBy('invostatus')
+                ->selectRaw('COUNT(*) AS count, invostatus AS status')
+                ->pluck(
+                    'count',
+                    'status'
+                )
+        );
+
+        return [
+            'unpaid'    => $results[ self::STATUS_UNPAID ]    ?? 0,
+            'partially_paid' => $results[ self::STATUS_PARTIALLY_PAID ] ?? 0,
+            'paid'      => $results[ self::STATUS_PAID ]      ?? 0,
+            'refunded'  => $results[ self::STATUS_REFUNDED ]  ?? 0,
+            'cancelled' => $results[ self::STATUS_CANCELLED ] ?? 0,
+        ];
+    }
 }

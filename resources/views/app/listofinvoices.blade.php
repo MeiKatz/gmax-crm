@@ -52,7 +52,7 @@
             </div>
             <div class="col">
               <div class="font-weight-medium">
-                <a href="/invoices?filter%5Binvostatus%5D=2" style="text-decoration: none;">   {{$counts['partpaid']}}  Partpaid Invoices </a>
+                <a href="/invoices?filter%5Binvostatus%5D=2" style="text-decoration: none;">   {{$counts['partially_paid']}}  Partpaid Invoices </a>
               </div> 
               <div class="text-muted">
               
@@ -103,7 +103,7 @@
             </div>
             <div class="col">
               <div class="font-weight-medium">
-                <a href="/invoices?filter%5Binvostatus%5D=5" style="text-decoration: none;">  {{$counts['canceled']}}  Canceled Invoices </a>
+                <a href="/invoices?filter%5Binvostatus%5D=5" style="text-decoration: none;">  {{$counts['cancelled']}}  Canceled Invoices </a>
               </div>
               <div class="text-muted">
                

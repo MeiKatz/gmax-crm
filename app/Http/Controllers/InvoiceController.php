@@ -27,13 +27,7 @@ class InvoiceController extends Controller
 {
     public function listofinvoices(Request $request)
     { 
-        $counts = [
-            'unpaid'   => Invoice::paid()->count(),
-            'partpaid' => Invoice::partiallyPaid()->count(),
-            'paid'     => Invoice::paid()->count(),
-            'canceled' => Invoice::cancelled()->count(),
-        ];
-
+        $counts = Invoice::getCounts();
         $client = Client::all();
         $invoices = QueryBuilder::for(invoice::class)
         ->allowedFilters(['title','userid','invoid','invostatus'])
