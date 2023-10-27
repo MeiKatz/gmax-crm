@@ -96,8 +96,7 @@ class InvoiceController extends Controller
          $invoicemeta->save();      
 
           //get invoice updated             
-          $totalAmount = $invoices->items()->sum('total');
-         $invoices->totalamount = $totalAmount;
+         $invoices->totalamount = $invoices->total_amount;
           $invoices->save();               
         return redirect()->back();   
      }
@@ -599,8 +598,7 @@ class InvoiceController extends Controller
                  $invoicemeta->save();      
         
                   //get invoice updated             
-                  $invoicemetadata =InvoiceMeta::where('invoiceid',$recrmeta->invoiceid)->sum('total');
-                 $invoice->totalamount = $invoicemetadata;  
+                 $invoice->totalamount = $invoice->total_amount;
                   $invoice->save();               
             }
 

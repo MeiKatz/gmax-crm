@@ -44,6 +44,7 @@ class Invoice extends Model
         'is_refunded',
         'is_taxable',
         'is_unpaid',
+        'total_amount',
     ];
 
     protected static function booting() {

@@ -11,6 +11,13 @@ trait HasAttributes {
   }
 
   /**
+   * @return int
+   */
+  public function getTotalAmountAttribute() {
+    return $this->items()->sum('total');
+  }
+
+  /**
    * @return bool
    */
   public function getIsUnpaidAttribute() {
