@@ -18,10 +18,6 @@ class Project extends Model
     const STATUS_COMPLETED   = 5;
     const STATUS_CANCELLED   = 6;
 
-    public function clientdata()
-	{
-        return  $this->belongsTo(Client::class, 'client', 'id');
-        
     /**
      * The accessors to append to the model's array form.
      *
@@ -37,5 +33,10 @@ class Project extends Model
     ];
 
     public function client() {
+        return $this->belongsTo(
+            Client::class,
+            'client',
+            'id'
+        );
     }
 }
