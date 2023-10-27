@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\Invoice\Concerns;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends Model
 {
     use HasFactory;
+    use Concerns\HasActions;
+    use Concerns\HasRelations;
 
     const STATUS_UNPAID    = 1;
     const STATUS_PARTIALLY_PAID = 2;
@@ -38,49 +41,6 @@ class Invoice extends Model
                 $model->duedate = $today;
             }
         });
-    }
-
-    /**
-     * @return void
-     */
-    public function cancel() {
-        $this->markAsCancelled();
-        $this->save();
-    }
-
-    /**
-     * @return void
-     */
-    public function markAsUnpaid() {
-        $this->invostatus = self::STATUS_UNPAID;
-    }
-
-    /**
-     * @return void
-     */
-    public function markAsPartiallyPaid() {
-        $this->invostatus = self::STATUS_PARTIALLY_PAID;
-    }
-
-    /**
-     * @return void
-     */
-    public function markAsPaid() {
-        $this->invostatus = self::STATUS_PAID;
-    }
-
-    /**
-     * @return void
-     */
-    public function markAsRefunded() {
-        $this->invostatus = self::STATUS_REFUNDED;
-    }
-
-    /**
-     * @return void
-     */
-    public function markAsCancelled() {
-        $this->invostatus = self::STATUS_CANCELLED;
     }
 
     /**
@@ -129,47 +89,5 @@ class Invoice extends Model
         }
 
         return ( $this->isUnpaid() || $this->isPartiallyPaid() );
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function client() {
-        return $this->belongsTo(
-            Client::class,
-            'userid',
-            'id'
-        );
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function project() {
-        return $this->belongsTo(
-            Project::class,
-            'projectid',
-            'id'
-        );
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function items() {
-        return $this->hasMany(
-            InvoiceMeta::class,
-            'invoiceid'
-        );
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function payments() {
-        return $this->hasMany(
-            PaymentReceipt::class,
-            'invoiceid'
-        );
     }
 }
