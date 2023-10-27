@@ -15,7 +15,7 @@
                 </a>
 
                 <a class="dropdown-item " href="/project/expenses/{{$prid}}" >            
-                  <x-icon.expense />
+                  <x-icon.expense style="margin-right: 10px;" />
                       Expenses
                  </a>                
                 
