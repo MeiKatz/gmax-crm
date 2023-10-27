@@ -40,4 +40,18 @@ class Project extends Model
             'id'
         );
     }
+
+    public function invoices() {
+        return $this->hasMany(
+            Invoice::class,
+            'projectid'
+        );
+    }
+
+    public function note() {
+        return $this->hasOne(
+            ProjectNote::class,
+            'pjid'
+        );
+    }
 }
