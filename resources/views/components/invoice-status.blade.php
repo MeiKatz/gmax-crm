@@ -1,29 +1,25 @@
-@switch ( $invoice->status )
-    @case( \App\Models\Invoice::STATUS_UNPAID )
-        @if ( $invoice->duedate < $today )
-            <span class="badge bg-red text-uppercase">Overdue</span>
-        @else
-            <span class="badge bg-yellow text-uppercase">Unpaid</span>
-        @endif
+@switch ( true )
+    @case( $invoice->isOverdue() )
+        <span class="badge bg-red text-uppercase">Overdue</span>
         @break
 
-    @case( \App\Models\Invoice::STATUS_PARTIALLY_PAID )
-        @if ( $invoice->duedate < $today )
-            <span class="badge bg-red text-uppercase">Overdue</span>
-        @else
-            <span class="badge bg-indigo text-uppercase">Part Paid</span>
-        @endif
+    @case( $invoice->isUnpaid() )
+        <span class="badge bg-yellow text-uppercase">Unpaid</span>
         @break
 
-    @case( \App\Models\Invoice::STATUS_PAID )
+    @case( $invoice->isPartiallyPaid() )
+        <span class="badge bg-indigo text-uppercase">Part Paid</span>
+        @break
+
+    @case( $invoice->isPaid() )
         <span class="badge bg-green text-uppercase">Paid</span>
         @break
 
-    @case( \App\Models\Invoice::STATUS_REFUNDED )
+    @case( $invoice->isRefunded() )
         <span class="badge bg-purple text-uppercase">Refunded</span>
         @break
 
-    @case( \App\Models\Invoice::STATUS_CANCELLED )
+    @case( $invoice->isCancelled() )
         <span class="badge bg-dark text-uppercase">Cancelled</span>
         @break
 @endswitch

@@ -15,6 +15,36 @@ class Invoice extends Model
     const STATUS_REFUNDED  = 4;
     const STATUS_CANCELLED = 5;
 
+    public function isUnpaid() {
+        return $this->invostatus === self::STATUS_UNPAID;
+    }
+
+    public function isPartiallyPaid() {
+        return $this->invostatus === self::STATUS_PARTIALLY_PAID;
+    }
+
+    public function isPaid() {
+        return $this->invostatus === self::STATUS_PAID;
+    }
+
+    public function isRefunded() {
+        return $this->invostatus === self::STATUS_REFUNDED;
+    }
+
+    public function isCancelled() {
+        return $this->invostatus === self::STATUS_CANCELLED;
+    }
+
+    public function isOverdue() {
+        $today = date('Y-m-d');
+
+        if ( $this->duedate >= $today ) {
+            return false;
+        }
+
+        return ( $this->isUnpaid() || $this->isPartiallyPaid() );
+    }
+
     public function clientdata()
 	{
         return  $this->belongsTo(Client::class, 'userid', 'id');
