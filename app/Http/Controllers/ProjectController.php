@@ -92,8 +92,8 @@ class ProjectController extends Controller
     { 
         $client = Client::all();
         $users = User::all();
-        $task = ProjectTask::where('prid',$request->id)->paginate(30);
-        return view('app.projectviewtasks')->with(['tasks' =>$task])->with(['prid' =>$request->id])->with(['users' =>$users]);     
+        $task = ProjectTask::where('project_id',$request->id)->paginate(30);
+        return view('app.projectviewtasks')->with(['tasks' =>$task])->with(['project_id' =>$request->id])->with(['users' =>$users]);
     }
 
     public function viewnote(Request $request)
@@ -108,7 +108,7 @@ class ProjectController extends Controller
     public function createprjcttask(Request $request)
     {   
         $project =new ProjectTask();
-        $project->prid=$request->prid;
+        $project->project_id=$request->project_id;
         $project->aid = Auth::id();  
         $project->task =$request->task;
         $project->assignedto =$request->assignedto;
