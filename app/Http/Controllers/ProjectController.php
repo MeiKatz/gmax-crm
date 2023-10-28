@@ -41,12 +41,11 @@ class ProjectController extends Controller
         $project->deadline =$request->deadline;
         $project->status =1;
         $project->save();        
-        $lastid = $project->id;
-        $project =new ProjectNote();
-        $project->project_id = $lastid;
-        $project->admin = Auth::id();  
-        $project->note ='Add Something';
-        $project->save();
+
+        $project->note()->create([
+            'admin' => Auth::id(),
+            'note' => 'Add Something',
+        ]);
 
         return redirect('/projects')->with('success', 'Project Created');  
     }
@@ -93,7 +92,8 @@ class ProjectController extends Controller
     public function viewnote(Request $request)
     { 
         $client = Client::all();
-        $note = ProjectNote::where('project_id',$request->id)->first();
+        $note = Project::findOrFail( $request->id )->note;
+
         return view('app.projectviewnote')->with(['note' =>$note])->with(['prid' =>$request->id]);      
     }
     
