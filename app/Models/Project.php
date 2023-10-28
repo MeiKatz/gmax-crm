@@ -10,6 +10,7 @@ class Project extends Model
 {
     use HasFactory;
     use Concerns\HasAttributes;
+    use Concerns\HasRelations;
     use Concerns\HasScopes;
 
     const STATUS_NOT_STARTED = 1;
@@ -48,34 +49,26 @@ class Project extends Model
         'is_on_hold',
     ];
 
-    public function client() {
-        return $this->belongsTo(
-            Client::class,
-            'id'
+    /**
+     * @return array<string,int>
+     */
+    public static function getCounts() {
+        $results = (
+            self::groupBy('status')
+                ->selectRaw('COUNT(*) AS count')
+                ->pluck(
+                    'count',
+                    'status'
+                )
         );
-    }
 
-    public function invoices() {
-        return $this->hasMany(
-            Invoice::class
-        );
-    }
-
-    public function note() {
-        return $this->hasOne(
-            ProjectNote::class
-        );
-    }
-
-    public function updates() {
-        return $this->hasMany(
-            ProjectUpdate::class
-        );
-    }
-
-    public function tasks() {
-        return $this->hasMany(
-            ProjectTask::class
-        );
+        return [
+            'not_started' => $results[ self::STATUS_NOT_STARTED ] ?? 0,
+            'in_progress' => $results[ self::STATUS_IN_PROGRESS ] ?? 0,
+            'in_review'   => $results[ self::STATUS_IN_REVIEW ]   ?? 0,
+            'on_hold'     => $results[ self::STATUS_ON_HOLD ]     ?? 0,
+            'completed'   => $results[ self::STATUS_COMPLETED ]   ?? 0,
+            'cancelled'   => $results[ self::STATUS_CANCELLED ]   ?? 0,
+        ];
     }
 }
