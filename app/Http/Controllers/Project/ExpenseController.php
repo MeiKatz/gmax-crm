@@ -22,11 +22,11 @@ class ExpenseController extends Controller
         $projects = Project::all();
         $expenses = QueryBuilder::for(ExpenseManager::class)
             ->allowedFilters([
-                'prid',
+                'project_id',
                 'date',
                 'status',
             ])
-            ->where('prid', $project->id)
+            ->where('project_id', $project->id)
             ->orderBy('id', 'desc')
             ->paginate(15);
 
@@ -34,7 +34,7 @@ class ExpenseController extends Controller
             ->with([
                 'expenses' => $expenses,
                 'projects'=> $projects,
-                'prid' => $project->id,
+                'project_id' => $project->id,
             ]);
     }
 }

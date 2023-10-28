@@ -72,12 +72,12 @@ class ProjectController extends Controller
 
         $counts=[];
         $counts['income']=Invoice::where('projectid',$request->id)->sum('paidamount');
-        $counts['expense']=ExpenseManager::where('prid',$request->id)->sum('amount');
+        $counts['expense']=ExpenseManager::where('project_id',$request->id)->sum('amount');
         $counts['balance']= $counts['income'] - $counts['expense'];
         
         $invoices = Invoice::where('type',2)->where('projectid',$request->id)->orderby('id','desc')->paginate(3);
 
-        return view('app.projectview')->with(['project' =>$project])->with(['prid' =>$request->id])->with(['percentage' =>$percentage])
+        return view('app.projectview')->with(['project' =>$project])->with(['project_id' =>$request->id])->with(['percentage' =>$percentage])
         ->with(['balancedays' =>$balancedays])->with(['invoices' =>$invoices])->with(['projectupdates' =>$projectupdates])->with('counts', $counts); 
     }
 
@@ -94,7 +94,7 @@ class ProjectController extends Controller
         $client = Client::all();
         $note = Project::findOrFail( $request->id )->note;
 
-        return view('app.projectviewnote')->with(['note' =>$note])->with(['prid' =>$request->id]);      
+        return view('app.projectviewnote')->with(['note' =>$note])->with(['project_id' =>$request->id]);
     }
     
 

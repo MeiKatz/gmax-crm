@@ -22,7 +22,7 @@
               <span>Edit Project</span>
             </a>
 
-            <a class="dropdown-item" href="/project/delete/{{$prid}}" onclick="return confirm('Are you sure?')">
+            <a class="dropdown-item" href="/project/delete/{{$project_id}}" onclick="return confirm('Are you sure?')">
               <x-icon.delete style="margin-right: 10px;" />
               <span>Delete Project</span>
             </a>

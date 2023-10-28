@@ -252,10 +252,10 @@
                       </div>
                       <div class="mb-2">
                           <label class="form-label">Select Project <small > (Optional) </small></label>
-                          <select name="prid" id="select-users" class="form-select">
+                          <select name="project_id" id="select-users" class="form-select">
                             <option value="">Select Project</option>
                              @foreach($projects as $project)        
-                              <option value="{{$project->id}}" @if($project->id==$expense->prid) selected @endif>{{$project->name}}</option>
+                              <option value="{{$project->id}}" @if($project->id==$expense->project_id) selected @endif>{{$project->name}}</option>
                              @endforeach
                             </select>
                       </div>
@@ -325,7 +325,7 @@
             </div>
             <div class="mb-2">
                 <label class="form-label">Select Project <small > (Optional) </small></label>
-                <select name="prid" id="select-users" class="form-select">
+                <select name="project_id" id="select-users" class="form-select">
                   <option value="">Select Project</option>
                    @foreach($projects as $project)        
                     <option value="{{$project->id}}">{{$project->name}}</option>
