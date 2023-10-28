@@ -61,7 +61,7 @@
     <div class="card-body p-2">
       <form action="{{route('addprojectupdates')}}" method="post">
         @csrf
-        <input type="hidden" name="projectid" value="{{$project->id}}">
+        <input type="hidden" name="project_id" value="{{$project->id}}">
 <textarea id="editornew" class="form-control" style="width: 100%;" placeholder="Update Project Status"  name="message" rows="3">
 </textarea>
   
@@ -482,7 +482,7 @@
   <form action="{{route('createnewinvoice')}}" method="post">
       @csrf
       <input type="hidden" value="{{$project->client->id}}" name="userid">
-      <input type="hidden" value="{{$project->id}}" name="projectid">
+      <input type="hidden" value="{{$project->id}}" name="project_id">
       <div class="modal-body">
           <div class="mb-2">
               <label class="form-label">Invoice Title</label>

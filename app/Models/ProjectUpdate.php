@@ -17,8 +17,7 @@ class ProjectUpdate extends Model
 
     public function project() {
         return $this->belongsTo(
-            Project::class,
-            'projectid'
+            Project::class
         );
     }
 }

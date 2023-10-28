@@ -69,8 +69,7 @@ class Project extends Model
 
     public function updates() {
         return $this->hasMany(
-            ProjectUpdate::class,
-            'projectid'
+            ProjectUpdate::class
         );
     }
 }
