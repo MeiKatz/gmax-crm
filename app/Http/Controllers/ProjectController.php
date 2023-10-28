@@ -61,7 +61,7 @@ class ProjectController extends Controller
     {         
         $client = Client::all();
         $project = Project::findOrFail($request->id);
-        $projectupdates = ProjectUpdate::where('projectid',$request->id)->orderby('id','desc')->paginate(5);
+        $projectupdates = $project->updates()->orderby('id', 'desc')->paginate(5);
         $startdate = Carbon::parse($project->starts_at);
         $deadline = Carbon::parse($project->deadline);
         $totaldays =   $startdate->diffInDays($deadline);           
@@ -247,12 +247,13 @@ class ProjectController extends Controller
 
     public function addprojectupdates(Request $request)
     {   
-        $updates = new ProjectUpdate();
-        $updates->projectid =$request->projectid;   
-        $updates->taskid =$request->taskid;   
-        $updates->auth =Auth::id();  
-        $updates->message =$request->message;     
-        $updates->save();     
+        $project = Project::findOrFail( $request->projectid );
+        $project->updates()->create([
+            'taskid' => $request->taskid,
+            'auth' => Auth::id(),
+            'message' => $request->message,
+        ]);
+
         return redirect()->back()->with('success', 'Comment Added');
     }
 

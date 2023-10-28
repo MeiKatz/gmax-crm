@@ -67,4 +67,11 @@ class Project extends Model
             ProjectNote::class
         );
     }
+
+    public function updates() {
+        return $this->hasMany(
+            ProjectUpdate::class,
+            'projectid'
+        );
+    }
 }

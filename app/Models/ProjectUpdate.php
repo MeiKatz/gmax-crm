@@ -14,4 +14,11 @@ class ProjectUpdate extends Model
         return  $this->belongsTo(User::class, 'auth', 'id');
         
     }
+
+    public function project() {
+        return $this->belongsTo(
+            Project::class,
+            'projectid'
+        );
+    }
 }
