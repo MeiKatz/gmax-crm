@@ -29,7 +29,7 @@ class ProjectStatus extends Component
     public function render()
     {
         return view('components.project-status', [
-            'status' => $this->project->status,
+            'project' => $this->project,
         ]);
     }
 }

@@ -143,7 +143,7 @@
                
                 <option value="">Select Project</option>
                    @foreach($projects as $project)        
-                    <option value="{{$project->id}}">{{$project->projectname}}</option>
+                    <option value="{{$project->id}}">{{$project->name}}</option>
                    @endforeach
                   </select>
                 </select>					 
@@ -196,7 +196,7 @@
                 </td>
                 <td> {{$expense->item}}</td>
                 <td> 
-                  <a href="/project/{{ !empty($expense->project) ? $expense->project->id:'' }}">   {{ !empty($expense->project) ? $expense->project->projectname:'' }} </a>
+                  <a href="/project/{{ !empty($expense->project) ? $expense->project->id:'' }}">   {{ !empty($expense->project) ? $expense->project->name:'' }} </a>
                 </td>
                 <td>
                     {{$expense->amount}}
@@ -252,10 +252,10 @@
                       </div>
                       <div class="mb-2">
                           <label class="form-label">Select Project <small > (Optional) </small></label>
-                          <select name="prid" id="select-users" class="form-select">
+                          <select name="project_id" id="select-users" class="form-select">
                             <option value="">Select Project</option>
                              @foreach($projects as $project)        
-                              <option value="{{$project->id}}" @if($project->id==$expense->prid) selected @endif>{{$project->projectname}}</option>
+                              <option value="{{$project->id}}" @if($project->id==$expense->project_id) selected @endif>{{$project->name}}</option>
                              @endforeach
                             </select>
                       </div>
@@ -325,10 +325,10 @@
             </div>
             <div class="mb-2">
                 <label class="form-label">Select Project <small > (Optional) </small></label>
-                <select name="prid" id="select-users" class="form-select">
+                <select name="project_id" id="select-users" class="form-select">
                   <option value="">Select Project</option>
                    @foreach($projects as $project)        
-                    <option value="{{$project->id}}">{{$project->projectname}}</option>
+                    <option value="{{$project->id}}">{{$project->name}}</option>
                    @endforeach
                   </select>
             </div>

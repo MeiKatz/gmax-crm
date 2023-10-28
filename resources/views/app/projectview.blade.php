@@ -22,7 +22,7 @@
               <span>Edit Project</span>
             </a>
 
-            <a class="dropdown-item" href="/project/delete/{{$prid}}" onclick="return confirm('Are you sure?')">
+            <a class="dropdown-item" href="/project/delete/{{$project_id}}" onclick="return confirm('Are you sure?')">
               <x-icon.delete style="margin-right: 10px;" />
               <span>Delete Project</span>
             </a>
@@ -61,7 +61,7 @@
     <div class="card-body p-2">
       <form action="{{route('addprojectupdates')}}" method="post">
         @csrf
-        <input type="hidden" name="projectid" value="{{$project->id}}">
+        <input type="hidden" name="project_id" value="{{$project->id}}">
 <textarea id="editornew" class="form-control" style="width: 100%;" placeholder="Update Project Status"  name="message" rows="3">
 </textarea>
   
@@ -86,11 +86,11 @@
                 
                   <dl class="row">
                     <dt class="col-5">Project Name:</dt>
-                    <dd class="col-7"> <strong>{{$project->projectname}} </strong></dd>
+                    <dd class="col-7"> <strong>{{$project->name}} </strong></dd>
                     <dt class="col-5">Client:</dt>
                     <dd class="col-7"><a href="/client/{{$project->client->id}}">{{$project->client->name}}</a></dd>
                     <dt class="col-5">Start Date:</dt>
-                    <dd class="col-7"><strong>{{$project->startdate}}</strong></dd>
+                    <dd class="col-7"><strong>{{$project->starts_at}}</strong></dd>
                     
                     <dt class="col-5">Deadline:</dt>
                     <dd class="col-7"><strong>{{$project->deadline}}</strong></dd>
@@ -438,12 +438,12 @@
       <div class="modal-body">
           <div class="mb-2">
               <label class="form-label">Project Title</label>
-              <input type="text" class="form-control" name="projectname" value="{{$project->projectname}}" placeholder="Project Title Here">
+              <input type="text" class="form-control" name="name" value="{{$project->name}}" placeholder="Project Title Here">
           </div>
           
           <div class="mb-2">
               <label class="form-label">Start Date</label>
-              <input type="date" value="{{$project->startdate}}" class="form-control" name="startdate" placeholder="Start Date">
+              <input type="date" value="{{$project->starts_at}}" class="form-control" name="starts_at" placeholder="Start Date">
           </div>
           <div class="mb-2">
               <label class="form-label">DeadLine</label>
@@ -482,11 +482,11 @@
   <form action="{{route('createnewinvoice')}}" method="post">
       @csrf
       <input type="hidden" value="{{$project->client->id}}" name="userid">
-      <input type="hidden" value="{{$project->id}}" name="projectid">
+      <input type="hidden" value="{{$project->id}}" name="project_id">
       <div class="modal-body">
           <div class="mb-2">
               <label class="form-label">Invoice Title</label>
-              <input type="text" class="form-control" name="title" placeholder="Invoice Title Here" value="{{$project->projectname}} ">
+              <input type="text" class="form-control" name="title" placeholder="Invoice Title Here" value="{{$project->name}} ">
           </div>
          
           

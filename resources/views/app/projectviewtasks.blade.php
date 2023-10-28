@@ -15,7 +15,7 @@
     <div class="card-body">
         <form action="{{route('createprjcttask')}}" method="post">
             @csrf
-            <input type="hidden" name="prid" value="{{$prid}}">
+            <input type="hidden" name="project_id" value="{{$project_id}}">
             <div class="row">
                 <input type="hidden" value="146" name="leadid">
                 <div class="mb-2 ">

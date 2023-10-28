@@ -20,7 +20,7 @@ class ExpenseController extends Controller
     {
         $projects = Project::all();
         $expenses = QueryBuilder::for(ExpenseManager::class)
-            ->allowedFilters(['prid','date','status'])
+            ->allowedFilters(['project_id','date','status'])
             ->orderBy('id','desc')->paginate(15);
 
         $thisday = Carbon::now()->format('Y-m-d');
@@ -76,7 +76,7 @@ class ExpenseController extends Controller
      */
     public function update(Request $request, ExpenseManager $expense)
     {
-        $expense->prid = $request->prid;
+        $expense->project_id = $request->project_id;
         $expense->item = $request->item;
         $expense->amount = $request->amount;
         $expense->date = $request->date;

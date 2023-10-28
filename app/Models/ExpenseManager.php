@@ -9,10 +9,9 @@ class ExpenseManager extends Model
 {
     use HasFactory;
 
-    public function projectdata()
-	{
-        return  $this->belongsTo(Project::class, 'prid', 'id');
-        
+    public function project() {
+        return $this->belongsTo(
+            Project::class
+        );
     }
-
 }

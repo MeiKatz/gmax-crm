@@ -194,12 +194,12 @@
                         </a>
                       </li>
                       <li >
-                        <a class="dropdown-item" href="/projects?filter%5Bprojectname%5D=&filter%5Bclient%5D=&filter%5Bstatus%5D=2" >
+                        <a class="dropdown-item" href="/projects?filter%name%5D=&filter%5Bclient%5D=&filter%5Bstatus%5D=2" >
                           {{ __('Ongoing Projects') }}
                         </a>
                       </li>
                       <li >
-                        <a class="dropdown-item" href="/projects?filter%5Bprojectname%5D=&filter%5Bclient%5D=&filter%5Bstatus%5D=5" >
+                        <a class="dropdown-item" href="/projects?filter%name%5D=&filter%5Bclient%5D=&filter%5Bstatus%5D=5" >
                           {{ __('Completed Projects') }}
                         </a>
                       </li>
@@ -524,12 +524,12 @@
                           </a>
                         </li>
                         <li >
-                          <a class="dropdown-item" href="/projects?filter%5Bprojectname%5D=&filter%5Bclient%5D=&filter%5Bstatus%5D=2" >
+                          <a class="dropdown-item" href="/projects?filter%5Bname%5D=&filter%5Bclient%5D=&filter%5Bstatus%5D=2" >
                             {{ __('Ongoing Projects') }}
                           </a>
                         </li>
                         <li >
-                          <a class="dropdown-item" href="/projects?filter%5Bprojectname%5D=&filter%5Bclient%5D=&filter%5Bstatus%5D=5" >
+                          <a class="dropdown-item" href="/projects?filter%5Bname%5D=&filter%5Bclient%5D=&filter%5Bstatus%5D=5" >
                             {{ __('Completed Projects') }}
                           </a>
                         </li>
