@@ -9,6 +9,7 @@ use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\GatewayController;
 use App\Http\Controllers\LegacyProjectController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\Project;
 
 /*
@@ -224,19 +225,15 @@ Route::group(['middleware' => ['auth']], function(){
         ])->name('taskcomplete');
     });
 
+    Route::resource(
+        'projects',
+        ProjectController::class
+    )->except([
+        'create',
+        'edit',
+    ]);
+
     Route::prefix('/projects')->group(function () {
-        Route::get('', [
-            LegacyProjectController::class,
-            'listofprojects'
-        ])->name('listofprojects');
-        Route::post('/new/save', [
-            LegacyProjectController::class,
-            'createnewproject'
-        ])->name('createnewproject');
-        Route::post('/update/save', [
-            LegacyProjectController::class,
-            'updateproject'
-        ])->name('updateproject');
         Route::post('/descrip/save', [
             LegacyProjectController::class,
             'updateprojectdescript'
@@ -245,14 +242,6 @@ Route::group(['middleware' => ['auth']], function(){
             LegacyProjectController::class,
             'projectstatuschange'
         ])->name('projectstatuschange');
-        Route::get('/{id}', [
-            LegacyProjectController::class,
-            'viewproject'
-        ])->name('viewproject');
-        Route::get('/delete/{id}', [
-            LegacyProjectController::class,
-            'deleteproject'
-        ])->name('deleteproject');
         Route::get('/tasks/{id}', [
             LegacyProjectController::class,
             'viewtasks'

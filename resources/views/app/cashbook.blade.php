@@ -171,8 +171,10 @@
               <td> {{$expense->date}}
               </td>
                 <td> {{$expense->item}}</td>
-                <td> 
-                  <a href="/project/{{ !empty($expense->project) ? $expense->project->id:'' }}">   {{ !empty($expense->project) ? $expense->project->name:'' }} </a>
+                <td>
+                  @if ( $expense->project )
+                    <a href="{{ route('projects.show', [ $expense->project ]) }}">{{ $expense->project->name }}</a>
+                  @endif
                 </td>
                 <td>
                   <span class="badge bg-yellow">Expense</span>
@@ -199,7 +201,9 @@
               </td>
                 <td> {{$recepit->item}}</td>
                 <td> 
-                  <a href="/project/{{ !empty($expense->project) ? $expense->project->id:'' }}">   {{ !empty($expense->project) ? $expense->project->name:'' }} </a>
+                  @if ( $expense->project )
+                    <a href="{{ route('projects.show', [ $expense->project ]) }}">{{ $expense->project->name }}</a>
+                  @endif
                 </td>
                 <td>
                   <span class="badge bg-lime">Income</span>

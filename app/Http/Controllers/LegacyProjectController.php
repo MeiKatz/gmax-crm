@@ -5,89 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Client;
-use Spatie\QueryBuilder\QueryBuilder;
 use App\Models\Project;
 use App\Models\ProjectTask;
 use App\Models\ProjectNote;
 use App\Models\ProjectUpdate;
 use App\Models\User;
-use App\Models\Invoice;
 use App\Models\TaskTodo;
 use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
-use App\Models\ExpenseManager;
-
 
 class LegacyProjectController extends Controller
 {
-    
-    public function listofprojects(Request $request)
-    { 
-        $client = Client::all();
-        $projects = QueryBuilder::for(Project::class)
-        ->allowedFilters(['name','client','status'])
-        ->orderBy('id','desc')->paginate(15);       
-        return view('app.listofprojects')->with(['projects' =>$projects])->with(['clients'=> $client]);     
-    }
-
-    public function createnewproject(Request $request)
-    {   
-        $project = Project::create([
-            'name' => $request->name,
-            'client_id' => $request->client,
-            'description' => $request->description,
-            'starts_at' => $request->starts_at,
-            'deadline' => $request->deadline,
-        ]);
-
-        $project->note()->create([
-            'admin' => Auth::id(),
-            'note' => 'Add Something',
-        ]);
-
-        return redirect('/projects')->with('success', 'Project Created');  
-    }
-
-    public function deleteproject(Request $request)
-    {
-     $project = Project::findOrFail($request->id);
-     $project->delete();
-
-     return redirect('/projects')->with('success', 'Project Deleted');  
-    }
-
-    public function viewproject(Request $request)
-    {         
-        $client = Client::all();
-        $project = Project::findOrFail($request->id);
-        $projectupdates = $project->updates()->orderby('id', 'desc')->paginate(5);
-        $startdate = Carbon::parse($project->starts_at);
-        $deadline = Carbon::parse($project->deadline);
-        $totaldays =   $startdate->diffInDays($deadline);           
-        $today = Carbon::now();
-        $balancedays = $today->diffInDays($deadline);  
-         if($totaldays==0){ $totaldays=1; }
-        $percentage = $balancedays * 100 / $totaldays;
-
-        $counts=[];
-
-        $project = Project::findOrFail( $request->id );
-
-        $counts['income'] = $project->invoices()->sum('paidamount');
-        $counts['expense']= $project->expenses()->sum('amount');
-        $counts['balance']= $counts['income'] - $counts['expense'];
-        
-        $invoices = $project
-            ->invoices()
-            ->where('type', 2)
-            ->orderby('id','desc')
-            ->paginate(3);
-
-        return view('app.projectview')->with(['project' =>$project])->with(['project_id' =>$request->id])->with(['percentage' =>$percentage])
-        ->with(['balancedays' =>$balancedays])->with(['invoices' =>$invoices])->with(['projectupdates' =>$projectupdates])->with('counts', $counts); 
-    }
-
     public function viewtasks(Request $request)
     { 
         $client = Client::all();
@@ -164,19 +92,6 @@ class LegacyProjectController extends Controller
      $project = ProjectTask::findOrFail($request->id);
      $project->delete();
      return redirect()->back()->with('success', 'Task Deleted');
-    }
-
-    
-    public function updateproject(Request $request)
-    {   
-        $project = Project::findOrFail($request->id);
-        $project->update([
-            'name'      => $request->name,
-            'starts_at' => $request->starts_at,
-            'deadline'  => $request->deadline,
-        ]);
-
-        return redirect()->back()->with('success', 'Project Updated');
     }
 
     public function updateprojectdescript(Request $request)

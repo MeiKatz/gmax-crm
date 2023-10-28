@@ -6,7 +6,7 @@
 
 <div class="row">
     <div class="col-md-3">
-        @include('app.projectnav')
+        @include('app.projectnav', [ 'project_id' => $project_id ])
 
      
         <style>

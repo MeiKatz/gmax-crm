@@ -6,7 +6,7 @@
 
 <div class="row">
     <div class="col-md-3">
-        @include('app.projectnav')
+        @include('app.projectnav', [ 'project_id' => $project_id ])
         <br> <br>
         <div class="card">
             <div class="card-header">
@@ -78,8 +78,10 @@
                            # {{$expense->id }}
                         </td>
                         <td> {{$expense->item}}</td>
-                        <td> 
-                          <a href="/project/{{ !empty($expense->project) ? $expense->project->id:'' }}">   {{ !empty($expense->project) ? $expense->project->name:'' }} </a>
+                        <td>
+                            @if ( $expense->project )
+                            <a href="{{ route('projects.show', [ $expense->project ]) }}">{{ $expense->project->name }}</a>
+                            @endif
                         </td>
                         <td>
                             {{$expense->amount}}

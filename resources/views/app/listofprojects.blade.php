@@ -17,7 +17,7 @@
       </div> 
     </div>
       <div id="advancedsearch" style="display:none;">
-        <form action="{{ route('listofprojects') }}" method="get">
+        <form action="{{ route('projects.index') }}" method="get">
           <div class="row" style=" margin:10px;">				
             <div class="col-md-2">					
                 <label class="form-label" style="margin-bottom: 0px;  padding-left:2px; font-size:13px;">Title</label>
@@ -76,7 +76,7 @@
                   
                    # {{$project->id}}
                 </td>
-                <td><a href="{{route('viewproject', ['id' => $project->id])}}"> {{$project->name}}</a></td>
+                <td><a href="{{ route('projects.show', [ $project ]) }}"> {{$project->name}}</a></td>
                 <td>
                   <a href="/client/ {{ !empty($project->client) ? $project->client->id:'' }}">   {{ !empty($project->client) ? $project->client->name:'Removed' }} </a>
                  
@@ -93,8 +93,7 @@
                
                 <td class="text-right">
                    
-                        <a href="/project/{{$project->id}}" class="btn  btn-sm "
-                          >View Project</a>
+                        <a href="{{ route('projects.show', [ $project ]) }}" class="btn  btn-sm">View Project</a>
                        
                   
                 </td>
@@ -126,7 +125,7 @@
            </svg>
           </b>
         </div>
-    <form action="{{route('createnewproject')}}" method="post">
+    <form action="{{ route('projects.store') }}" method="post">
         @csrf
         <div class="modal-body">
             <div class="mb-2">

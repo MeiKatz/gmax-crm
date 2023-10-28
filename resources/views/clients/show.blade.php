@@ -156,7 +156,7 @@
                             
                              # {{$project->id}}
                           </td>
-                          <td><a href="{{route('viewproject', ['id' => $project->id])}}"> {{$project->name}}</a></td>
+                          <td><a href="{{ route('projects.show', [ $project ]) }}"> {{$project->name}}</a></td>
                           <td>
                             <a href="{{ route('clients.show', [ 'client' => $project->client->id ]) }}">{{$project->client->name}}</a>
                           </td>
@@ -172,7 +172,7 @@
                          
                           <td class="text-right">
                              
-                                  <a href="/project/{{$project->status}}" class="btn  btn-sm "
+                                  <a href="{{ route('projects.show', [ $project ]) }}" class="btn  btn-sm "
                                     >View Project</a>
                                  
                             
