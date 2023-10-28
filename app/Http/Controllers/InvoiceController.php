@@ -49,7 +49,7 @@ class InvoiceController extends Controller
         else{
             $invoice->invoid =$invoices->invoid+1; 
         }
-        $invoice->projectid = $request->projectid;     
+        $invoice->project_id = $request->project_id;
         $invoice->save();        
         $lastid = $invoice->id;
        return redirect('/invoice/edit/'.$lastid);
@@ -465,7 +465,7 @@ class InvoiceController extends Controller
              $invoice->invoid =$invoices->invoid+1; 
          }         
 
-         $invoice->projectid = $request->projectid;
+         $invoice->project_id = $request->project_id;
          $invoice->recorring = 1;
          $invoice->recorringtype = $request->recorringtype;
          
@@ -521,7 +521,7 @@ class InvoiceController extends Controller
                 $invoice->invoid =$invoices->invoid+1; 
             }
 
-            $invoice->projectid = $rcinvo->projectid;
+            $invoice->project_id = $rcinvo->project_id;
             $invoice->recorring = 1;
             $invoice->recorringtype = $rcinvo->recorringtype;
             

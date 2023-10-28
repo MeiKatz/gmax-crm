@@ -71,11 +71,18 @@ class ProjectController extends Controller
         $percentage = $balancedays * 100 / $totaldays;
 
         $counts=[];
-        $counts['income']=Invoice::where('projectid',$request->id)->sum('paidamount');
-        $counts['expense']=ExpenseManager::where('project_id',$request->id)->sum('amount');
+
+        $project = Project::findOrFail( $request->id );
+
+        $counts['income'] = $project->invoices()->sum('paidamount');
+        $counts['expense']= ExpenseManager::where('project_id',$request->id)->sum('amount');
         $counts['balance']= $counts['income'] - $counts['expense'];
         
-        $invoices = Invoice::where('type',2)->where('projectid',$request->id)->orderby('id','desc')->paginate(3);
+        $invoices = $project
+            ->invoices()
+            ->where('type', 2)
+            ->orderby('id','desc')
+            ->paginate(3);
 
         return view('app.projectview')->with(['project' =>$project])->with(['project_id' =>$request->id])->with(['percentage' =>$percentage])
         ->with(['balancedays' =>$balancedays])->with(['invoices' =>$invoices])->with(['projectupdates' =>$projectupdates])->with('counts', $counts); 
@@ -247,7 +254,7 @@ class ProjectController extends Controller
 
     public function addprojectupdates(Request $request)
     {   
-        $project = Project::findOrFail( $request->projectid );
+        $project = Project::findOrFail( $request->project_id );
         $project->updates()->create([
             'taskid' => $request->taskid,
             'auth' => Auth::id(),

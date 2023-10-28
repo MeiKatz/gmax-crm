@@ -57,8 +57,7 @@ class Project extends Model
 
     public function invoices() {
         return $this->hasMany(
-            Invoice::class,
-            'projectid'
+            Invoice::class
         );
     }
 

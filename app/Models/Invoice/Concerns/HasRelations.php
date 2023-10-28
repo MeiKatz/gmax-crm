@@ -25,7 +25,6 @@ trait HasRelations {
   public function project() {
     return $this->belongsTo(
       Project::class,
-      'projectid',
       'id'
     );
   }
