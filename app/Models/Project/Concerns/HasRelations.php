@@ -3,6 +3,7 @@
 namespace App\Models\Project\Concerns;
 
 use App\Models\Client;
+use App\Models\ExpenseManager;
 use App\Models\Invoice;
 use App\Models\ProjectNote;
 use App\Models\ProjectTask;
@@ -15,6 +16,15 @@ trait HasRelations {
   public function client() {
     return $this->belongsTo(
       Client::class
+    );
+  }
+
+  /**
+   * @return \Illuminate\Database\Eloquent\Relations\HasMany
+   */
+  public function expenses() {
+    return $this->hasMany(
+      ExpenseManager::class
     );
   }
 

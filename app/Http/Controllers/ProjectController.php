@@ -75,7 +75,7 @@ class ProjectController extends Controller
         $project = Project::findOrFail( $request->id );
 
         $counts['income'] = $project->invoices()->sum('paidamount');
-        $counts['expense']= ExpenseManager::where('project_id',$request->id)->sum('amount');
+        $counts['expense']= $project->expenses()->sum('amount');
         $counts['balance']= $counts['income'] - $counts['expense'];
         
         $invoices = $project
@@ -92,7 +92,9 @@ class ProjectController extends Controller
     { 
         $client = Client::all();
         $users = User::all();
-        $task = ProjectTask::where('project_id',$request->id)->paginate(30);
+        $project = Project::findOrFail( $request->id );
+        $task = $project->tasks()->paginate(30);
+
         return view('app.projectviewtasks')->with(['tasks' =>$task])->with(['project_id' =>$request->id])->with(['users' =>$users]);
     }
 
