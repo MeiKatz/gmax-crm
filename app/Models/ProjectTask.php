@@ -23,4 +23,10 @@ class ProjectTask extends Model
         return  $this->hasMany(ProjectUpdate::class, 'taskid', 'id');
         
     }
+
+    public function project() {
+        return $this->belongsTo(
+            Project::class
+        );
+    }
 }

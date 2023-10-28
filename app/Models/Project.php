@@ -72,4 +72,10 @@ class Project extends Model
             ProjectUpdate::class
         );
     }
+
+    public function tasks() {
+        return $this->hasMany(
+            ProjectTask::class
+        );
+    }
 }
