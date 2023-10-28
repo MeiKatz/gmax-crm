@@ -243,6 +243,17 @@ Route::group(['middleware' => ['auth']], function(){
                     Route::get('', 'show')->name('show');
                     Route::put('', 'update')->name('update');
                 });
+
+            Route::resource(
+                'tasks',
+                Project\TaskController::class
+            )->only([
+                'index',
+                'show',
+                'store',
+                'update',
+                'destroy',
+            ]);
         });
 
     Route::prefix('/projects')->group(function () {
@@ -254,22 +265,6 @@ Route::group(['middleware' => ['auth']], function(){
             LegacyProjectController::class,
             'projectstatuschange'
         ])->name('projectstatuschange');
-        Route::get('/tasks/{id}', [
-            LegacyProjectController::class,
-            'viewtasks'
-        ])->name('viewtasksprjct');
-        Route::post('/tasks/save', [
-            LegacyProjectController::class,
-            'createprjcttask'
-        ])->name('createprjcttask');
-        Route::post('/tasks/update', [
-            LegacyProjectController::class,
-            'projecttaskupdate'
-        ])->name('projecttaskupdate');
-        Route::get('/tasks/delete/{id}', [
-            LegacyProjectController::class,
-            'deletetasks'
-        ])->name('deletetasks');
         Route::post('/updates/new', [
             LegacyProjectController::class,
             'addprojectupdates'

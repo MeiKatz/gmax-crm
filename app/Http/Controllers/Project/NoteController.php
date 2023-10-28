@@ -18,7 +18,6 @@ class NoteController extends Controller {
     return view('app.projectviewnote')->with([
       'note' => $project->note,
       'project' => $project,
-      'project_id' => $project->id,
     ]);
   }
 

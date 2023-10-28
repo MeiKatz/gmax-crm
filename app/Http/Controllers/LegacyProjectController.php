@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Client;
 use App\Models\Project;
 use App\Models\ProjectTask;
 use App\Models\ProjectUpdate;
@@ -15,64 +14,12 @@ use Illuminate\Support\Facades\Auth;
 
 class LegacyProjectController extends Controller
 {
-    public function viewtasks(Request $request)
-    { 
-        $client = Client::all();
-        $users = User::all();
-        $project = Project::findOrFail( $request->id );
-        $task = $project->tasks()->paginate(30);
-
-        return view('app.projectviewtasks')->with(['tasks' =>$task])->with(['project_id' =>$request->id])->with(['users' =>$users]);
-    }
-
-    public function createprjcttask(Request $request)
-    {   
-        $project = Project::findOrFail( $request->project_id );
-        $projectTask = $project->tasks()->create([
-            'aid' => Auth::id(),
-            'task' => $request->task,
-            'assignedto' => $request->assignedto,
-            'type' => $request->type,
-            'status' => 1,
-        ]);
-
-        //send notification 
-        if($request->assignedto){
-            $notif =new Notification();
-            $notif->fromid =Auth::id();  
-            $notif->toid =$request->assignedto;
-            $notif->message ='New Project Task Assigned #'.$projectTask->id;
-            $notif->link ='/mytasks/view/'.$projectTask->id;
-            $notif->style =$request->type;
-            $notif->type ='task';
-            $notif->status =1;
-            $notif->save();  
-        }
-
-        return redirect()->back()->with('success', 'Task Created');
-    }
-
     public function notificationupdate(Request $request)
     {   
         $project = Notification::findOrFail($request->id);
         $project->status =0;
         $project->save();     
         return redirect()->back()->with('success', 'Notification Updated');
-    }
-
-    public function projecttaskupdate(Request $request)
-    {   
-        $project = ProjectTask::findOrFail($request->id);
-        $project->status =$request->status;
-        $project->save();     
-        return redirect()->back()->with('success', 'Task Updated');
-    }
-
-    public function deletetasks(Request $request)
-    {
-     $project = ProjectTask::findOrFail($request->id);
-     $project->delete();
-     return redirect()->back()->with('success', 'Task Deleted');
     }
 
     public function updateprojectdescript(Request $request)
@@ -124,16 +71,6 @@ class LegacyProjectController extends Controller
          $project->delete();
         return redirect()->back()->with('success', 'Status Updated');
     }
-
-
-    public function viewtask(Request $request)
-    {   
-        $task = ProjectTask::where('assignedto',Auth::id())->where('id',$request->id)->firstOrFail();
-        $todos = TaskTodo::where('taskid',$request->id)->orderby('id','desc')->get();
-        $taskcomments =  ProjectUpdate::where('taskid',$request->id)->orderby('id','desc')->paginate(7);
-        return view('app.viewtask')->with(['task' =>$task])->with(['todos' =>$todos])->with(['taskcomments' =>$taskcomments]);   
-    }
-
        
     public function addtasktodo(Request $request)
     {   

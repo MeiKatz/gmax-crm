@@ -6,7 +6,7 @@
 
 <div class="row">
     <div class="col-md-3">
-        @include('app.projectnav', [ 'project_id' => $project_id ])
+        @include('app.projectnav', [ 'project' => $project ])
         <br> <br>
         <div class="card">
             <div class="card-header">
@@ -15,7 +15,7 @@
             <div class="card-body">
                 <form action="{{route('expenses.store')}}" method="post" enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" value="{{$project_id}}" name="project_id">
+                    <input type="hidden" value="{{$project->id}}" name="project_id">
                     <div class="modal-body">
                         <div class="mb-2">
                             <label class="form-label">Record Title</label>

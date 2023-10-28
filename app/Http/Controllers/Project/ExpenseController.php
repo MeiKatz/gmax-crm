@@ -33,8 +33,8 @@ class ExpenseController extends Controller
         return view('app.projectexpenses')
             ->with([
                 'expenses' => $expenses,
-                'projects'=> $projects,
-                'project_id' => $project->id,
+                'projects' => $projects,
+                'project' => $project,
             ]);
     }
 }

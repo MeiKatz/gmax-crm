@@ -6,16 +6,15 @@
 
 <div class="row">
     <div class="col-md-3">
-      @include('app.projectnav', [ 'project_id' => $project_id ])
+      @include('app.projectnav', [ 'project' => $project->id ])
       <br> <br>
 <div class="card">
     <div class="card-header">
         <h4 class="card-title">Add Project Tasks</h4>
     </div>
     <div class="card-body">
-        <form action="{{route('createprjcttask')}}" method="post">
+        <form action="{{ route('projects.tasks.store', [ $project ]) }}" method="post">
             @csrf
-            <input type="hidden" name="project_id" value="{{$project_id}}">
             <div class="row">
                 <input type="hidden" value="146" name="leadid">
                 <div class="mb-2 ">
@@ -81,10 +80,11 @@
                   @endif
                 </div>
                 <div class="card-body">
-                  @if($task->status==1)<a href="/mytasks/view/{{$task->id}}"> <h3 class="card-title">Project Name - Case ID #{{$task->id}}</h3></a> @else
-                  <a href="/mytasks/view/{{$task->id}}">  <s> <h3 class="card-title">Project Name - Case ID #{{$task->id}}</h3></a> </s> @endif
-  
-               
+                  @if($task->status==1)
+                    <a href="{{ route('projects.tasks.show', [ $task->project, $task ]) }}"><h3 class="card-title">Project Name - Case ID #{{$task->id}}</h3></a>
+                  @else
+                    <a href="{{ route('projects.tasks.show', [ $task->project, $task ]) }}"><s><h3 class="card-title">Project Name - Case ID #{{$task->id}}</h3></s></a>
+                  @endif
                   <div class="text-muted">{{$task->task}}</div>
                   <div class="mt-4">
                     <div class="row">
@@ -107,9 +107,21 @@
                          {{$task->comments->count()}}</a>
                       </div>
                       <div class="col-auto">
-                          <a href="/projects/tasks/delete/{{$task->id}}" onclick="return confirm('Are you sure?')" class="text-muted">
-                           <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="4" y1="7" x2="20" y2="7" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
-                          </a>
+                        <form method="post" action="{{ route('projects.tasks.destroy', [ $task->project, $task ]) }}" onclick="return confirm('Are you sure?')">
+                          @csrf
+                          @method('DELETE')
+
+                          <button type="submit" class="text-muted">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                              <line x1="4" y1="7" x2="20" y2="7" />
+                              <line x1="10" y1="11" x2="10" y2="17" />
+                              <line x1="14" y1="11" x2="14" y2="17" />
+                              <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                              <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                            </svg>
+                          </button>
+                        </form>
                       </div>
                     </div>
                   </div>
