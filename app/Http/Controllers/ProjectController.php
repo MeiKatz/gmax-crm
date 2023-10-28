@@ -43,7 +43,7 @@ class ProjectController extends Controller
         $project->save();        
         $lastid = $project->id;
         $project =new ProjectNote();
-        $project->pjid=$lastid;
+        $project->project_id = $lastid;
         $project->admin = Auth::id();  
         $project->note ='Add Something';
         $project->save();
@@ -93,7 +93,7 @@ class ProjectController extends Controller
     public function viewnote(Request $request)
     { 
         $client = Client::all();
-        $note = ProjectNote::where('pjid',$request->id)->first();
+        $note = ProjectNote::where('project_id',$request->id)->first();
         return view('app.projectviewnote')->with(['note' =>$note])->with(['prid' =>$request->id]);      
     }
     

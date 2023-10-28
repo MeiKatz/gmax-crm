@@ -49,8 +49,7 @@ class Project extends Model
 
     public function note() {
         return $this->hasOne(
-            ProjectNote::class,
-            'pjid'
+            ProjectNote::class
         );
     }
 }
