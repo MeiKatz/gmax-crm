@@ -12,6 +12,11 @@ class ProjectNote extends Model
     public function admindata()
 	{
         return  $this->belongsTo(User::class, 'admin', 'id');
-        
+    }
+
+    public function project() {
+        return $this->belongsTo(
+            Project::class
+        );
     }
 }
