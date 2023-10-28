@@ -19,7 +19,7 @@ use Carbon\Carbon;
 use App\Models\ExpenseManager;
 
 
-class ProjectController extends Controller
+class LegacyProjectController extends Controller
 {
     
     public function listofprojects(Request $request)
