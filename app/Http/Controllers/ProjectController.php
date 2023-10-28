@@ -109,22 +109,22 @@ class ProjectController extends Controller
 
     public function createprjcttask(Request $request)
     {   
-        $project =new ProjectTask();
-        $project->project_id=$request->project_id;
-        $project->aid = Auth::id();  
-        $project->task =$request->task;
-        $project->assignedto =$request->assignedto;
-        $project->type =$request->type;
-        $project->status =1;
-        $project->save();    
+        $project = Project::findOrFail( $request->project_id );
+        $projectTask = $project->tasks()->create([
+            'aid' => Auth::id(),
+            'task' => $request->task,
+            'assignedto' => $request->assignedto,
+            'type' => $request->type,
+            'status' => 1,
+        ]);
 
         //send notification 
         if($request->assignedto){
             $notif =new Notification();
             $notif->fromid =Auth::id();  
             $notif->toid =$request->assignedto;
-            $notif->message ='New Project Task Assigned #'.$project->id;
-            $notif->link ='/mytasks/view/'.$project->id;
+            $notif->message ='New Project Task Assigned #'.$projectTask->id;
+            $notif->link ='/mytasks/view/'.$projectTask->id;
             $notif->style =$request->type;
             $notif->type ='task';
             $notif->status =1;
