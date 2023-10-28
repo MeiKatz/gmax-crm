@@ -66,7 +66,7 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
-        $projects = Project::where('client', $client->id)->orderBy('id','desc')->paginate(15);
+        $projects = $client->projects()->orderBy('id', 'desc')->paginate(15);
         $invoices = Invoice::forClient( $client )->where('type',2)->orderby('id','desc')->paginate(10);
         $quotes = Invoice::forClient( $client )->where('type',1)->orderby('id','desc')->paginate(10);
 
@@ -120,8 +120,7 @@ class ClientController extends Controller
     public function destroy(Client $client)
     {
         Invoice::where('userid', $client->id)->delete();
-        Project::where('client', $client->id)->delete();
-
+        $client->projects()->delete();
         $client->delete();
 
         return redirect()->route('clients.index')->with([

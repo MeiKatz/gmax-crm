@@ -33,14 +33,13 @@ class ProjectController extends Controller
 
     public function createnewproject(Request $request)
     {   
-        $project =new Project();
-        $project->name = $request->name;
-        $project->client = $request->client;
-        $project->description =$request->description;
-        $project->starts_at =$request->starts_at;
-        $project->deadline =$request->deadline;
-        $project->status =1;
-        $project->save();        
+        $project = Project::create([
+            'name' => $request->name,
+            'client_id' => $request->client,
+            'description' => $request->description,
+            'starts_at' => $request->starts_at,
+            'deadline' => $request->deadline,
+        ]);
 
         $project->note()->create([
             'admin' => Auth::id(),
@@ -54,6 +53,7 @@ class ProjectController extends Controller
     {
      $project = Project::findOrFail($request->id);
      $project->delete();
+
      return redirect('/projects')->with('success', 'Project Deleted');  
     }
 
@@ -161,18 +161,22 @@ class ProjectController extends Controller
     public function updateproject(Request $request)
     {   
         $project = Project::findOrFail($request->id);
-        $project->name =$request->name;
-        $project->starts_at =$request->starts_at;
-        $project->deadline =$request->deadline;     
-        $project->save();     
+        $project->update([
+            'name'      => $request->name,
+            'starts_at' => $request->starts_at,
+            'deadline'  => $request->deadline,
+        ]);
+
         return redirect()->back()->with('success', 'Project Updated');
     }
 
     public function updateprojectdescript(Request $request)
     {   
         $project = Project::findOrFail($request->id);
-        $project->description =$request->description;   
-        $project->save();     
+        $project->update([
+            'description' => $request->description,
+        ]);
+
         return redirect()->back()->with('success', 'Project Updated');
     }
 
@@ -180,8 +184,10 @@ class ProjectController extends Controller
     public function projectstatuschange(Request $request)
     {   
         $project = Project::findOrFail($request->id);
-        $project->status =$request->status;     
-        $project->save();     
+        $project->update([
+            'status' => $request->status,
+        ]);
+
         return redirect()->back()->with('success', 'Status Updated');
     }
 
