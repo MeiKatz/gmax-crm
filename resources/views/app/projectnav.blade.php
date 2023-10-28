@@ -4,11 +4,11 @@
     <x-icon.invoice style="margin-right: 10px;" />
     <span>Overview</span>
   </a>
-  <a class="dropdown-item" href="/projects/tasks/{{ $project_id }}" >
+  <a class="dropdown-item" href="/projects/tasks/{{ $project_id }}">
     <x-icon.task style="margin-right: 10px;" />
     <span>Tasks</span>
   </a>
-  <a class="dropdown-item" href="/projects/note/{{ $project_id }}" >
+  <a class="dropdown-item" href="{{ route('projects.note.show', [ $project_id ]) }}">
     <x-icon.note style="margin-right: 10px;" />
     <span>Notes</span>
   </a>

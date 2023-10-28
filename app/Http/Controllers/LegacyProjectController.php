@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Models\Client;
 use App\Models\Project;
 use App\Models\ProjectTask;
-use App\Models\ProjectNote;
 use App\Models\ProjectUpdate;
 use App\Models\User;
 use App\Models\TaskTodo;
@@ -25,15 +24,6 @@ class LegacyProjectController extends Controller
 
         return view('app.projectviewtasks')->with(['tasks' =>$task])->with(['project_id' =>$request->id])->with(['users' =>$users]);
     }
-
-    public function viewnote(Request $request)
-    { 
-        $client = Client::all();
-        $note = Project::findOrFail( $request->id )->note;
-
-        return view('app.projectviewnote')->with(['note' =>$note])->with(['project_id' =>$request->id]);
-    }
-    
 
     public function createprjcttask(Request $request)
     {   
@@ -68,15 +58,6 @@ class LegacyProjectController extends Controller
         $project->status =0;
         $project->save();     
         return redirect()->back()->with('success', 'Notification Updated');
-    }
-
-    public function updatenote(Request $request)
-    {   
-        $project = ProjectNote::findOrFail($request->id);
-        $project->admin = Auth::id();  
-        $project->note =$request->note;
-        $project->save();     
-        return redirect()->back()->with('success', 'Note Updated');
     }
 
     public function projecttaskupdate(Request $request)

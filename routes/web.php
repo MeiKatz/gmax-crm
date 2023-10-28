@@ -233,6 +233,18 @@ Route::group(['middleware' => ['auth']], function(){
         'edit',
     ]);
 
+    Route::prefix('projects/{project}')
+        ->name('projects.')
+        ->group(function () {
+            Route::controller(Project\NoteController::class)
+                ->prefix('note')
+                ->name('note.')
+                ->group(function () {
+                    Route::get('', 'show')->name('show');
+                    Route::put('', 'update')->name('update');
+                });
+        });
+
     Route::prefix('/projects')->group(function () {
         Route::post('/descrip/save', [
             LegacyProjectController::class,
@@ -258,14 +270,6 @@ Route::group(['middleware' => ['auth']], function(){
             LegacyProjectController::class,
             'deletetasks'
         ])->name('deletetasks');
-        Route::get('/note/{id}', [
-            LegacyProjectController::class,
-            'viewnote'
-        ])->name('viewnoteprjct');
-        Route::post('/note/save', [
-            LegacyProjectController::class,
-            'updatenote'
-        ])->name('updatenoteprjct');
         Route::post('/updates/new', [
             LegacyProjectController::class,
             'addprojectupdates'
