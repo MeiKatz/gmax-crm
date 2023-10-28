@@ -21,7 +21,7 @@
           <div class="row" style=" margin:10px;">				
             <div class="col-md-2">					
                 <label class="form-label" style="margin-bottom: 0px;  padding-left:2px; font-size:13px;">Title</label>
-                <input type="text" class="form-control form-control-sm" name="filter[projectname]" placeholder="Invoice Title">					 
+                <input type="text" class="form-control form-control-sm" name="filter[name]" placeholder="Invoice Title">
             </div>
             
             <div class="col-md-2">					
@@ -76,13 +76,13 @@
                   
                    # {{$project->id}}
                 </td>
-                <td><a href="{{route('viewproject', ['id' => $project->id])}}"> {{$project->projectname}}</a></td>
+                <td><a href="{{route('viewproject', ['id' => $project->id])}}"> {{$project->name}}</a></td>
                 <td>
                   <a href="/client/ {{ !empty($project->client) ? $project->client->id:'' }}">   {{ !empty($project->client) ? $project->client->name:'Removed' }} </a>
                  
                 </td>
                 <td>
-                    {{$project->startdate}}
+                    {{$project->starts_at}}
                 </td>
                 <td> {{$project->deadline}}
                 </td>  
@@ -131,7 +131,7 @@
         <div class="modal-body">
             <div class="mb-2">
                 <label class="form-label">Project Title</label>
-                <input type="text" class="form-control" name="projectname" placeholder="Project Title Here">
+                <input type="text" class="form-control" name="name" placeholder="Project Title Here">
             </div>
             <div class="mb-2">
                 <label class="form-label">Select Client <a href="{{route('clients.create')}}" style="float:right;"> Add New Client </a></label>
@@ -142,7 +142,7 @@
             </div>
             <div class="mb-2">
                 <label class="form-label">Start Date</label>
-                <input type="date" value="@php echo date('Y-m-d'); @endphp" class="form-control" name="startdate" placeholder="Start Date">
+                <input type="date" value="@php echo date('Y-m-d'); @endphp" class="form-control" name="starts_at" placeholder="Start Date">
             </div>
             <div class="mb-2">
                 <label class="form-label">DeadLine</label>

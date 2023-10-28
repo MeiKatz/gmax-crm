@@ -26,7 +26,7 @@ class ProjectController extends Controller
     { 
         $client = Client::all();
         $projects = QueryBuilder::for(Project::class)
-        ->allowedFilters(['projectname','client','status'])
+        ->allowedFilters(['name','client','status'])
         ->orderBy('id','desc')->paginate(15);       
         return view('app.listofprojects')->with(['projects' =>$projects])->with(['clients'=> $client]);     
     }
@@ -34,10 +34,10 @@ class ProjectController extends Controller
     public function createnewproject(Request $request)
     {   
         $project =new Project();
-        $project->projectname=$request->projectname;
-        $project->client =$request->client;
+        $project->name = $request->name;
+        $project->client = $request->client;
         $project->description =$request->description;
-        $project->startdate =$request->startdate;
+        $project->starts_at =$request->starts_at;
         $project->deadline =$request->deadline;
         $project->status =1;
         $project->save();        
@@ -63,7 +63,7 @@ class ProjectController extends Controller
         $client = Client::all();
         $project = Project::findOrFail($request->id);
         $projectupdates = ProjectUpdate::where('projectid',$request->id)->orderby('id','desc')->paginate(5);
-        $startdate = Carbon::parse($project->startdate);
+        $startdate = Carbon::parse($project->starts_at);
         $deadline = Carbon::parse($project->deadline);
         $totaldays =   $startdate->diffInDays($deadline);           
         $today = Carbon::now();
@@ -161,8 +161,8 @@ class ProjectController extends Controller
     public function updateproject(Request $request)
     {   
         $project = Project::findOrFail($request->id);
-        $project->projectname =$request->projectname;      
-        $project->startdate =$request->startdate;
+        $project->name =$request->name;
+        $project->starts_at =$request->starts_at;
         $project->deadline =$request->deadline;     
         $project->save();     
         return redirect()->back()->with('success', 'Project Updated');
