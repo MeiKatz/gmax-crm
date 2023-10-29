@@ -67,9 +67,20 @@
                         {{$task->comments->count()}}</a>
                     </div>
                     <div class="col-auto">
-                        <a href="/project/tasks/delete/{{$task->id}}" onclick="return confirm('Are you sure?')" class="text-muted">
-                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="4" y1="7" x2="20" y2="7" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
-                        </a>
+                      <form method="post" action="{{ route('projects.tasks.destroy', [ $task->project, $task ]) }}" onsubmit="return confirm('Are you sure?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="text-muted">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <line x1="4" y1="7" x2="20" y2="7" />
+                            <line x1="10" y1="11" x2="10" y2="17" />
+                            <line x1="14" y1="11" x2="14" y2="17" />
+                            <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                            <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                          </svg>
+                        </button>
+                      </form>
                     </div>
                   </div>
                 </div>
@@ -146,10 +157,10 @@
                 </div>
                 
                 <div class="card-body p-2">
-                  <form action="{{route('addprojectupdates')}}" method="post">
+                  <form action="{{ route('projects.updates.store', [ $project ] )}}" method="post">
                     @csrf
                     <input type="hidden" name="taskid" value="{{$task->id}}">
-<textarea id="editornew" class="form-control" style="width: 100%;" placeholder="Task comments"  name="message" rows="3"></textarea>
+<textarea id="editornew" class="form-control" style="width: 100%;" placeholder="Task comments" name="message" rows="3"></textarea>
               
                 </div>
                 <div class="card-footer">
@@ -163,28 +174,26 @@
 
        
                 <ul class="list-group card-list-group">
-                  @foreach($taskcomments as $updates)
+                  @foreach($taskcomments as $update)
                     <li class="list-group-item" >
                       <div class="d-flex">
                         <div>
-                          <span class="avatar mr-3" style="background-image: url({{$updates->addedby->profile_photo_url}}); margin-right: 10px;"></span>
+                          <span class="avatar mr-3" style="background-image: url({{$update->addedby->profile_photo_url}}); margin-right: 10px;"></span>
                         </div>
                         <div class="flex-fill">
                           <div>                        
-                            <small class=" text-muted" style="float: right;">{{$updates->created_at->diffForHumans()}}</small>                        
-                            <h4>{{$updates->addedby->name}}</h4>
+                            <small class=" text-muted" style="float: right;">{{$update->created_at->diffForHumans()}}</small>
+                            <h4>{{$update->addedby->name}}</h4>
                           </div>
                           <div>                    
-                          {!! nl2br(e($updates->message)) !!}                
+                          {!! nl2br(e($update->message)) !!}
                            
-                             
-                          
-                          <a href="/project/deleteupdates/{{$updates->id}}"  style="float:right;" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-warning">Delete</a>                   
-                        
-                          <a href="#" class="btn btn-sm" style="margin-right: 5px; float:right;"  data-toggle="modal" data-target="#editupdates{{$updates->id}}">
-                            Edit
-                           </a> 
-                        
+                          <form method="post" action="{{ route('projects.updates.destroy', [ $project, $update ]) }}" onsubmit="return confirm('Are you sure?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" style="float:right;" class="btn btn-sm btn-warning">Delete</button>
+                          </form>
+                          <a href="#" class="btn btn-sm" style="margin-right: 5px; float:right;"  data-toggle="modal" data-target="#editupdates{{ $update->id }}">Edit</a>
                       </div>
                        
                       </div>
@@ -193,7 +202,7 @@
   
   
                   
-  <div class="modal modal-blur fade" id="editupdates{{$updates->id}}" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal modal-blur fade" id="editupdates{{$update->id}}" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -206,12 +215,12 @@
            </svg>
           </b>
         </div>
-    <form action="{{route('editprojectupdates')}}" method="post">
+    <form action="{{ route('projects.updates.update', [ $project, $update]) }}" method="post">
         @csrf
-        <input type="hidden" name="id" value="{{$updates->id}}">
+        @method('PUT')
         <div class="modal-body">
             <div class="mb-2">    
-  <textarea id="editornew" class="form-control" style="width: 100%;" placeholder="Update Project Status"  name="message" rows="3">{!!$updates->message !!}</textarea>
+  <textarea id="editornew" class="form-control" style="width: 100%;" placeholder="Update Project Status"  name="message" rows="3">{!!$update->message !!}</textarea>
             </div>
             
             

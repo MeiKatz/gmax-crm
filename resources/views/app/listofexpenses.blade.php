@@ -196,7 +196,7 @@
                 </td>
                 <td> {{$expense->item}}</td>
                 <td> 
-                  <a href="/project/{{ !empty($expense->project) ? $expense->project->id:'' }}">   {{ !empty($expense->project) ? $expense->project->name:'' }} </a>
+                  <a href="/projects/{{ !empty($expense->project) ? $expense->project->id:'' }}">   {{ !empty($expense->project) ? $expense->project->name:'' }} </a>
                 </td>
                 <td>
                     {{$expense->amount}}

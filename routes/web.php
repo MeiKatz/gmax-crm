@@ -8,6 +8,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\GatewayController;
+use App\Http\Controllers\LegacyProjectController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\Project;
 
@@ -195,112 +196,86 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::prefix('/mytasks')->group(function () {
         Route::get('', [
-            ProjectController::class,
+            LegacyProjectController::class,
             'mytasks'
         ])->name('mytasks');
         Route::get('/view/{id}', [
-            ProjectController::class,
+            LegacyProjectController::class,
             'viewtask'
         ])->name('viewtask');
         Route::post('/task/addtodo', [
-            ProjectController::class,
+            LegacyProjectController::class,
             'addtasktodo'
         ])->name('addtasktodo');
         Route::post('/task/addtodo/update', [
-            ProjectController::class,
+            LegacyProjectController::class,
             'todostatusupdate'
         ])->name('todostatusupdate');
         Route::get('/task/todo/delete/{id}', [
-            ProjectController::class,
+            LegacyProjectController::class,
             'tasktododelete'
         ])->name('tasktododelete');
         Route::post('/task/addcomment', [
-            ProjectController::class,
+            LegacyProjectController::class,
             'addtaskcomment'
         ])->name('addtaskcomment');
         Route::get('/view/complete/{id}', [
-            ProjectController::class,
+            LegacyProjectController::class,
             'taskcomplete'
         ])->name('taskcomplete');
     });
 
-    Route::prefix('/projects')->group(function () {
-        Route::get('', [
-            ProjectController::class,
-            'listofprojects'
-        ])->name('listofprojects');
-        Route::post('/new/save', [
-            ProjectController::class,
-            'createnewproject'
-        ])->name('createnewproject');
-        Route::post('/update/save', [
-            ProjectController::class,
-            'updateproject'
-        ])->name('updateproject');
-        Route::post('/descrip/save', [
-            ProjectController::class,
-            'updateprojectdescript'
-        ])->name('updateprojectdescript');
-        Route::post('/status/change', [
-            ProjectController::class,
-            'projectstatuschange'
-        ])->name('projectstatuschange');
-        Route::get('/{id}', [
-            ProjectController::class,
-            'viewproject'
-        ])->name('viewproject');
-        Route::get('/delete/{id}', [
-            ProjectController::class,
-            'deleteproject'
-        ])->name('deleteproject');
-        Route::get('/tasks/{id}', [
-            ProjectController::class,
-            'viewtasks'
-        ])->name('viewtasksprjct');
-        Route::post('/tasks/save', [
-            ProjectController::class,
-            'createprjcttask'
-        ])->name('createprjcttask');
-        Route::post('/tasks/update', [
-            ProjectController::class,
-            'projecttaskupdate'
-        ])->name('projecttaskupdate');
-        Route::get('/tasks/delete/{id}', [
-            ProjectController::class,
-            'deletetasks'
-        ])->name('deletetasks');
-        Route::get('/note/{id}', [
-            ProjectController::class,
-            'viewnote'
-        ])->name('viewnoteprjct');
-        Route::post('/note/save', [
-            ProjectController::class,
-            'updatenote'
-        ])->name('updatenoteprjct');
-        Route::post('/updates/new', [
-            ProjectController::class,
-            'addprojectupdates'
-        ])->name('addprojectupdates');
-        Route::post('/updates/edit', [
-            ProjectController::class,
-            'editprojectupdates'
-        ])->name('editprojectupdates');
-        Route::get('/deleteupdates/{id}', [
-            ProjectController::class,
-            'deleteupdates'
-        ])->name('deleteupdates');
-        Route::get(
-            '{project}/expenses',
-            Project\ExpenseController::class,
-        )->name('projects.expenses');
-    });
+    Route::resource(
+        'projects',
+        ProjectController::class
+    )->except([
+        'create',
+        'edit',
+    ]);
+
+    Route::prefix('projects/{project}')
+        ->name('projects.')
+        ->group(function () {
+            Route::controller(Project\NoteController::class)
+                ->prefix('note')
+                ->name('note.')
+                ->group(function () {
+                    Route::get('', 'show')->name('show');
+                    Route::update('', 'update')->name('update');
+                });
+
+            Route::resource(
+                'tasks',
+                Project\TaskController::class
+            )->only([
+                'index',
+                'show',
+                'store',
+                'update',
+                'destroy',
+            ]);
+
+            Route::get(
+                'expenses',
+                Project\ExpenseController::class,
+            )->name('expenses.index');
+
+            Route::resource(
+                'updates',
+                Project\UpdateController::class
+            )->only([
+                'store',
+                'update',
+                'destroy',
+            ]);
+        });
 
     Route::get('/cashbook', [
         InvoiceController::class,
         'cashbooklist'
     ])->name('cashbooklist');
     Route::get('/notification/update/{id}', [
-        ProjectController::class,
+        LegacyProjectController::class,
         'notificationupdate'
     ])->name('notificationupdate');
     Route::get('/filemanager', [

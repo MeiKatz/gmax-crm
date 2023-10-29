@@ -35,6 +35,19 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Route::macro(
+            'update',
+            function ($uri, $callback) {
+                return Route::match([
+                        'PUT',
+                        'PATCH',
+                    ],
+                    $uri,
+                    $callback
+                );
+            }
+        );
+
         $this->configureRateLimiting();
 
         $this->routes(function () {

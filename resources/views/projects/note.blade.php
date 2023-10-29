@@ -6,7 +6,7 @@
 
 <div class="row">
     <div class="col-md-3">
-        @include('app.projectnav')
+        @include('projects._nav', [ 'project' => $project ])
 
      
         <style>
@@ -23,9 +23,9 @@
                         <h3 class="card-title">Project Note</h3>
                       </div>
                     <div class="card-body p-2">
-                    <form action="{{route('updatenoteprjct')}}" method="post" enctype="multipart/form">
-                        @csrf 
-                        <input type="hidden" name="id" value="{{$note->id}}">
+                    <form action="{{ route('projects.note.update', [ $project ]) }}" method="post" enctype="multipart/form">
+                        @csrf
+                        @method('PUT')
                         <textarea id="editor" class="form-control" style="width: 100%;  background-color: #ffffff0a;
                         " id="editor" name="note" rows="6">
                             {!!$note->note!!}

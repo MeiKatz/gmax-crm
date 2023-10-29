@@ -6,7 +6,7 @@
 
 <div class="row">
     <div class="col-md-3">
-        @include('app.projectnav')
+        @include('projects._nav', [ 'project' => $project ])
         <br> <br>
         <div class="card">
             <div class="card-header">
@@ -15,7 +15,7 @@
             <div class="card-body">
                 <form action="{{route('expenses.store')}}" method="post" enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" value="{{$project_id}}" name="project_id">
+                    <input type="hidden" value="{{$project->id}}" name="project_id">
                     <div class="modal-body">
                         <div class="mb-2">
                             <label class="form-label">Record Title</label>
@@ -78,8 +78,10 @@
                            # {{$expense->id }}
                         </td>
                         <td> {{$expense->item}}</td>
-                        <td> 
-                          <a href="/project/{{ !empty($expense->project) ? $expense->project->id:'' }}">   {{ !empty($expense->project) ? $expense->project->name:'' }} </a>
+                        <td>
+                            @if ( $expense->project )
+                            <a href="{{ route('projects.show', [ $expense->project ]) }}">{{ $expense->project->name }}</a>
+                            @endif
                         </td>
                         <td>
                             {{$expense->amount}}
