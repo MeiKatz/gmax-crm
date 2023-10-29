@@ -145,10 +145,6 @@ Route::group(['middleware' => ['auth']], function(){
             InvoiceController::class,
             'emailinvoice'
         ])->name('emailinvoice');
-        Route::post('/edit/taxenable', [
-            InvoiceController::class,
-            'invoicetaxenable'
-        ])->name('invoicetaxenable');
         Route::post('/recurring/save', [
             InvoiceController::class,
             'createrecorringinvoice'

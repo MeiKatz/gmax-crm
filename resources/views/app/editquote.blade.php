@@ -131,12 +131,12 @@
                         @if($settings->taxstatus==1)
                         <dt class="col-5">Enable Tax:</dt>
                         <dd class="col-7"> 
-                          <form action="{{route('invoicetaxenable')}}" method="post">
-                              @csrf
-                              <input type="hidden" name="id" value="{{$invoice->id}}">
-                                <label class="form-check form-switch m-0">
-                                <input class="form-check-input position-static" name="taxable" onchange="this.form.submit()"  type="checkbox" @if($invoice->is_taxable) value="0" checked @else value="1" @endif >
-                                </label>
+                          <form action="{{ route('invoices.update', [ $invoice ]) }}" method="post">
+                            @csrf
+                            @method('PUT')
+                            <label class="form-check form-switch m-0">
+                            <input class="form-check-input position-static" name="taxable" onchange="this.form.submit()" type="checkbox" @if($invoice->is_taxable) value="0" checked @else value="1" @endif />
+                            </label>
                           </form> 
                         </dd>
                         @endif

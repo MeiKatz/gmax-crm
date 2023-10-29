@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateInvoiceRequest;
 use Illuminate\Http\Request;
 use App\Models\Client;
 use App\Models\Invoice;
@@ -106,7 +107,6 @@ class InvoiceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(
-        Request $request,
         Invoice $invoice
     ) {
         $invoiceItems = $invoices->items()->paginate(100);
@@ -122,7 +122,7 @@ class InvoiceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\UpdateInvoiceRequest  $request
      * @param  \App\Models\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
@@ -130,10 +130,9 @@ class InvoiceController extends Controller
         Request $request,
         Invoice $invoice
     ) {
-        $invoice->title = $request->title;
-        $invoice->invodate = $request->invodate;
-        $invoice->duedate = $request->duedate;
-        $invoice->save();
+        $invoice->update(
+            $request->validated()
+        );
 
         return redirect()->back()->with([
             'success' => 'Invoice Updated',
@@ -155,15 +154,6 @@ class InvoiceController extends Controller
             'success' => 'Record Deleted',
         ]);
     }
-
-     public function invoicetaxenable(Request $request)
-    {    
-        $invoice =Invoice::findOrFail($request->id);       
-        $invoice->taxable=$request->taxable;             
-        $invoice->save();  
-        return redirect()->back()->with('success', ' Tax Info Updated');
-    }
-
 
      public function invopaymentsave(Request $request)
     { 
