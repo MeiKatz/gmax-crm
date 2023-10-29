@@ -59,8 +59,7 @@
         <h3 class="card-title">Add Project Updates</h3>
       </div>
       <div class="card-body p-2">
-        <textarea id="editornew" class="form-control" style="width: 100%;" placeholder="Update Project Status" name="message" rows="3">
-        </textarea>
+        <textarea id="editornew" class="form-control" style="width: 100%;" placeholder="Update Project Status" name="message" rows="3"></textarea>
       </div>
       <div class="card-footer">
         <div class="d-flex">
