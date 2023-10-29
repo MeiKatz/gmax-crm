@@ -44,7 +44,7 @@ class LegacyProjectController extends Controller
         $updates = new TaskTodo();
         $updates->task_id =$request->task_id;
         $updates->task =$request->task;   
-        $updates->auth =Auth::id();  
+        $updates->creator_id =Auth::id();
         $updates->status =0;     
         $updates->save();     
         return redirect()->back()->with('success', 'Task ToDo Added');

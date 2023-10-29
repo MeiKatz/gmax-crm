@@ -133,7 +133,7 @@
                         <a class="text-reset d-block"><s>{{$todo->task}}</s></a>
                         @endif
                  
-                        <small class="d-block text-muted text-truncate mt-n1">Added By {{$todo->added->name}} on {{$todo->created_at->diffForHumans()}} </small>
+                        <small class="d-block text-muted text-truncate mt-n1">Added By {{$todo->creator->name}} on {{$todo->created_at->diffForHumans()}} </small>
                       </div>
                       <div class="col-auto">
                         <a href="/mytasks/task/todo/delete/{{$todo->id}}" onclick="return confirm('Are you sure?')" class="text-muted">

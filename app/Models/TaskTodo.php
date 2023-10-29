@@ -9,9 +9,24 @@ class TaskTodo extends Model
 {
     use HasFactory;
 
-    public function added()
-	{
-        return  $this->belongsTo(User::class, 'auth', 'id');
-        
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'completed',
+        'completedby',
+        'creator_id',
+        'status',
+        'task',
+        'task_id',
+    ];
+
+    public function creator() {
+        return $this->belongsTo(
+            User::class,
+            'creator_id'
+        );
     }
 }
