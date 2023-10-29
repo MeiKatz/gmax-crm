@@ -138,7 +138,7 @@ class InvoiceController extends Controller
         );
 
         return redirect()->back()->with([
-            'success' => 'Invoice Updated',
+            'success' => 'Invoice updated',
         ]);
     }
 
@@ -154,7 +154,7 @@ class InvoiceController extends Controller
         $invoice->delete();
 
         return redirect()->route('dashboard')->with([
-            'success' => 'Record Deleted',
+            'success' => 'Invoice deleted',
         ]);
     }
 
