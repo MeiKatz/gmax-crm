@@ -53,14 +53,13 @@
     </div>
     <br />
     <br />
-    <form action="{{route('addprojectupdates')}}" method="post" class="card">
+    <form action="{{ route('projects.updates.store', [ $project ]) }}" method="post" class="card">
       @csrf
-      <input type="hidden" name="project_id" value="{{$project->id}}" />
       <div class="card-header">
         <h3 class="card-title">Add Project Updates</h3>
       </div>
       <div class="card-body p-2">
-        <textarea id="editornew" class="form-control" style="width: 100%;" placeholder="Update Project Status"  name="message" rows="3">
+        <textarea id="editornew" class="form-control" style="width: 100%;" placeholder="Update Project Status" name="message" rows="3">
         </textarea>
       </div>
       <div class="card-footer">
@@ -205,7 +204,11 @@
                 </div>
                 <div>
                   {!! nl2br(e($update->message)) !!}
-                  <a href="/projects/deleteupdates/{{ $update->id }}" style="float:right;" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-warning">Delete</a>
+                  <form method="post" action="{{ route('projects.updates.destroy', [ $project, $update ]) }}" onsubmit="return confirm('Are you sure?')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" style="float:right;" class="btn btn-sm btn-warning">Delete</button>
+                  </form>
                   <a href="#" class="btn btn-sm" style="margin-right: 5px; float:right;"  data-toggle="modal" data-target="#editupdates{{ $update->id }}">Edit</a>
                 </div>
               </div>
@@ -224,9 +227,9 @@
                     </svg>
                   </b>
                 </div>
-                <form action="{{route('editprojectupdates')}}" method="post">
+                <form action="{{ route('projects.updates.update', [ $project, $update ]) }}" method="post">
                   @csrf
-                  <input type="hidden" name="id" value="{{ $update->id }}" />
+                  @method('PUT')
                   <div class="modal-body">
                     <div class="mb-2">
                       <textarea id="editornew" class="form-control" style="width: 100%;" placeholder="Update Project Status" name="message" rows="3">{!!$update->message !!}</textarea>

@@ -270,21 +270,6 @@ Route::group(['middleware' => ['auth']], function(){
             ]);
         });
 
-    Route::prefix('/projects')->group(function () {
-        Route::post('/updates/new', [
-            LegacyProjectController::class,
-            'addprojectupdates'
-        ])->name('addprojectupdates');
-        Route::post('/updates/edit', [
-            LegacyProjectController::class,
-            'editprojectupdates'
-        ])->name('editprojectupdates');
-        Route::get('/deleteupdates/{id}', [
-            LegacyProjectController::class,
-            'deleteupdates'
-        ])->name('deleteupdates');
-    });
-
     Route::get('/cashbook', [
         InvoiceController::class,
         'cashbooklist'

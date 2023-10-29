@@ -157,10 +157,10 @@
                 </div>
                 
                 <div class="card-body p-2">
-                  <form action="{{route('addprojectupdates')}}" method="post">
+                  <form action="{{ route('projects.updates.store', [ $project ] )}}" method="post">
                     @csrf
                     <input type="hidden" name="taskid" value="{{$task->id}}">
-<textarea id="editornew" class="form-control" style="width: 100%;" placeholder="Task comments"  name="message" rows="3"></textarea>
+<textarea id="editornew" class="form-control" style="width: 100%;" placeholder="Task comments" name="message" rows="3"></textarea>
               
                 </div>
                 <div class="card-footer">
@@ -174,28 +174,26 @@
 
        
                 <ul class="list-group card-list-group">
-                  @foreach($taskcomments as $updates)
+                  @foreach($taskcomments as $update)
                     <li class="list-group-item" >
                       <div class="d-flex">
                         <div>
-                          <span class="avatar mr-3" style="background-image: url({{$updates->addedby->profile_photo_url}}); margin-right: 10px;"></span>
+                          <span class="avatar mr-3" style="background-image: url({{$update->addedby->profile_photo_url}}); margin-right: 10px;"></span>
                         </div>
                         <div class="flex-fill">
                           <div>                        
-                            <small class=" text-muted" style="float: right;">{{$updates->created_at->diffForHumans()}}</small>                        
-                            <h4>{{$updates->addedby->name}}</h4>
+                            <small class=" text-muted" style="float: right;">{{$update->created_at->diffForHumans()}}</small>
+                            <h4>{{$update->addedby->name}}</h4>
                           </div>
                           <div>                    
-                          {!! nl2br(e($updates->message)) !!}                
+                          {!! nl2br(e($update->message)) !!}
                            
-                             
-                          
-                          <a href="/projects/deleteupdates/{{$updates->id}}"  style="float:right;" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-warning">Delete</a>
-                        
-                          <a href="#" class="btn btn-sm" style="margin-right: 5px; float:right;"  data-toggle="modal" data-target="#editupdates{{$updates->id}}">
-                            Edit
-                           </a> 
-                        
+                          <form method="post" action="{{ route('projects.updates.destroy', [ $project, $update ]) }}" onsubmit="return confirm('Are you sure?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" style="float:right;" class="btn btn-sm btn-warning">Delete</button>
+                          </form>
+                          <a href="#" class="btn btn-sm" style="margin-right: 5px; float:right;"  data-toggle="modal" data-target="#editupdates{{ $update->id }}">Edit</a>
                       </div>
                        
                       </div>
@@ -204,7 +202,7 @@
   
   
                   
-  <div class="modal modal-blur fade" id="editupdates{{$updates->id}}" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal modal-blur fade" id="editupdates{{$update->id}}" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -217,12 +215,12 @@
            </svg>
           </b>
         </div>
-    <form action="{{route('editprojectupdates')}}" method="post">
+    <form action="{{ route('projects.updates.update', [ $project, $update]) }}" method="post">
         @csrf
-        <input type="hidden" name="id" value="{{$updates->id}}">
+        @method('PUT')
         <div class="modal-body">
             <div class="mb-2">    
-  <textarea id="editornew" class="form-control" style="width: 100%;" placeholder="Update Project Status"  name="message" rows="3">{!!$updates->message !!}</textarea>
+  <textarea id="editornew" class="form-control" style="width: 100%;" placeholder="Update Project Status"  name="message" rows="3">{!!$update->message !!}</textarea>
             </div>
             
             

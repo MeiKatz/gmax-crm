@@ -4,10 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Project;
 use App\Models\ProjectTask;
-use App\Models\ProjectUpdate;
-use App\Models\User;
 use App\Models\TaskTodo;
 use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
@@ -60,37 +57,5 @@ class LegacyProjectController extends Controller
         $updates->status =0;     
         $updates->save();     
         return redirect()->back()->with('success', 'Task ToDo Added');
-    }
-
-
-
-
-
-    public function addprojectupdates(Request $request)
-    {   
-        $project = Project::findOrFail( $request->project_id );
-        $project->updates()->create([
-            'taskid' => $request->taskid,
-            'auth' => Auth::id(),
-            'message' => $request->message,
-        ]);
-
-        return redirect()->back()->with('success', 'Comment Added');
-    }
-
-    public function editprojectupdates(Request $request)
-    {   
-        $updates = ProjectUpdate::find($request->id);
-        $updates->message =$request->message;     
-        $updates->save();     
-        return redirect()->back()->with('success', 'Comment Updated');
-    }
-
-
-    public function deleteupdates(Request $request)
-    {
-     $project = ProjectUpdate::findOrFail($request->id);
-     $project->delete();
-     return redirect()->back()->with('success', ' Update Deleted');
     }
 }
