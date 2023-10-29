@@ -52,6 +52,25 @@ class InvoiceController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Invoice  $invoice
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Invoice $invoice) {
+        $business = Business::find(1);
+        $invoiceItems = $invoice->items()->paginate(100);
+        $payments = $invoice->payments()->paginate(100);
+
+        return view('app.viewinvoice')->with([
+            'invoice' => $invoice,
+            'invoiceItems' => $invoiceItems,
+            'payments' => $payments,
+            'business' => $business
+        ]);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -325,17 +344,6 @@ class InvoiceController extends Controller
             return redirect()->back()->with('warning', 'Amount cannot be blank');
         }
      }
-
-     public function viewinvoice(Request $request)
-     {
-      
-      $invoices = Invoice::findOrFail($request->id);      
-      $business = Business::find(1);
-      $invoiceItems = $invoices->items()->paginate(100);
-      $paymentreceipt = $invoices->payments()->paginate(100);
-      return view('app.viewinvoice')->with(['invoice'=> $invoices])->with(['invoice_items'=> $invoiceItems])->with(['payments'=> $paymentreceipt])->with(['business'=> $business]);
-     }
-
 
      public function emailinvoice(Request $request)
      {

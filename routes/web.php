@@ -104,6 +104,7 @@ Route::group(['middleware' => ['auth']], function(){
         InvoiceController::class,
     )->only([
         'index',
+        'show',
         'store',
         'edit',
         'update',
@@ -114,10 +115,6 @@ Route::group(['middleware' => ['auth']], function(){
             InvoiceController::class,
             'deleteinvoice'
         ])->name('deleteinvoice');
-        Route::get('/{id}', [
-            InvoiceController::class,
-            'viewinvoice'
-        ])->name('viewinvoice');
         Route::post('/meta/save', [
             InvoiceController::class,
             'newinvoicemeta'
