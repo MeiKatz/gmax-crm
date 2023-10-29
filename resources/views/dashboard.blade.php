@@ -13,7 +13,7 @@
 
     <div class="row">
         <div class="col-md-3 mb-2">
-          <a href="/invoices?filter[invostatus]=1">
+          <a href="{{ route('invoices.index') }}?filter[invostatus]=1">
             <div class="card card-sm">
                 <div class="card-body">
                   <div class="row align-items-center">
@@ -35,7 +35,7 @@
               </div></a>
         </div>
         <div class="col-md-3 mb-2"> 
-          <a href="/invoices?filter[invostatus]=3">
+          <a href="{{ route('invoices.index') }}?filter[invostatus]=3">
             <div class="card card-sm">
                 <div class="card-body">
                   <div class="row align-items-center">

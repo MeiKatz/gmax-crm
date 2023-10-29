@@ -24,15 +24,30 @@ use Illuminate\Support\Facades\Auth;
 
 class InvoiceController extends Controller
 {
-    public function listofinvoices(Request $request)
-    { 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request) {
         $counts = Invoice::getCounts();
-        $client = Client::all();
-        $invoices = QueryBuilder::for(Invoice::class)
-        ->allowedFilters(['title','userid','invoid','invostatus'])
-        ->where('type',2)->orderBy('id','desc')->paginate(15);
-        //$invoices = Invoice::orderby('id','desc')->where('type',2)->paginate(15);
-        return view('app.listofinvoices')->with(['invoices' =>$invoices])->with(['clients'=> $client])->with('counts', $counts);     
+        $clients = Client::all();
+        $invoices = QueryBuilder::for( Invoice::class )
+            ->allowedFilters([
+                'title',
+                'userid',
+                'invoid',
+                'invostatus',
+            ])
+            ->where('type', 2)
+            ->orderBy('id', 'desc')
+            ->paginate(15);
+
+        return view('app.listofinvoices')->with([
+            'invoices' => $invoices,
+            'clients' => $clients,
+            'counts' => $counts,
+        ]);
     }
 
     public function createnewinvoice(Request $request)

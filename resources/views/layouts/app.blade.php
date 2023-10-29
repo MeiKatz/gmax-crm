@@ -118,24 +118,24 @@
                     </a>
                     <ul class="dropdown-menu ">
                       <li >
-                        <a class="dropdown-item" href="/invoices" >
+                        <a class="dropdown-item" href="{{ route('invoices.index') }}" >
                           {{ __('All Invoices') }}
                         </a>
                       </li>
                       <li >
-                        <a class="dropdown-item" href="/invoices?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Buserid%5D=&filter%5Binvostatus%5D=1" >
+                        <a class="dropdown-item" href="{{ route('invoices.index') }}?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Buserid%5D=&filter%5Binvostatus%5D=1" >
                           {{ __('Unpaid Invoices') }}
                         </a>
                       </li>
 
                       <li >
-                        <a class="dropdown-item" href="/invoices?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Buserid%5D=&filter%5Binvostatus%5D=2" >
+                        <a class="dropdown-item" href="{{ route('invoices.index') }}?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Buserid%5D=&filter%5Binvostatus%5D=2" >
                           {{ __('Part paid Invoices') }}
                         </a>
                       </li> 
                       
                       <li >
-                        <a class="dropdown-item" href="/invoices?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Buserid%5D=&filter%5Binvostatus%5D=3" >
+                        <a class="dropdown-item" href="{{ route('invoices.index') }}?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Buserid%5D=&filter%5Binvostatus%5D=3" >
                           {{ __('Paid Invoices') }}
                         </a>
                       </li>                  
@@ -439,18 +439,18 @@
                       </a>
                       <ul class="dropdown-menu ">
                         <li >
-                          <a class="dropdown-item" href="/invoices" >
+                          <a class="dropdown-item" href="{{ route('invoices.index') }}" >
                             {{ __('All Invoices') }}
                           </a>
                         </li>
                         <li >
-                          <a class="dropdown-item" href="/invoices?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Buserid%5D=&filter%5Binvostatus%5D=1" >
+                          <a class="dropdown-item" href="{{ route('invoices.index') }}?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Buserid%5D=&filter%5Binvostatus%5D=1" >
                             {{ __('Unpaid Invoices') }}
                           </a>
                         </li>
                         
                         <li >
-                          <a class="dropdown-item" href="/invoices?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Buserid%5D=&filter%5Binvostatus%5D=3" >
+                          <a class="dropdown-item" href="{{ route('invoices.index') }}?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Buserid%5D=&filter%5Binvostatus%5D=3" >
                             {{ __('Paid Invoices') }}
                           </a>
                         </li>                  

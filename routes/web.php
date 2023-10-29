@@ -99,11 +99,14 @@ Route::group(['middleware' => ['auth']], function(){
         'edit',
     ]);
 
+    Route::resource(
+        'invoices',
+        InvoiceController::class,
+    )->only([
+        'index',
+    ]);
+
     Route::prefix('/invoices')->group(function () {
-        Route::get('', [
-            InvoiceController::class,
-            'listofinvoices'
-        ])->name('listofinvoices');
         Route::post('/new/save', [
             InvoiceController::class,
             'createnewinvoice'
