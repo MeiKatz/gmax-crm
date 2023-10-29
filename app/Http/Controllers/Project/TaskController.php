@@ -73,7 +73,7 @@ class TaskController extends Controller {
     Project $project
   ) {
     $projectTask = $project->tasks()->create([
-      'aid' => Auth::id(),
+      'creator_id' => Auth::id(),
       'task' => $request->task,
       'assignedto' => $request->assignedto,
       'type' => $request->type,
@@ -111,7 +111,7 @@ class TaskController extends Controller {
   ) {
     if ( !in_array( Auth::id(), [
       $projectTask->assignedto,
-      $projectTask->aid
+      $projectTask->creator_id
     ]) ) {
       abort(404);
     }

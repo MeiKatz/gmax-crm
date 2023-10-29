@@ -15,18 +15,19 @@ class ProjectTask extends Model
      * @var array
      */
     protected $fillable = [
-        'aid',
         'assignedto',
+        'creator_id',
         'project_id',
         'status',
         'task',
         'type',
     ];
 
-    public function admindata()
-	{
-        return  $this->belongsTo(User::class, 'aid', 'id');
-        
+    public function creator() {
+        return $this->belongsTo(
+            User::class,
+            'creator_id'
+        );
     }
     public function assigned()
 	{
