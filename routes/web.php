@@ -8,7 +8,6 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\GatewayController;
-use App\Http\Controllers\LegacyProjectController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\Project;
@@ -195,37 +194,6 @@ Route::group(['middleware' => ['auth']], function(){
             InvoiceController::class,
             'emailquote'
         ])->name('emailquote');
-    });
-
-    Route::prefix('/mytasks')->group(function () {
-        Route::get('', [
-            LegacyProjectController::class,
-            'mytasks'
-        ])->name('mytasks');
-        Route::get('/view/{id}', [
-            LegacyProjectController::class,
-            'viewtask'
-        ])->name('viewtask');
-        Route::post('/task/addtodo', [
-            LegacyProjectController::class,
-            'addtasktodo'
-        ])->name('addtasktodo');
-        Route::post('/task/addtodo/update', [
-            LegacyProjectController::class,
-            'todostatusupdate'
-        ])->name('todostatusupdate');
-        Route::get('/task/todo/delete/{id}', [
-            LegacyProjectController::class,
-            'tasktododelete'
-        ])->name('tasktododelete');
-        Route::post('/task/addcomment', [
-            LegacyProjectController::class,
-            'addtaskcomment'
-        ])->name('addtaskcomment');
-        Route::get('/view/complete/{id}', [
-            LegacyProjectController::class,
-            'taskcomplete'
-        ])->name('taskcomplete');
     });
 
     Route::resource(
