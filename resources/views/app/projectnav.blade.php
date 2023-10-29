@@ -12,7 +12,7 @@
     <x-icon.note style="margin-right: 10px;" />
     <span>Notes</span>
   </a>
-  <a class="dropdown-item" href="{{ route('projects.expenses', [ $project ]) }}">
+  <a class="dropdown-item" href="{{ route('projects.expenses.index', [ $project ]) }}">
     <x-icon.expense style="margin-right: 10px;" />
     <span>Expenses</span>
   </a>

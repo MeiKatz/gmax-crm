@@ -254,6 +254,11 @@ Route::group(['middleware' => ['auth']], function(){
                 'update',
                 'destroy',
             ]);
+
+            Route::get(
+                '{project}/expenses',
+                Project\ExpenseController::class,
+            )->name('projects.expenses.index');
         });
 
     Route::prefix('/projects')->group(function () {
@@ -269,10 +274,6 @@ Route::group(['middleware' => ['auth']], function(){
             LegacyProjectController::class,
             'deleteupdates'
         ])->name('deleteupdates');
-        Route::get(
-            '{project}/expenses',
-            Project\ExpenseController::class,
-        )->name('projects.expenses');
     });
 
     Route::get('/cashbook', [
