@@ -33,10 +33,10 @@ class ProjectTask extends Model
         return  $this->belongsTo(User::class, 'assignedto', 'id');
         
     }
-    public function comments()
-	{
-        return  $this->hasMany(ProjectUpdate::class, 'taskid', 'id');
-        
+    public function comments() {
+        return $this->hasMany(
+            ProjectUpdate::class
+        );
     }
 
     public function project() {

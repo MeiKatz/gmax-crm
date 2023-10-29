@@ -98,7 +98,7 @@
           
                   <form action="{{route('addtasktodo')}}" method="post">
                     @csrf
-                    <input type="hidden" name="taskid" value="{{$task->id}}">
+                    <input type="hidden" name="task_id" value="{{$task->id}}">
                     <div class="row">
                     <div class="col-md-9">                     
                         <input type="text" class="form-control" name="task" placeholder="Enter Todo" autocomplete="off">
@@ -159,7 +159,7 @@
                 <div class="card-body p-2">
                   <form action="{{ route('projects.updates.store', [ $project ] )}}" method="post">
                     @csrf
-                    <input type="hidden" name="taskid" value="{{$task->id}}">
+                    <input type="hidden" name="task_id" value="{{$task->id}}">
 <textarea id="editornew" class="form-control" style="width: 100%;" placeholder="Task comments" name="message" rows="3"></textarea>
               
                 </div>

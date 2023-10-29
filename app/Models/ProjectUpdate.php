@@ -20,7 +20,7 @@ class ProjectUpdate extends Model
         'image',
         'message',
         'project_id',
-        'taskid',
+        'task_id',
     ];
 
     public function addedby()

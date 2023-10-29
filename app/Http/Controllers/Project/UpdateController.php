@@ -20,7 +20,7 @@ class UpdateController extends Controller {
     Project $project
   ) {
     $project->updates()->create([
-      'taskid' => $request->taskid,
+      'task_id' => $request->task_id,
       'auth' => Auth::id(),
       'message' => $request->message,
     ]);
