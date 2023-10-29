@@ -230,10 +230,11 @@
                             <a class="dropdown-item" href="/invoices/edit/{{$invoice->id}}">
                                 Edit Invoice
                             </a>
-                            <a class="dropdown-item" onclick="return confirm('Are you sure?')"
-                                href="/invoices/delete/{{$invoice->id}}">
-                                Delete Invoice
-                            </a>
+                            <form method="post" action="{{ route('invoices.destroy', [ $invoice ]) }}" onsubmit="return confirm('Are you sure?')">
+                              @csrf
+                              @method('DELETE')
+                              <button type="submit" class="dropdown-item">Delete Invoice</button>
+                            </form>
                         </div>
                     </span>
                 </td>

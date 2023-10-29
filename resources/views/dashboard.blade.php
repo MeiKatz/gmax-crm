@@ -314,13 +314,17 @@
                         <button class="btn  btn-sm dropdown-toggle align-text-top"
                             data-boundary="viewport" data-toggle="dropdown">Actions</button>
                         <div class="dropdown-menu dropdown-menu-right">
+
                             <a class="dropdown-item" href="/invoices/edit/{{$invoice->id}}">
                               {{ __('Edit_Invoice') }}
                             </a>
-                            <a class="dropdown-item" onclick="return confirm('Are you sure?')"
-                                href="/invoices/delete/{{$invoice->id}}">
+                          <form method="post" action="{{ route('invoices.destroy', [ $invoice ]) }}" onsubmit="return confirm('Are you sure?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="dropdown-item">
                                 {{ __('Delete_Invoice') }}
-                            </a>
+                            </button>
+                          </form>
                         </div>
                     </span>
                 </td>

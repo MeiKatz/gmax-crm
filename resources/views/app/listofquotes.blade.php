@@ -102,10 +102,9 @@
                             <a class="dropdown-item" href="/invoices/edit/{{$invoice->id}}">
                                 Edit Quote
                             </a>
-                            <a class="dropdown-item" onclick="return confirm('Are you sure?')"
-                                href="/invoices/delete/{{$invoice->id}}">
-                                Delete Quote
-                            </a>
+                            <form method="post" action="{{ route('invoices.destroy', [ $invoice ]) }}" onsubmit="return confirm('Are you sure?')">
+                              <button type="submit" class="dropdown-item">Delete Quote</button>
+                            </form>
                         </div>
                     </span>
                 </td>

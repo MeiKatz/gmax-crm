@@ -47,14 +47,19 @@
                     <a class="dropdown-item " href="/quote/stat/{{$invoice->id}}/4" onclick="return confirm('Are you sure?')">            
                       <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" style="margin-right: 10px;" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 21v-16m2 -2h10a2 2 0 0 1 2 2v10m0 4.01v1.99l-3 -2l-2 2l-2 -2l-2 2l-2 -2l-3 2" /><line x1="11" y1="7" x2="15" y2="7" /><line x1="9" y1="11" x2="11" y2="11" /><line x1="13" y1="15" x2="15" y2="15" /><line x1="15" y1="11" x2="15" y2="11.01" /><line x1="3" y1="3" x2="21" y2="21" /></svg>
                              Cancel Quote
-                        </a>    
-                        <a class="dropdown-item " href="/invoices/delete/{{$invoice->id}}" onclick="return confirm('Are you sure?')">
-                          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"  style="margin-right: 10px;" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9" /><path d="M10 10l4 4m0 -4l-4 4" /></svg>
-                                   Delete Quote
-                     </a>  
-                   
-    
-    
+                        </a>
+                        <form method="post" action="{{ route('invoices.destroy', [ $invoice ]) }}" onsubmit="return confirm('Are you sure?')">
+                          @csrf
+                          @method('DELETE')
+                          <button type="submit" class="dropdown-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"  style="margin-right: 10px;" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                              <circle cx="12" cy="12" r="9" />
+                              <path d="M10 10l4 4m0 -4l-4 4" />
+                            </svg>
+                            <span>Delete Quote</span>
+                          </button>
+                        </form>
             </div>
 
 

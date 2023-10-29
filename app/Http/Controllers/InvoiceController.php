@@ -142,6 +142,22 @@ class InvoiceController extends Controller
             'success' => 'Invoice Updated',
         ]);
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Invoice  $invoice
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(
+        Invoice $invoice
+    ) {
+        $invoice->delete();
+
+        return redirect()->route('dashboard')->with([
+            'success' => 'Record Deleted',
+        ]);
+    }
  
     public function newinvoicemeta(Request $request)
      { 
@@ -364,12 +380,7 @@ class InvoiceController extends Controller
       return view('app.payinvoice')->with(['invoice'=> $invoices])->with(['invoice_items'=> $invoiceItems])->with(['payments'=> $paymentreceipt])->with(['business'=> $business])->with(['gateways'=> $gateways]);
      }
      
-     public function deleteinvoice(Request $request)
-     {
-      $invoices = Invoice::findOrFail($request->id);      
-      $invoices->delete();
-      return redirect('/dashboard')->with('success', 'Record Deleted');  
-     }
+
 
 
 

@@ -108,13 +108,10 @@ Route::group(['middleware' => ['auth']], function(){
         'store',
         'edit',
         'update',
+        'destroy',
     ]);
 
     Route::prefix('/invoices')->group(function () {
-        Route::get('/delete/{id}', [
-            InvoiceController::class,
-            'deleteinvoice'
-        ])->name('deleteinvoice');
         Route::post('/meta/save', [
             InvoiceController::class,
             'newinvoicemeta'

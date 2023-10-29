@@ -322,10 +322,11 @@
                                       <a class="dropdown-item" href="/quote/edit/{{$quote->id}}">
                                           Edit Quote
                                       </a>
-                                      <a class="dropdown-item" onclick="return confirm('Are you sure?')"
-                                          href="/invoices/delete/{{$quote->id}}">
-                                          Delete Delete
-                                      </a>
+                                      <form method="post" action="{{ route('invoices.destroy', [ $invoice ]) }}" onsubmit="return confirm('Are you sure?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="dropdown-item">Delete Delete</button>
+                                      </form>
                                   </div>
                               </span>
                           </td>
