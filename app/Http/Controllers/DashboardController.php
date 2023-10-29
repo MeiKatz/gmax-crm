@@ -8,7 +8,7 @@ use App\Models\Notification;
 use App\Models\Invoice;
 use App\Models\PaymentReceipt;
 use App\Models\Project;
-use App\Models\ProjectTask;
+use App\Models\Task;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -58,7 +58,7 @@ class DashboardController extends Controller
         $counts['prjinreview'] = Project::where('status',3)->count();
         $counts['prjincompleted'] = Project::where('status',5)->count();
 
-        $tasks = ProjectTask::where(
+        $tasks = Task::where(
             'assignedto',
             Auth::id()
         )->where('status',1)->orderby('id','desc')->get();

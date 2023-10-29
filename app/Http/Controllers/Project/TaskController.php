@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Project;
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
 use App\Models\Project;
-use App\Models\ProjectTask;
 use App\Models\ProjectUpdate;
+use App\Models\Task;
 use App\Models\TaskTodo;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -21,7 +21,7 @@ class TaskController extends Controller {
    */
   public function index(Project $project) {
     $users = User::all();
-    $projectTasks = (
+    $tasks = (
       $project
         ->tasks()
         ->where('assignedto', Auth::id())
@@ -30,7 +30,7 @@ class TaskController extends Controller {
 
     return view('projects.tasks')->with([
       'project' => $project,
-      'tasks' => $projectTasks,
+      'tasks' => $tasks,
       'users' => $users,
     ]);
   }
@@ -39,23 +39,23 @@ class TaskController extends Controller {
    * Display the specified resource.
    *
    * @param  \App\Models\Project  $project
-   * @param  \App\Models\ProjectTask  $projectTask
+   * @param  \App\Models\Task  $task
    * @return \Illuminate\Http\Response
    */
   public function show(
     Project $project,
-    ProjectTask $projectTask
+    Task $task
   ) {
-    if ( $projectTask->assignedto !== Auth::id() ) {
+    if ( $task->assignedto !== Auth::id() ) {
       abort(404);
     }
 
-    $todos = TaskTodo::where('task_id', $projectTask->id)->orderby('id', 'desc')->get();
-    $taskComments = ProjectUpdate::where('task_id', $projectTask->id)->orderby('id', 'desc')->paginate(7);
+    $todos = TaskTodo::where('task_id', $task->id)->orderby('id', 'desc')->get();
+    $taskComments = ProjectUpdate::where('task_id', $task->id)->orderby('id', 'desc')->paginate(7);
 
     return view('app.viewtask')->with([
       'project' => $project,
-      'task' => $projectTask,
+      'task' => $task,
       'taskcomments' => $taskComments,
       'todos' => $todos,
     ]);
@@ -72,7 +72,7 @@ class TaskController extends Controller {
     Request $request,
     Project $project
   ) {
-    $projectTask = $project->tasks()->create([
+    $task = $project->tasks()->create([
       'creator_id' => Auth::id(),
       'task' => $request->task,
       'assignedto' => $request->assignedto,
@@ -85,8 +85,8 @@ class TaskController extends Controller {
       $notification = new Notification();
       $notification->fromid = Auth::id();
       $notification->toid = $request->assignedto;
-      $notification->message = 'New Project Task Assigned #' . $projectTask->id;
-      $notification->link = route('tasks.show', [ $projectTask ]);
+      $notification->message = 'New Project Task Assigned #' . $task->id;
+      $notification->link = route('tasks.show', [ $task ]);
       $notification->style = $request->type;
       $notification->type = 'task';
       $notification->status = 1;
@@ -102,21 +102,21 @@ class TaskController extends Controller {
    * Update the specified resource in storage.
    *
    * @param  \Illuminate\Http\Request  $request
-   * @param  \App\Models\ProjectTask  $projectTask
+   * @param  \App\Models\Task  $task
    * @return \Illuminate\Http\Response
    */
   public function update(
     Request $request,
-    ProjectTask $projectTask,
+    Task $task,
   ) {
     if ( !in_array( Auth::id(), [
-      $projectTask->assignedto,
-      $projectTask->creator_id
+      $task->assignedto,
+      $task->creator_id
     ]) ) {
       abort(404);
     }
 
-    $projectTask->update([
+    $task->update([
       'status' => $request->status,
     ]);
 
@@ -128,11 +128,11 @@ class TaskController extends Controller {
   /**
    * Remove the specified resource from storage.
    *
-   * @param  \App\Models\ProjectTask  $projectTask
+   * @param  \App\Models\Task  $task
    * @return \Illuminate\Http\Response
    */
-  public function destroy(ProjectTask $projectTask) {
-    $projectTask->delete();
+  public function destroy(Task $task) {
+    $task->delete();
 
     return redirect()->back()->with([
       'success' => 'Task Deleted',

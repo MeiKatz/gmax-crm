@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Task;
 
 use App\Http\Controllers\Controller;
-use App\Models\ProjectTask;
+use App\Models\Task;
 use App\Models\TaskTodo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,11 +13,11 @@ class TodoController extends Controller {
    * Store a newly created resource in storage.
    *
    * @param  \Illuminate\Http\Request  $request
-   * @param  \App\Models\ProjectTask  $projectTask
+   * @param  \App\Models\Task  $task
    * @return \Illuminate\Http\Response
    */
-  public function store(Request $request, ProjectTask $projectTask) {
-    $projectTask->todos()->create([
+  public function store(Request $request, Task $task) {
+    $task->todos()->create([
       'task' => $request->task,
       'creator_id' => Auth::id(),
       'status' => 0,

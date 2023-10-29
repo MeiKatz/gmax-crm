@@ -15,7 +15,6 @@ use App\Mail\QuoteMail;
 use App\Models\Setting;
 use App\Models\Notification;
 use App\Models\Project;
-use App\Models\ProjectTask;
 use App\Models\Business;
 use App\Models\ExpenseManager;
 use App\Models\PaymentGateway;
