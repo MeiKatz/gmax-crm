@@ -96,9 +96,8 @@
                 </div>
                 <div class="card-body">
           
-                  <form action="{{route('addtasktodo')}}" method="post">
+                  <form action="{{ route('tasks.todos.store', [ $task ]) }}" method="post">
                     @csrf
-                    <input type="hidden" name="task_id" value="{{$task->id}}">
                     <div class="row">
                     <div class="col-md-9">                     
                         <input type="text" class="form-control" name="task" placeholder="Enter Todo" autocomplete="off">
@@ -115,15 +114,15 @@
                   <div class="list-group-item">
                     <div class="row align-items-center">
                       <div class="col-auto">
-                        <form action="{{route('todostatusupdate')}}" method="post">
+                        <form action="{{ route('tasks.todos.update', [ $task, $todo ]) }}" method="post">
                           @csrf
-                          <input type="hidden" value="{{$todo->id}}" name="id">
-                          @if($todo->status==0)
-                          <input type="checkbox" name="status" value="1"  onchange="this.form.submit()" class="form-check-input">
+                          @method('PUT')
+
+                          @if ( $todo->status == 0 )
+                            <input type="checkbox" name="status" value="1" onchange="this.form.submit()" class="form-check-input" />
                           @else 
-                          <input type="checkbox" name="status" value="0" onchange="this.form.submit()" class="form-check-input" checked>
+                            <input type="checkbox" name="status" value="0" onchange="this.form.submit()" class="form-check-input" checked />
                           @endif
-                       
                         </form>
                       </div>                    
                       <div class="col text-truncate">
@@ -136,9 +135,21 @@
                         <small class="d-block text-muted text-truncate mt-n1">Added By {{$todo->creator->name}} on {{$todo->created_at->diffForHumans()}} </small>
                       </div>
                       <div class="col-auto">
-                        <a href="/mytasks/task/todo/delete/{{$todo->id}}" onclick="return confirm('Are you sure?')" class="text-muted">
-                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><line x1="4" y1="7" x2="20" y2="7" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
-                        </a>
+                        <form method="post" action="{{ route('tasks.todos.destroy', [ $task, $todo ]) }}" onsubmit="return confirm('Are you sure?')">
+                          @csrf
+                          @method('DELETE')
+
+                          <button type="submit" class="text-muted">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                              <line x1="4" y1="7" x2="20" y2="7" />
+                              <line x1="10" y1="11" x2="10" y2="17" />
+                              <line x1="14" y1="11" x2="14" y2="17" />
+                              <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                              <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                            </svg>
+                          </button>
+                        </form>
                     </div>
 
                     </div>

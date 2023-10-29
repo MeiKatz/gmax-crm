@@ -204,8 +204,8 @@
                 @endif
               </div>
               <div class="card-body">
-                @if($task->status==1)<a href="/mytasks/view/{{$task->id}}"> <h3 class="card-title">Project Name - Case ID #{{$task->id}}</h3></a> @else
-                <a href="/mytasks/view/{{$task->id}}">  <s> <h3 class="card-title">Project Name - Case ID #{{$task->id}}</h3></a> </s> @endif
+                @if($task->status==1)<a href="{{ route('tasks.show', [ $task ]) }}"> <h3 class="card-title">Project Name - Case ID #{{$task->id}}</h3></a> @else
+                <a href="{{ route('tasks.show', [ $task ]) }}">  <s> <h3 class="card-title">Project Name - Case ID #{{$task->id}}</h3></a> </s> @endif
 
              
                 <div class="text-muted">{{$task->task}}</div>
@@ -560,7 +560,7 @@
                      title: '{{$task->task}}',
                      start: '{{$task->created_at}}',
                      className: '{{$task->type}}',
-                     url: '/mytasks/view/{{$task->id}}'
+                     url: '{{ route('tasks.show', [ $task ]) }}',
                   },
                   @endforeach
                  

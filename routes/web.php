@@ -12,6 +12,8 @@ use App\Http\Controllers\LegacyProjectController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\Project;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\Task;
 
 /*
 |--------------------------------------------------------------------------
@@ -225,6 +227,27 @@ Route::group(['middleware' => ['auth']], function(){
             'taskcomplete'
         ])->name('taskcomplete');
     });
+
+    Route::resource(
+        'tasks',
+        TaskController::class
+    )->only([
+        'index',
+        'show',
+    ]);
+
+    Route::prefix('tasks/{task}')
+        ->name('tasks.')
+        ->group(function () {
+            Route::resource(
+                'todos',
+                Task\TodoController::class
+            )->only([
+                'store',
+                'update',
+                'destroy',
+            ]);
+        });
 
     Route::resource(
         'projects',

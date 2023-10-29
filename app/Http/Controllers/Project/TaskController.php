@@ -86,7 +86,7 @@ class TaskController extends Controller {
       $notification->fromid = Auth::id();
       $notification->toid = $request->assignedto;
       $notification->message = 'New Project Task Assigned #' . $projectTask->id;
-      $notification->link = '/mytasks/view/' . $projectTask->id;
+      $notification->link = route('tasks.show', [ $projectTask ]);
       $notification->style = $request->type;
       $notification->type = 'task';
       $notification->status = 1;

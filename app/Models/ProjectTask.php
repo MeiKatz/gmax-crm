@@ -34,7 +34,14 @@ class ProjectTask extends Model
         return  $this->belongsTo(User::class, 'assignedto', 'id');
         
     }
-    public function comments() {
+
+    public function todos() {
+        return $this->hasMany(
+            TaskTodo::class
+        );
+    }
+
+    public function updates() {
         return $this->hasMany(
             ProjectUpdate::class
         );
