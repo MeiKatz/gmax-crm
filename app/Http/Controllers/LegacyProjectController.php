@@ -42,7 +42,7 @@ class LegacyProjectController extends Controller
     public function addtasktodo(Request $request)
     {   
         $updates = new TaskTodo();
-        $updates->taskid =$request->taskid;   
+        $updates->task_id =$request->task_id;
         $updates->task =$request->task;   
         $updates->auth =Auth::id();  
         $updates->status =0;     

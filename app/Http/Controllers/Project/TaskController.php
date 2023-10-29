@@ -50,7 +50,7 @@ class TaskController extends Controller {
       abort(404);
     }
 
-    $todos = TaskTodo::where('taskid', $projectTask->id)->orderby('id', 'desc')->get();
+    $todos = TaskTodo::where('task_id', $projectTask->id)->orderby('id', 'desc')->get();
     $taskComments = ProjectUpdate::where('task_id', $projectTask->id)->orderby('id', 'desc')->paginate(7);
 
     return view('app.viewtask')->with([
