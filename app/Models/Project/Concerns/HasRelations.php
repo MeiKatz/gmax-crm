@@ -6,8 +6,8 @@ use App\Models\Client;
 use App\Models\ExpenseManager;
 use App\Models\Invoice;
 use App\Models\ProjectNote;
-use App\Models\ProjectTask;
 use App\Models\ProjectUpdate;
+use App\Models\Task;
 
 trait HasRelations {
   /**
@@ -60,7 +60,7 @@ trait HasRelations {
    */
   public function tasks() {
     return $this->hasMany(
-      ProjectTask::class
+      Task::class
     );
   }
 }

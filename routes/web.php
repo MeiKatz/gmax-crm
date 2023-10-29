@@ -1,16 +1,18 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExpenseController;
-use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\GatewayController;
-use App\Http\Controllers\LegacyProjectController;
-use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Project;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\Task;
+use App\Http\Controllers\TaskController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -194,36 +196,26 @@ Route::group(['middleware' => ['auth']], function(){
         ])->name('emailquote');
     });
 
-    Route::prefix('/mytasks')->group(function () {
-        Route::get('', [
-            LegacyProjectController::class,
-            'mytasks'
-        ])->name('mytasks');
-        Route::get('/view/{id}', [
-            LegacyProjectController::class,
-            'viewtask'
-        ])->name('viewtask');
-        Route::post('/task/addtodo', [
-            LegacyProjectController::class,
-            'addtasktodo'
-        ])->name('addtasktodo');
-        Route::post('/task/addtodo/update', [
-            LegacyProjectController::class,
-            'todostatusupdate'
-        ])->name('todostatusupdate');
-        Route::get('/task/todo/delete/{id}', [
-            LegacyProjectController::class,
-            'tasktododelete'
-        ])->name('tasktododelete');
-        Route::post('/task/addcomment', [
-            LegacyProjectController::class,
-            'addtaskcomment'
-        ])->name('addtaskcomment');
-        Route::get('/view/complete/{id}', [
-            LegacyProjectController::class,
-            'taskcomplete'
-        ])->name('taskcomplete');
-    });
+    Route::resource(
+        'tasks',
+        TaskController::class
+    )->only([
+        'index',
+        'show',
+    ]);
+
+    Route::prefix('tasks/{task}')
+        ->name('tasks.')
+        ->group(function () {
+            Route::resource(
+                'items',
+                Task\ItemController::class
+            )->only([
+                'store',
+                'update',
+                'destroy',
+            ]);
+        });
 
     Route::resource(
         'projects',
@@ -270,14 +262,17 @@ Route::group(['middleware' => ['auth']], function(){
             ]);
         });
 
+    Route::resource(
+        'notifications',
+        NotificationController::class
+    )->only([
+        'destroy',
+    ]);
+
     Route::get('/cashbook', [
         InvoiceController::class,
         'cashbooklist'
     ])->name('cashbooklist');
-    Route::get('/notification/update/{id}', [
-        LegacyProjectController::class,
-        'notificationupdate'
-    ])->name('notificationupdate');
     Route::get('/filemanager', [
         InvoiceController::class,
         'filemanager'

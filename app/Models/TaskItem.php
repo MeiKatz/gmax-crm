@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProjectUpdate extends Model
+class TaskItem extends Model
 {
     use HasFactory;
 
@@ -15,11 +15,11 @@ class ProjectUpdate extends Model
      * @var array
      */
     protected $fillable = [
+        'completed',
+        'completedby',
         'creator_id',
-        'file',
-        'image',
-        'message',
-        'project_id',
+        'status',
+        'task',
         'task_id',
     ];
 
@@ -27,12 +27,6 @@ class ProjectUpdate extends Model
         return $this->belongsTo(
             User::class,
             'creator_id'
-        );
-    }
-
-    public function project() {
-        return $this->belongsTo(
-            Project::class
         );
     }
 }

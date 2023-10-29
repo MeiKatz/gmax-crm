@@ -17,9 +17,10 @@ class ExpenseController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request, Project $project)
-    {
-        $projects = Project::all();
+    public function __invoke(
+        Request $request,
+        Project $project
+    ) {
         $expenses = QueryBuilder::for(ExpenseManager::class)
             ->allowedFilters([
                 'project_id',
@@ -33,7 +34,6 @@ class ExpenseController extends Controller
         return view('projects.expenses')
             ->with([
                 'expenses' => $expenses,
-                'projects' => $projects,
                 'project' => $project,
             ]);
     }
