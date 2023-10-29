@@ -241,7 +241,7 @@ Route::group(['middleware' => ['auth']], function(){
                 ->name('note.')
                 ->group(function () {
                     Route::get('', 'show')->name('show');
-                    Route::put('', 'update')->name('update');
+                    Route::update('', 'update')->name('update');
                 });
 
             Route::resource(
@@ -256,9 +256,18 @@ Route::group(['middleware' => ['auth']], function(){
             ]);
 
             Route::get(
-                '{project}/expenses',
+                'expenses',
                 Project\ExpenseController::class,
-            )->name('projects.expenses.index');
+            )->name('expenses.index');
+
+            Route::resource(
+                'updates',
+                Project\UpdateController::class
+            )->only([
+                'store',
+                'update',
+                'destroy',
+            ]);
         });
 
     Route::prefix('/projects')->group(function () {

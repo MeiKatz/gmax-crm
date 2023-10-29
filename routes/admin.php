@@ -10,7 +10,7 @@ Route::prefix('users')
 	->group(function () {
 		Route::get('', 'index')->name('index');
 		Route::post('', 'store')->name('store');
-		Route::put('', 'update')->name('update');
+		Route::update('', 'update')->name('update');
 		Route::delete('{user}', 'destroy')->name('destroy');
 	});
 
@@ -20,7 +20,7 @@ Route::prefix('settings')
 		Route::controller(Admin\SettingController::class)
 			->group(function () {
 				Route::get('', 'show')->name('show');
-				Route::put('', 'update')->name('update');
+				Route::update('', 'update')->name('update');
 			});
 
 		Route::prefix('billing')
@@ -28,7 +28,7 @@ Route::prefix('settings')
 			->controller(AdminSettings\BillingController::class)
 			->group(function () {
 				Route::get('', 'show')->name('show');
-				Route::put('', 'update')->name('update');
+				Route::update('', 'update')->name('update');
 			});
 
 		Route::prefix('business')
@@ -36,7 +36,7 @@ Route::prefix('settings')
 			->controller(AdminSettings\BusinessController::class)
 			->group(function () {
 				Route::get('', 'show')->name('show');
-				Route::put('', 'update')->name('update');
+				Route::update('', 'update')->name('update');
 			});
 
 		Route::prefix('invoice')
@@ -44,7 +44,7 @@ Route::prefix('settings')
 			->controller(AdminSettings\InvoiceController::class)
 			->group(function () {
 				Route::get('', 'show')->name('show');
-				Route::put('', 'update')->name('update');
+				Route::update('', 'update')->name('update');
 			});
 
 		Route::prefix('payment-gateway')
@@ -52,10 +52,10 @@ Route::prefix('settings')
 			->controller(AdminSettings\PaymentGatewayController::class)
 			->group(function () {
 				Route::get('', 'show')->name('show');
-				Route::put('', 'update')->name('update');
+				Route::update('', 'update')->name('update');
 			});
 
-		Route::put(
+		Route::update(
 			'payment-gateway/status',
 			AdminSettings\PaymentGatewayStatusController::class
 		)->name('payment-gateway.status');
