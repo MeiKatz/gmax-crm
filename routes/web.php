@@ -7,6 +7,7 @@ use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\GatewayController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PayInvoiceController;
 use App\Http\Controllers\Project;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SettingsController;
@@ -51,11 +52,12 @@ Route::get('/dailycron', [
     'recorringinvoicecron'
 ])->name('recorringinvoicecron');
 
+Route::get(
+    'pay/{invoice}',
+    PayInvoiceController::class
+)->name('invoices.pay');
+
 Route::prefix('/invoices')->group(function () {
-    Route::get('/pay/{id}', [
-        InvoiceController::class,
-        'payinvoice'
-    ])->name('payinvoice');
     Route::post('/capture/razorpaypayment', [
         GatewayController::class,
         'razorpaypayment'

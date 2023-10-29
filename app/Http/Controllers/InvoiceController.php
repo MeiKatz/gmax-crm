@@ -15,7 +15,6 @@ use App\Mail\QuoteMail;
 use App\Models\Project;
 use App\Models\Business;
 use App\Models\ExpenseManager;
-use App\Models\PaymentGateway;
 use Spatie\QueryBuilder\QueryBuilder;
 
 use Illuminate\Support\Facades\Auth;
@@ -284,22 +283,6 @@ class InvoiceController extends Controller
       Mail::to($invoices->clientdata->email)->send(new InvoiceMail($invoices));
       return redirect()->back()->with('success', 'Mail Sent!');
      }
-
-
-     public function payinvoice(Request $request)
-     {
-      
-      $invoices = Invoice::findOrFail($request->id);      
-      $business = Business::find(1);
-      $gateways = PaymentGateway::where('status',1)->get();
-      $invoiceItems = $invoices->items()->paginate(100);
-      $paymentreceipt = $invoices->payments()->paginate(100);
-      return view('app.payinvoice')->with(['invoice'=> $invoices])->with(['invoice_items'=> $invoiceItems])->with(['payments'=> $paymentreceipt])->with(['business'=> $business])->with(['gateways'=> $gateways]);
-     }
-     
-
-
-
 
      /****************************** Quotes ******************************* */
 
