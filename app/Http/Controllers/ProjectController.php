@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Client;
 use App\Models\Project;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -38,17 +38,13 @@ class ProjectController extends Controller {
   /**
    * Store a newly created resource in storage.
    *
-   * @param  \Illuminate\Http\Request  $request
+   * @param  \App\Http\Requests\CreateProjectRequest  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(Request $request) {
-    $project = Project::create([
-      'name' => $request->name,
-      'client_id' => $request->client,
-      'description' => $request->description,
-      'starts_at' => $request->starts_at,
-      'deadline' => $request->deadline,
-    ]);
+  public function store(CreateProjectRequest $request) {
+    $project = Project::create(
+      $request->validated()
+    );
 
     $project->note()->create([
       'admin' => Auth::id(),
