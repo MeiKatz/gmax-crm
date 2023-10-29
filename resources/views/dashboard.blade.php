@@ -352,7 +352,7 @@
            </svg>
           </b>
         </div>
-    <form action="{{route('createnewinvoice')}}" method="post">
+    <form action="{{ route('invoices.store') }}" method="post">
         @csrf
         <div class="modal-body">
             <div class="mb-2">

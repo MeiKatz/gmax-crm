@@ -21,6 +21,7 @@ use App\Models\PaymentGateway;
 use Spatie\QueryBuilder\QueryBuilder;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
 {
@@ -50,23 +51,36 @@ class InvoiceController extends Controller
         ]);
     }
 
-    public function createnewinvoice(Request $request)
-    {       
-        $invoices = Invoice::where('type',2)->orderby('id','desc')->first();  
-        $invoice =new Invoice();
-        $invoice->type=2;
-        $invoice->title =$request->title;
-        $invoice->userid =$request->userid;
-        $invoice->adminid = Auth::id();  
-        if(Invoice::where('type',2)->count()==0){
-        $invoice->invoid =1; }
-        else{
-            $invoice->invoid =$invoices->invoid+1; 
-        }
-        $invoice->project_id = $request->project_id;
-        $invoice->save();        
-        $lastid = $invoice->id;
-       return redirect('/invoice/edit/'.$lastid);
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request) {
+        $invoice = DB::transaction(function () {
+            $lastInvoice = (
+                Invoice::where('type', 2)
+                    ->orderby('id', 'desc')
+                    ->first()
+            );
+            $nextInvoiceNumber = (
+                $lastInvoice
+                    ? $lastInvoice->invoid + 1
+                    : 1
+            );
+
+            return Invoice::create([
+                'type' => 2,
+                'title' => $request->title,
+                'userid' => $request->userid,
+                'adminid' => Auth::id(),
+                'project_id' => $request->project_id,
+                'invoid' => $nextInvoiceNumber,
+            ]);
+        });
+
+        return redirect('/invoice/edit/' . $invoice->id);
     }
 
     

@@ -371,7 +371,7 @@
           </svg>
         </b>
       </div>
-      <form action="{{ route('createnewinvoice') }}" method="post">
+      <form action="{{ route('invoices.store') }}" method="post">
         @csrf
         <input type="hidden" value="{{ $project->client->id }}" name="userid" />
         <input type="hidden" value="{{ $project->id }}" name="project_id" />
