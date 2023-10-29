@@ -40,14 +40,14 @@
     <div class="dropdown-menu dropdown-menu-demo">
       <span class="dropdown-header">Update Project Status</span>
       <div class="m-3">
-        <form action="{{route('projectstatuschange')}}" method="post">
+        <form action="{{ route('projects.update', [ $project ]) }}" method="post">
           @csrf
+          @method('PUT')
           <x-select-project-status
             :project="$project"
             name="status"
             id="status"
           />
-          <input type="hidden" value="{{$project->id}}" name="id">
         </form>
       </div>
     </div>
@@ -301,9 +301,9 @@
     </div>
   </div>
   <div class="col-md-4 mt-3">
-    <form action="{{ route('updateprojectdescript') }}" method="post" class="card">
+    <form action="{{ route('projects.update', [ $project ]) }}" method="post" class="card">
       @csrf
-      <input type="hidden" name="id" value="{{ $project->id }}" />
+      @method('PUT')
       <div class="card-header">
         <h3 class="card-title">Sticky Notes</h3>
       </div>

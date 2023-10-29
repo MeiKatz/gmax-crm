@@ -22,27 +22,6 @@ class LegacyProjectController extends Controller
         return redirect()->back()->with('success', 'Notification Updated');
     }
 
-    public function updateprojectdescript(Request $request)
-    {   
-        $project = Project::findOrFail($request->id);
-        $project->update([
-            'description' => $request->description,
-        ]);
-
-        return redirect()->back()->with('success', 'Project Updated');
-    }
-
-    
-    public function projectstatuschange(Request $request)
-    {   
-        $project = Project::findOrFail($request->id);
-        $project->update([
-            'status' => $request->status,
-        ]);
-
-        return redirect()->back()->with('success', 'Status Updated');
-    }
-
     public function mytasks(Request $request)
     {   
         $task = ProjectTask::where('assignedto',Auth::id())->orderby('id','desc')->paginate(20);

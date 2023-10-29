@@ -257,14 +257,6 @@ Route::group(['middleware' => ['auth']], function(){
         });
 
     Route::prefix('/projects')->group(function () {
-        Route::post('/descrip/save', [
-            LegacyProjectController::class,
-            'updateprojectdescript'
-        ])->name('updateprojectdescript');
-        Route::post('/status/change', [
-            LegacyProjectController::class,
-            'projectstatuschange'
-        ])->name('projectstatuschange');
         Route::post('/updates/new', [
             LegacyProjectController::class,
             'addprojectupdates'

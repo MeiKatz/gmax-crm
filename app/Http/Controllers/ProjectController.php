@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Client;
 use App\Models\Project;
 use Carbon\Carbon;
@@ -113,19 +114,17 @@ class ProjectController extends Controller {
   /**
    * Update the specified resource in storage.
    *
-   * @param  \Illuminate\Http\Request  $request
+   * @param  \App\Http\Requests\UpdateProjectRequest  $request
    * @param  \App\Models\Project  $project
    * @return \Illuminate\Http\Response
    */
   public function update(
-    Request $request,
+    UpdateProjectRequest $request,
     Project $project
   ) {
-    $project->update([
-      'name'      => $request->name,
-      'starts_at' => $request->starts_at,
-      'deadline'  => $request->deadline,
-    ]);
+    $project->update(
+      $request->validated()
+    );
 
     return redirect()->back()->with([
       'success' => 'Project Updated',
