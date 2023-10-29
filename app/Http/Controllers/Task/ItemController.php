@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Task;
 
 use App\Http\Controllers\Controller;
 use App\Models\Task;
-use App\Models\TaskTodo;
+use App\Models\TaskItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class TodoController extends Controller {
+class ItemController extends Controller {
   /**
    * Store a newly created resource in storage.
    *
@@ -17,14 +17,14 @@ class TodoController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function store(Request $request, Task $task) {
-    $task->todos()->create([
+    $task->items()->create([
       'task' => $request->task,
       'creator_id' => Auth::id(),
       'status' => 0,
     ]);
 
     return redirect()->back()->with([
-      'success' => 'Todo list item added',
+      'success' => 'Task item added',
     ]);
   }
 
@@ -32,32 +32,32 @@ class TodoController extends Controller {
    * Update the specified resource in storage.
    *
    * @param  \Illuminate\Http\Request  $request
-   * @param  \App\Models\TaskTodo  $todoListItem
+   * @param  \App\Models\TaskItem  $taskItem
    * @return \Illuminate\Http\Response
    */
   public function update(
     Request $request,
-    TaskTodo $todoListItem
+    TaskItem $taskItem
   ) {
-    $todoListItem->status = $request->status;
-    $todoListItem->save();
+    $taskItem->status = $request->status;
+    $taskItem->save();
 
     return redirect()->back()->with([
-      'success' => 'Status updated',
+      'success' => 'Task item updated',
     ]);
   }
 
   /**
    * Remove the specified resource from storage.
    *
-   * @param  \App\Models\TaskTodo  $todoListItem
+   * @param  \App\Models\TaskItem  $taskItem
    * @return \Illuminate\Http\Response
    */
-  public function destroy(TaskTodo $todoListItem) {
-    $todoListItem->delete();
+  public function destroy(TaskItem $taskItem) {
+    $taskItem->delete();
 
     return redirect()->back()->with([
-      'success' => 'Status updated',
+      'success' => 'Task item updated',
     ]);
   }
 }

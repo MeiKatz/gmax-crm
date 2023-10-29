@@ -240,8 +240,8 @@ Route::group(['middleware' => ['auth']], function(){
         ->name('tasks.')
         ->group(function () {
             Route::resource(
-                'todos',
-                Task\TodoController::class
+                'items',
+                Task\ItemController::class
             )->only([
                 'store',
                 'update',

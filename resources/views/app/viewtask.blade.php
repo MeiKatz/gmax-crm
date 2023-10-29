@@ -96,7 +96,7 @@
                 </div>
                 <div class="card-body">
           
-                  <form action="{{ route('tasks.todos.store', [ $task ]) }}" method="post">
+                  <form action="{{ route('tasks.items.store', [ $task ]) }}" method="post">
                     @csrf
                     <div class="row">
                     <div class="col-md-9">                     
@@ -110,15 +110,15 @@
            
                 </div>
                 <div class="list-group list-group-flush">
-                  @foreach($todos as $todo)
+                  @foreach($taskItems as $taskItem)
                   <div class="list-group-item">
                     <div class="row align-items-center">
                       <div class="col-auto">
-                        <form action="{{ route('tasks.todos.update', [ $task, $todo ]) }}" method="post">
+                        <form action="{{ route('tasks.items.update', [ $task, $taskItem ]) }}" method="post">
                           @csrf
                           @method('PUT')
 
-                          @if ( $todo->status == 0 )
+                          @if ( $taskItem->status == 0 )
                             <input type="checkbox" name="status" value="1" onchange="this.form.submit()" class="form-check-input" />
                           @else 
                             <input type="checkbox" name="status" value="0" onchange="this.form.submit()" class="form-check-input" checked />
@@ -126,16 +126,16 @@
                         </form>
                       </div>                    
                       <div class="col text-truncate">
-                        @if($todo->status==0)
-                        <a class="text-reset d-block">{{$todo->task}}</a>
+                        @if($taskItem->status==0)
+                        <a class="text-reset d-block">{{$taskItem->task}}</a>
                         @else 
-                        <a class="text-reset d-block"><s>{{$todo->task}}</s></a>
+                        <a class="text-reset d-block"><s>{{$taskItem->task}}</s></a>
                         @endif
                  
-                        <small class="d-block text-muted text-truncate mt-n1">Added By {{$todo->creator->name}} on {{$todo->created_at->diffForHumans()}} </small>
+                        <small class="d-block text-muted text-truncate mt-n1">Added By {{$taskItem->creator->name}} on {{$taskItem->created_at->diffForHumans()}} </small>
                       </div>
                       <div class="col-auto">
-                        <form method="post" action="{{ route('tasks.todos.destroy', [ $task, $todo ]) }}" onsubmit="return confirm('Are you sure?')">
+                        <form method="post" action="{{ route('tasks.items.destroy', [ $task, $taskItem ]) }}" onsubmit="return confirm('Are you sure?')">
                           @csrf
                           @method('DELETE')
 

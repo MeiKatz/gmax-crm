@@ -35,9 +35,9 @@ class Task extends Model
         
     }
 
-    public function todos() {
+    public function items() {
         return $this->hasMany(
-            TaskTodo::class
+            TaskItem::class
         );
     }
 

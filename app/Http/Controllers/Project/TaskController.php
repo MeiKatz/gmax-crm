@@ -7,7 +7,7 @@ use App\Models\Notification;
 use App\Models\Project;
 use App\Models\ProjectUpdate;
 use App\Models\Task;
-use App\Models\TaskTodo;
+use App\Models\TaskItem;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -50,14 +50,14 @@ class TaskController extends Controller {
       abort(404);
     }
 
-    $todos = TaskTodo::where('task_id', $task->id)->orderby('id', 'desc')->get();
+    $taskItems = TaskItem::where('task_id', $task->id)->orderby('id', 'desc')->get();
     $taskComments = ProjectUpdate::where('task_id', $task->id)->orderby('id', 'desc')->paginate(7);
 
     return view('app.viewtask')->with([
       'project' => $project,
       'task' => $task,
       'taskcomments' => $taskComments,
-      'todos' => $todos,
+      'taskItems' => $taskItems,
     ]);
   }
 

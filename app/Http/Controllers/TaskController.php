@@ -34,14 +34,14 @@ class TaskController extends Controller {
       abort(404);
     }
 
-    $todos = $task->todos()->orderby('id', 'desc')->get();
+    $taskItems = $task->items()->orderby('id', 'desc')->get();
     $taskComments = $task->updates()->orderby('id', 'desc')->paginate(7);
 
     return view('app.viewtask')->with([
       'project' => $project,
       'task' => $task,
       'taskcomments' => $taskComments,
-      'todos' => $todos,
+      'taskItems' => $taskItems,
     ]);
   }
 }
