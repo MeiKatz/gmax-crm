@@ -194,7 +194,7 @@
                   
                    # {{$invoice->invoid}}
                 </td>
-                <td><a href="{{route('editinvoice', [ $invoice ])}}"> {{$invoice->title}}</a></td>
+                <td><a href="{{ route('invoices.edit', [ $invoice ]) }}"> {{$invoice->title}}</a></td>
                 <td>
                   @if ( empty( $invoice->client ) )
                   <span>Removed</span>

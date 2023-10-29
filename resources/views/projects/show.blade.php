@@ -274,7 +274,7 @@
               <tr>
                 <td># {{ $invoice->invoid }}</td>
                 <td>
-                  <a href="{{ route('editinvoice', ['id' => $invoice->id]) }}">{{ $invoice->title }}</a>
+                  <a href="{{ route('invoices.edit', [ $invoice ]) }}">{{ $invoice->title }}</a>
                 </td>
                 <td>{{ $invoice->duedate }}</td>
                 <td>{{ $invoice->totalamount }}</td>

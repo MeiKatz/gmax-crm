@@ -83,6 +83,26 @@ class InvoiceController extends Controller
         return redirect('/invoice/edit/' . $invoice->id);
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Invoice  $invoice
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(
+        Request $request,
+        Invoice $invoice
+    ) {
+        $invoiceItems = $invoices->items()->paginate(100);
+        $payments = $invoices->payments()->paginate(100);
+
+        return view('app.editinvoice')->with([
+            'invoice' => $invoice,
+            'invoiceItems' => $invoiceItems,
+            'payments' => $payments,
+        ]);
+    }
+
     
     public function editinvoicedata(Request $request)
     {
@@ -92,14 +112,6 @@ class InvoiceController extends Controller
      $invoice->duedate = $request->duedate;
      $invoice->save();  
      return redirect()->back()->with('success', 'Invoice Updated'); 
-    }
-
-    public function editinvoice(Request $request)
-    {
-     $invoices = Invoice::findOrFail($request->id);
-     $invoiceItems = $invoices->items()->paginate(100);
-     $paymentreceipt = $invoices->payments()->paginate(100);
-     return view('app.editinvoice')->with(['invoice'=> $invoices])->with(['invoice_items'=> $invoiceItems])->with(['payments'=> $paymentreceipt]);
     }
  
     public function newinvoicemeta(Request $request)

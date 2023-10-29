@@ -105,6 +105,7 @@ Route::group(['middleware' => ['auth']], function(){
     )->only([
         'index',
         'store',
+        'edit',
     ]);
 
     Route::prefix('/invoices')->group(function () {
@@ -112,10 +113,6 @@ Route::group(['middleware' => ['auth']], function(){
             InvoiceController::class,
             'editinvoicedata'
         ])->name('editinvoicedata');
-        Route::get('/edit/{id}', [
-            InvoiceController::class,
-            'editinvoice'
-        ])->name('editinvoice');
         Route::get('/delete/{id}', [
             InvoiceController::class,
             'deleteinvoice'

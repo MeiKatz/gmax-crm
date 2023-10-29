@@ -292,7 +292,7 @@
                     
                    # {{$invoice->invoid}}
                 </td>
-                <td><a href="{{route('editinvoice', ['id' => $invoice->id])}}"> {{$invoice->title}}</a></td>
+                <td><a href="{{ route('invoices.edit', [ $invoice ]) }}">{{ $invoice->title }}</a></td>
                 <td>
                   <a href="/client/ {{ !empty($invoice->client) ? $invoice->client->id:'' }}">   {{ !empty($invoice->client) ? $invoice->client->name:'Removed' }} </a>
                 </td>
