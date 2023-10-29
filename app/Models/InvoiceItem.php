@@ -60,24 +60,35 @@ class InvoiceItem extends Model
         );
     }
 
+    /**
+     * @return int
+     */
     public function getTotalAmountWithoutTaxesAttribute() {
         return $this->quantity * $this->amount_per_item;
-    }
-
-    public function getTotalAmountAttribute() {
-        $totalAmountWithoutTaxes = $this->total_amount_without_taxes;
-
-        if ( !$this->invoice->is_taxable ) {
-            return $totalAmountWithoutTaxes;
-        }
-
-        return $this->getTax() * $totalAmountWithoutTaxes / 100;
     }
 
     /**
      * @return int
      */
-    private function getTax() {
+    public function getTotalAmountAttribute() {
+        return $this->total_amount_without_taxes + $this->getTaxes();
+    }
+
+    /**
+     * @return int
+     */
+    private function getTaxes() {
+        if ( !$this->invoice->is_taxable ) {
+            return 0;
+        }
+
+        return $this->getTaxInPercents() * $this->total_amount_without_taxes / 100;
+    }
+
+    /**
+     * @return int
+     */
+    private function getTaxInPercents() {
         $settings = Setting::find(1);
         return $settings->taxpercent;
     }
