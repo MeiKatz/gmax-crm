@@ -6,19 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ProjectTask;
 use App\Models\TaskTodo;
-use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 
 class LegacyProjectController extends Controller
 {
-    public function notificationupdate(Request $request)
-    {   
-        $project = Notification::findOrFail($request->id);
-        $project->status =0;
-        $project->save();     
-        return redirect()->back()->with('success', 'Notification Updated');
-    }
-
     public function mytasks(Request $request)
     {   
         $task = ProjectTask::where('assignedto',Auth::id())->orderby('id','desc')->paginate(20);

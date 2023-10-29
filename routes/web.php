@@ -9,6 +9,7 @@ use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\GatewayController;
 use App\Http\Controllers\LegacyProjectController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\Project;
 
@@ -270,14 +271,17 @@ Route::group(['middleware' => ['auth']], function(){
             ]);
         });
 
+    Route::resource(
+        'notifications',
+        NotificationController::class
+    )->only([
+        'destroy',
+    ]);
+
     Route::get('/cashbook', [
         InvoiceController::class,
         'cashbooklist'
     ])->name('cashbooklist');
-    Route::get('/notification/update/{id}', [
-        LegacyProjectController::class,
-        'notificationupdate'
-    ])->name('notificationupdate');
     Route::get('/filemanager', [
         InvoiceController::class,
         'filemanager'
