@@ -174,42 +174,49 @@
                         </thead>
                         <tbody>
 
-                          @foreach($invoice_items as $invoice_item)
+                          @foreach($invoiceItems as $invoiceItem)
+                          @php
+                            $formId = 'edit-invoice-item-' . $invoiceItem->id;
+                          @endphp
                             <tr>
-                              <form action="{{route('editinvoicemeta')}}" method="post">
-                                @csrf
-                                <input type="hidden" name="metaid" value="{{$invoice_item->id}}">
-                                <input type="hidden" name="invoiceid" value="{{$invoice->id}}">
-                                 
-                                  <td class="text-muted"> <input class="form-control form-control-sm" type="text"   value="{{$invoice_item->meta}}" name="meta"  placeholder="Particular "></td>
                                   <td class="text-muted">
-                                    <input class="form-control form-control-sm" type="text" name="quantity"  value="{{$invoice_item->quantity}}" placeholder="Qty">
+                                    <input form="{{ $formId }}" class="form-control form-control-sm" type="text" value="{{$invoiceItem->meta}}" name="meta" placeholder="Particular" />
+                                  </td>
+                                  <td class="text-muted">
+                                    <input form="{{ $formId }}" class="form-control form-control-sm" type="text" name="quantity" value="{{$invoiceItem->quantity}}" placeholder="Qty" />
                                   </td>
                                   <td>
-                                      <select class="form-control form-control-sm" name="qtykey">
-                                        <option value="Qty" @if($invoice_item->qtykey=="Qty") selected @endif> Qty </option>
-                                        <option value="Hour" @if($invoice_item->qtykey=="Hour") selected @endif> Hour </option>
-                                        <option value="Nos" @if($invoice_item->qtykey=="Nos") selected @endif> Nos </option>
+                                      <select form="{{ $formId }}" class="form-control form-control-sm" name="qtykey">
+                                        <option value="Qty" @if($invoiceItem->qtykey=="Qty") selected @endif> Qty </option>
+                                        <option value="Hour" @if($invoiceItem->qtykey=="Hour") selected @endif> Hour </option>
+                                        <option value="Nos" @if($invoiceItem->qtykey=="Nos") selected @endif> Nos </option>
                                       </select>
                                   </td>
                                   <td>                                         
-                                    <input class="form-control form-control-sm" type="text" name="amount"  value="{{$invoice_item->amount_per_item}}"  placeholder="amount">
+                                    <input form="{{ $formId }}" class="form-control form-control-sm" type="text" name="amount" value="{{$invoiceItem->amount_per_item}}" placeholder="amount" />
                                  </td>
                                  @if($invoice->is_taxable)
                                  <td> 
-                                   <input class="form-control form-control-sm" type="text"  value="{{$settings->prefix}}{{$invoice_item->tax}}"  placeholder="total" disabled>
+                                   <input form="{{ $formId }}" class="form-control form-control-sm" type="text" value="{{$settings->prefix}}{{$invoiceItem->tax}}"  placeholder="total" disabled />
                                 </td>
                                 @endif
                                   <td>
-                                    <input class="form-control form-control-sm" type="text"  value="{{$settings->prefix}}{{$invoice_item->total}}"  placeholder="total" disabled>
+                                    <input form="{{ $formId }}" class="form-control form-control-sm" type="text" value="{{$settings->prefix}}{{$invoiceItem->total}}"  placeholder="total" disabled />
                                  </td>
                                 
                                   <td>
-                                      <button type="submit" class="btn btn-success btn-sm"
-                                          style="color: #fff;">Save</button>
+                                    <form id="{{ $formId }}" method="post" action="{{ route('invoices.items.update', [ $invoice, $invoiceItem ]) }}">
+                                      @csrf
+                                      @method('PUT')
+                                      <button type="submit" class="btn btn-success btn-sm"style="color: #fff;">Save</button>
+                                    </form>
                                   </td>
                                   <td>
-                                    <a onclick="return confirm('Are you sure?')" href="/invoices/deleteinvoicemeta/{{$invoice_item->id}}/{{$invoice->id}}" class="btn btn-warning btn-sm"  style="color: #fff;">Del</a>
+                                    <form method="post" action="{{ route('invoices.items.destroy', [ $invoice, $invoiceItem ]) }}" onsubmit="return confirm('Are you sure?')">
+                                      @csrf
+                                      @method('DELETE')
+                                      <button type="submit" class="btn btn-warning btn-sm" style="color: #fff;">Del</button>
+                                    </form>
                                 </td>
                               </form>
                           </tr>
@@ -217,9 +224,8 @@
 
 
                             <tr>
-                                <form action="{{route('newinvoicemeta')}}" method="post">
+                                <form action="{{ route('invoices.items.store', [ $invoice ]) }}" method="post">
                                    @csrf
-                                   <input type="hidden" name="invoiceid" value="{{$invoice->id}}">
                                    
                                     <td class="text-muted"> <input class="form-control form-control-sm" type="text"  name="meta"  placeholder="Particular "></td>
                                     <td class="text-muted">

@@ -111,19 +111,20 @@ Route::group(['middleware' => ['auth']], function(){
         'destroy',
     ]);
 
+    Route::prefix('invoices/{invoice}')
+        ->name('invoices.')
+        ->group(function () {
+            Route::resource(
+                'items',
+                Invoice\ItemController::class,
+            )->only([
+                'store',
+                'update',
+                'destroy',
+            ]);
+        });
+
     Route::prefix('/invoices')->group(function () {
-        Route::post('/meta/save', [
-            InvoiceController::class,
-            'newinvoicemeta'
-        ])->name('newinvoicemeta');
-        Route::post('/meta/edit', [
-            InvoiceController::class,
-            'editinvoicemeta'
-        ])->name('editinvoicemeta');
-        Route::get('/deleteinvoicemeta/{id}/{invo}', [
-            InvoiceController::class,
-            'deleteinvoicemeta'
-        ])->name('deleteinvoicemeta');
         Route::post('/payments/save', [
             InvoiceController::class,
             'invopaymentsave'

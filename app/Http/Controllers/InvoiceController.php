@@ -7,13 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\Client;
 use App\Models\Invoice;
 use Carbon\Carbon;
-use App\Models\InvoiceItem;
 use App\Models\PaymentReceipt;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\InvoiceMail;
 use App\Mail\QuoteMail;
-use App\Models\Setting;
-use App\Models\Notification;
 use App\Models\Project;
 use App\Models\Business;
 use App\Models\ExpenseManager;
@@ -158,79 +155,6 @@ class InvoiceController extends Controller
             'success' => 'Record Deleted',
         ]);
     }
- 
-    public function newinvoicemeta(Request $request)
-     { 
-        $invoice = Invoice::findOrFail($request->invoiceid);
-
-        $invoiceItem = $invoice->items()->create([
-            'quantity' => $request->quantity,
-            'qtykey' => $request->qtykey,
-            'meta' => $request->meta,
-            'amount_per_item' => $request->amount,
-        ]);
-
-        //get invoice updated
-        $invoice->totalamount = $invoice->total_amount;
-        $invoice->save();
-
-        return redirect()->back();
-     }
-
-     public function editinvoicemeta(Request $request)
-     {             
-        if($request->meta!=NULL)
-        {
-        $invoice = Invoice::findOrFail($request->invoiceid);
-
-        $invoiceItem = $invoice->items()->find( $request->metaid );
-
-        $invoiceItem->update([
-            'quantity' => $request->quantity,
-            'qtykey' => $request->qtykey,
-            'meta' => $request->meta,
-            'amount_per_item' => $request->amount,
-        ]);
-         
-         return redirect()->back()->with('success', 'Invoice Updated'); 
-        }
-        else
-        {
-            return redirect()->back()->with('warning', 'Particular cannot be blank');
-        }
-
-          
-     }
-
-     public function deleteinvoicemeta(Request $request)
-     {       
-         $invoiceItemId =$request->id;
-         $invoid =$request->invo;        
-         $invoices = Invoice::findOrFail($request->invo);
-         if($invoiceItemId!=NULL)
-         {
-            $meta = $invoices->items()->find( $invoiceItemId );
-           $meta->delete();
-
-          //get invoice updated   
-          $invoiceItemdata = $invoices->items;
-          $totalamt = 0;      
-          foreach ($invoiceItemdata as $value) {
-            $totalamt += $value->total;
-          }                   
-         $invoices->totalamount = $totalamt;  
-          $invoices->save();   
-
-         return redirect()->back()->with('success', 'Item Deleted');
-         }
-         else
-         {
-             return redirect()->back()->with('danger', 'Please Try Again');
-         }
-
-         
- 
-     }
 
      public function invoicetaxenable(Request $request)
     {    
