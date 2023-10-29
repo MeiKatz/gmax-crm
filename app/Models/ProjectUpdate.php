@@ -15,7 +15,7 @@ class ProjectUpdate extends Model
      * @var array
      */
     protected $fillable = [
-        'auth',
+        'creator_id',
         'file',
         'image',
         'message',
@@ -23,10 +23,11 @@ class ProjectUpdate extends Model
         'task_id',
     ];
 
-    public function addedby()
-	{
-        return  $this->belongsTo(User::class, 'auth', 'id');
-        
+    public function creator() {
+        return $this->belongsTo(
+            User::class,
+            'creator_id'
+        );
     }
 
     public function project() {

@@ -178,12 +178,12 @@
                     <li class="list-group-item" >
                       <div class="d-flex">
                         <div>
-                          <span class="avatar mr-3" style="background-image: url({{$update->addedby->profile_photo_url}}); margin-right: 10px;"></span>
+                          <span class="avatar mr-3" style="background-image: url({{$update->creator->profile_photo_url}}); margin-right: 10px;"></span>
                         </div>
                         <div class="flex-fill">
                           <div>                        
                             <small class=" text-muted" style="float: right;">{{$update->created_at->diffForHumans()}}</small>
-                            <h4>{{$update->addedby->name}}</h4>
+                            <h4>{{$update->creator->name}}</h4>
                           </div>
                           <div>                    
                           {!! nl2br(e($update->message)) !!}
