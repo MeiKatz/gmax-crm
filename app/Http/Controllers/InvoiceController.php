@@ -97,7 +97,10 @@ class InvoiceController extends Controller
             ]);
         });
 
-        return redirect('/invoice/edit/' . $invoice->id);
+        return redirect()->route(
+            'invoices.edit',
+            [ $invoice ]
+        );
     }
 
     /**
