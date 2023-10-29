@@ -106,13 +106,10 @@ Route::group(['middleware' => ['auth']], function(){
         'index',
         'store',
         'edit',
+        'update',
     ]);
 
     Route::prefix('/invoices')->group(function () {
-        Route::post('/edit/save', [
-            InvoiceController::class,
-            'editinvoicedata'
-        ])->name('editinvoicedata');
         Route::get('/delete/{id}', [
             InvoiceController::class,
             'deleteinvoice'

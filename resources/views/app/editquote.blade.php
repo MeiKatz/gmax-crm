@@ -406,9 +406,9 @@
                  </svg>
                 </b>
               </div>
-              <form action="{{route('editinvoicedata')}}" method="post">
+              <form action="{{ route('invoices.update', [ $invoice ]) }}" method="post">
                   @csrf
-                  <input type="hidden" name="invoiceid" value="{{$invoice->id}}">
+                  @method('PUT')
               <div class="modal-body">
                 <div class="mb-2">
                   <label class="form-label">Title</label>

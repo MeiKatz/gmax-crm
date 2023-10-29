@@ -103,15 +103,25 @@ class InvoiceController extends Controller
         ]);
     }
 
-    
-    public function editinvoicedata(Request $request)
-    {
-     $invoice = Invoice::findOrFail($request->invoiceid);   
-     $invoice->title =$request->title;   
-     $invoice->invodate = $request->invodate;
-     $invoice->duedate = $request->duedate;
-     $invoice->save();  
-     return redirect()->back()->with('success', 'Invoice Updated'); 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Invoice  $invoice
+     * @return \Illuminate\Http\Response
+     */
+    public function update(
+        Request $request,
+        Invoice $invoice
+    ) {
+        $invoice->title = $request->title;
+        $invoice->invodate = $request->invodate;
+        $invoice->duedate = $request->duedate;
+        $invoice->save();
+
+        return redirect()->back()->with([
+            'success' => 'Invoice Updated',
+        ]);
     }
  
     public function newinvoicemeta(Request $request)
