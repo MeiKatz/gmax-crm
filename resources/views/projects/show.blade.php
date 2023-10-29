@@ -12,7 +12,7 @@
 </script>
 <div class="row">
   <div class="col-md-3">
-    @include('app.projectnav', [ 'project' => $project ])
+    @include('projects._nav', [ 'project' => $project ])
     <br />
     <br />
     <div class="dropdown-menu dropdown-menu-demo ">

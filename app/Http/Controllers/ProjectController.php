@@ -29,7 +29,7 @@ class ProjectController extends Controller {
         ->paginate(15)
     );
 
-    return view('app.listofprojects')->with([
+    return view('projects.index')->with([
       'clients' => $clients,
       'projects' => $projects,
     ]);
@@ -97,7 +97,7 @@ class ProjectController extends Controller {
         ->paginate(3)
     );
 
-    return view('app.projectview')->with([
+    return view('projects.show')->with([
       'balanceDays' => $balanceDays,
       'counts' => $counts,
       'invoices' => $invoices,

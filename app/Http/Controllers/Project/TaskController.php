@@ -28,7 +28,7 @@ class TaskController extends Controller {
         ->paginate(30)
     );
 
-    return view('app.projectviewtasks')->with([
+    return view('projects.tasks')->with([
       'project' => $project,
       'tasks' => $projectTasks,
       'users' => $users,

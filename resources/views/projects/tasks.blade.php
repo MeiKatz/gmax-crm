@@ -6,7 +6,7 @@
 
 <div class="row">
     <div class="col-md-3">
-      @include('app.projectnav', [ 'project' => $project->id ])
+      @include('projects._nav', [ 'project' => $project->id ])
       <br> <br>
 <div class="card">
     <div class="card-header">

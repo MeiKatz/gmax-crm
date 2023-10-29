@@ -15,7 +15,7 @@ class NoteController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function show(Project $project) {
-    return view('app.projectviewnote')->with([
+    return view('projects.note')->with([
       'note' => $project->note,
       'project' => $project,
     ]);

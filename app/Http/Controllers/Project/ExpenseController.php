@@ -30,7 +30,7 @@ class ExpenseController extends Controller
             ->orderBy('id', 'desc')
             ->paginate(15);
 
-        return view('app.projectexpenses')
+        return view('projects.expenses')
             ->with([
                 'expenses' => $expenses,
                 'projects' => $projects,
