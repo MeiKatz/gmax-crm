@@ -25,6 +25,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::redirect(
+    '.well-known/change-password',
+    'forgot-password'
+);
+
 Route::get('/', function () {
     return redirect('/login');
 });
