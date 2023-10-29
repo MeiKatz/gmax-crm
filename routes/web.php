@@ -23,6 +23,11 @@ use App\Http\Controllers\Project;
 |
 */
 
+Route::redirect(
+    '.well-known/change-password',
+    'forgot-password'
+);
+
 Route::get('/', function () {
     return redirect('/login');
 });
