@@ -241,8 +241,8 @@
 
                
 
-                  <li class="nav-item  @if(Request::is('filemanager')){{ 'active' }}@endif">
-                    <a class="nav-link" href="/filemanager" >
+                  <li class="nav-item  @if(Request::is('file-manager')){{ 'active' }}@endif">
+                    <a class="nav-link" href="{{ route('file-manager') }}">
                       <span class="nav-link-icon d-md-none d-lg-inline-block">
                         <x-icon.file-manager />
                       </span>
@@ -575,8 +575,8 @@
   
                  
   
-                    <li class="nav-item  @if(Request::is('filemanager')){{ 'active' }}@endif">
-                      <a class="nav-link" href="/filemanager" >
+                    <li class="nav-item  @if(Request::is('file-manager')){{ 'active' }}@endif">
+                      <a class="nav-link" href="{{ route('file-manager') }}">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                           <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-cloud-upload" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>

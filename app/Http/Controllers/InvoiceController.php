@@ -342,13 +342,6 @@ class InvoiceController extends Controller
      }
 
 
-     /**************file manager*********** */
-     public function filemanager(Request $request)
-     {   
-         return view('app.filemanager');     
-     }
-
-
      /************ recorring invoice ************/
 
      public function createrecorringinvoice(Request $request)

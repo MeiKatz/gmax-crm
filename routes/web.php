@@ -5,6 +5,7 @@ use App\Http\Controllers\CashbookController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\FileManagerController;
 use App\Http\Controllers\GatewayController;
 use App\Http\Controllers\Invoice;
 use App\Http\Controllers\InvoiceController;
@@ -99,6 +100,11 @@ Route::group(['middleware' => ['auth']], function(){
         'cashbook',
         CashbookController::class
     )->name('cashbook');
+
+    Route::get(
+        'file-manager',
+        FileManagerController::class
+    )->name('file-manager');
 
     Route::resource(
         'expenses',
@@ -262,10 +268,6 @@ Route::group(['middleware' => ['auth']], function(){
     )->only([
         'destroy',
     ]);
-    Route::get('/filemanager', [
-        InvoiceController::class,
-        'filemanager'
-    ])->name('filemanager');
     Route::get('/update', [
         AdminController::class,
         'updatesystem'
