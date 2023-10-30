@@ -10,6 +10,7 @@ use App\Http\Controllers\GatewayController;
 use App\Http\Controllers\Invoice;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\Offer;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\PayInvoiceController;
 use App\Http\Controllers\Project;
@@ -181,6 +182,15 @@ Route::group(['middleware' => ['auth']], function(){
         'edit',
     ]);
 
+    Route::prefix('offers/{offer}')
+        ->name('offers.')
+        ->group(function () {
+            Route::post(
+                'email-with-offer',
+                Offer\EmailWithOfferController::class
+            )->name('send-email');
+        });
+
     Route::prefix('/quotes')->group(function () {
         Route::get('/stat/{id}/{stat}', [
             InvoiceController::class,
@@ -190,10 +200,6 @@ Route::group(['middleware' => ['auth']], function(){
             InvoiceController::class,
             'converttoinvo'
         ])->name('converttoinvo');
-        Route::get('/email/{id}', [
-            InvoiceController::class,
-            'emailquote'
-        ])->name('emailquote');
     });
 
     Route::resource(

@@ -11,7 +11,6 @@ use Carbon\Carbon;
 use App\Models\PaymentReceipt;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\InvoiceMail;
-use App\Mail\QuoteMail;
 use App\Models\Business;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -279,14 +278,6 @@ class InvoiceController extends Controller
      {
       $invoices = Invoice::findOrFail($request->id);      
       Mail::to($invoices->clientdata->email)->send(new InvoiceMail($invoices));
-      return redirect()->back()->with('success', 'Mail Sent!');
-     }
-
-     /****************************** Quotes ******************************* */
-     public function emailquote(Request $request)
-     {
-      $invoices = Invoice::findOrFail($request->id);      
-      Mail::to($invoices->clientdata->email)->send(new QuoteMail($invoices));
       return redirect()->back()->with('success', 'Mail Sent!');
      }
 
