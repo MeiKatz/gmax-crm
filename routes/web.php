@@ -147,9 +147,9 @@ Route::group(['middleware' => ['auth']], function(){
             ]);
 
             Route::post(
-                'email-with-invoice',
-                Invoice\EmailWithInvoiceController::class,
-            )->name('send-email');
+                'invoice-email',
+                Invoice\InvoiceEmailController::class,
+            )->name('invoice-email.send');
         });
 
     Route::prefix('/invoices')->group(function () {
@@ -193,9 +193,9 @@ Route::group(['middleware' => ['auth']], function(){
         ->name('offers.')
         ->group(function () {
             Route::post(
-                'email-with-offer',
-                Offer\EmailWithOfferController::class
-            )->name('send-email');
+                'offer-email',
+                Offer\OfferEmailController::class
+            )->name('offer-email.send');
         });
 
     Route::prefix('/quotes')->group(function () {

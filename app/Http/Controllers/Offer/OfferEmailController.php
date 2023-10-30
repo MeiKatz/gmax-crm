@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\Invoice;
+namespace App\Http\Controllers\Offer;
 
 use App\Http\Controllers\Controller;
-use App\Mail\InvoiceMail;
+use App\Mail\OfferMail;
 use App\Models\Invoice;
 use Illuminate\Support\Facades\Mail;
 
-class EmailWithInvoiceController extends Controller {
+class OfferEmailController extends Controller {
   /**
    * Handle the incoming request.
    *
-   * @param  \App\Models\Invoice  $invoice
+   * @param  \App\Models\Invoice  $offer
    * @return \Illuminate\Http\Response
    */
-  public function __invoke(Invoice $invoice) {
+  public function __invoke(Invoice $offer) {
     Mail::to(
-      $invoice->client->email
+      $offer->client->email
     )->send(
-      new InvoiceMail( $invoice )
+      new OfferMail( $offer )
     );
 
     return redirect()->back()->with('success', 'Mail Sent!');
