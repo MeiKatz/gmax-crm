@@ -9,8 +9,6 @@ use App\Models\Client;
 use App\Models\Invoice;
 use Carbon\Carbon;
 use App\Models\PaymentReceipt;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\InvoiceMail;
 use App\Models\Business;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -272,13 +270,6 @@ class InvoiceController extends Controller
         {
             return redirect()->back()->with('warning', 'Amount cannot be blank');
         }
-     }
-
-     public function emailinvoice(Request $request)
-     {
-      $invoices = Invoice::findOrFail($request->id);      
-      Mail::to($invoices->clientdata->email)->send(new InvoiceMail($invoices));
-      return redirect()->back()->with('success', 'Mail Sent!');
      }
 
      public function viewquotepublic(Request $request)

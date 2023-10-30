@@ -139,6 +139,11 @@ Route::group(['middleware' => ['auth']], function(){
                 'update',
                 'destroy',
             ]);
+
+            Route::post(
+                'email-with-invoice',
+                Invoice\EmailWithInvoiceController::class,
+            )->name('send-email');
         });
 
     Route::prefix('/invoices')->group(function () {
@@ -158,10 +163,6 @@ Route::group(['middleware' => ['auth']], function(){
             InvoiceController::class,
             'refundinvoice'
         ])->name('refundinvoice');
-        Route::get('/email/{id}', [
-            InvoiceController::class,
-            'emailinvoice'
-        ])->name('emailinvoice');
         Route::post('/recurring/save', [
             InvoiceController::class,
             'createrecorringinvoice'
