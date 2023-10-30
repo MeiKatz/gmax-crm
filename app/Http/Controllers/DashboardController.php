@@ -59,7 +59,7 @@ class DashboardController extends Controller
         $counts['prjincompleted'] = Project::where('status',5)->count();
 
         $tasks = Task::where(
-            'assignedto',
+            'assigned_user_id',
             Auth::id()
         )->where('status',1)->orderby('id','desc')->get();
         $invoices = Invoice::where(

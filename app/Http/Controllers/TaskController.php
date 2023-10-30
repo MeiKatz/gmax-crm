@@ -14,7 +14,7 @@ class TaskController extends Controller {
    */
   public function index() {
     $tasks = Task::where(
-      'assignedto',
+      'assigned_user_id',
       Auth::id()
     )->orderby('id', 'desc')->paginate(20);
 
@@ -30,7 +30,7 @@ class TaskController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function show(Task $task) {
-    if ( $task->assignedto !== Auth::id() ) {
+    if ( $task->assigned_user_id !== Auth::id() ) {
       abort(404);
     }
 

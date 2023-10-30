@@ -15,12 +15,15 @@ trait HasRelations {
     );
   }
 
-  public function assigned() {
+  public function assignedUser() {
     return $this->belongsTo(
       User::class,
-      'assignedto',
-      'id'
+      'assigned_user_id'
     );
+  }
+
+  public function assigned_user() {
+    return $this->assignedUser();
   }
 
   public function items() {

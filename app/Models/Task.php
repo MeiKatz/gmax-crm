@@ -17,11 +17,27 @@ class Task extends Model
      * @var array
      */
     protected $fillable = [
-        'assignedto',
+        'assigned_user_id',
         'creator_id',
         'project_id',
         'status',
         'task',
         'type',
     ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'is_assigned',
+    ];
+
+    /**
+     * @return bool
+     */
+    public function getIsAssignedAttribute() {
+        return $this->assigned_user_id !== null;
+    }
 }
