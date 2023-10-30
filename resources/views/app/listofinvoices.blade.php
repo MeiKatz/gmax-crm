@@ -23,7 +23,7 @@
               </span>
             </div>
             <div class="col">
-              <a href="/invoices?filter%5Binvostatus%5D=1" style="text-decoration: none;"><div class="font-weight-medium">
+              <a href="{{ route('invoices.index') }}?filter%5Binvostatus%5D=1" style="text-decoration: none;"><div class="font-weight-medium">
                 {{$counts['unpaid']}}  Unpaid Invoices
               </div>
               </a>
@@ -52,7 +52,7 @@
             </div>
             <div class="col">
               <div class="font-weight-medium">
-                <a href="/invoices?filter%5Binvostatus%5D=2" style="text-decoration: none;">   {{$counts['partially_paid']}}  Partpaid Invoices </a>
+                <a href="{{ route('invoices.index') }}?filter%5Binvostatus%5D=2" style="text-decoration: none;">   {{$counts['partially_paid']}}  Partpaid Invoices </a>
               </div> 
               <div class="text-muted">
               
@@ -78,7 +78,7 @@
             </div>
             <div class="col">
               <div class="font-weight-medium">
-                <a href="/invoices?filter%5Binvostatus%5D=3" style="text-decoration: none;">  {{$counts['paid']}}  Paid Invoices </a>
+                <a href="{{ route('invoices.index') }}?filter%5Binvostatus%5D=3" style="text-decoration: none;">  {{$counts['paid']}}  Paid Invoices </a>
               </div>
               <div class="text-muted">
                
@@ -103,7 +103,7 @@
             </div>
             <div class="col">
               <div class="font-weight-medium">
-                <a href="/invoices?filter%5Binvostatus%5D=5" style="text-decoration: none;">  {{$counts['cancelled']}}  Canceled Invoices </a>
+                <a href="{{ route('invoices.index') }}?filter%5Binvostatus%5D=5" style="text-decoration: none;">  {{$counts['cancelled']}}  Canceled Invoices </a>
               </div>
               <div class="text-muted">
                
@@ -130,7 +130,7 @@
       </div> 
     </div>
       <div id="advancedsearch" style="display:none;">
-        <form action="{{ route('listofinvoices') }}" method="get">
+        <form action="{{ route('invoices.index') }}" method="get">
           <div class="row" style=" margin:10px;">				
             <div class="col-md-2">					
                 <label class="form-label" style="margin-bottom: 0px;  padding-left:2px; font-size:13px;">Title</label>
@@ -194,7 +194,7 @@
                   
                    # {{$invoice->invoid}}
                 </td>
-                <td><a href="{{route('editinvoice', [ $invoice ])}}"> {{$invoice->title}}</a></td>
+                <td><a href="{{ route('invoices.edit', [ $invoice ]) }}"> {{$invoice->title}}</a></td>
                 <td>
                   @if ( empty( $invoice->client ) )
                   <span>Removed</span>
@@ -230,10 +230,11 @@
                             <a class="dropdown-item" href="/invoices/edit/{{$invoice->id}}">
                                 Edit Invoice
                             </a>
-                            <a class="dropdown-item" onclick="return confirm('Are you sure?')"
-                                href="/invoices/delete/{{$invoice->id}}">
-                                Delete Invoice
-                            </a>
+                            <form method="post" action="{{ route('invoices.destroy', [ $invoice ]) }}" onsubmit="return confirm('Are you sure?')">
+                              @csrf
+                              @method('DELETE')
+                              <button type="submit" class="dropdown-item">Delete Invoice</button>
+                            </form>
                         </div>
                     </span>
                 </td>
@@ -265,7 +266,7 @@
            </svg>
           </b>
         </div>
-    <form action="{{route('createnewinvoice')}}" method="post">
+    <form action="{{ route('invoices.store') }}" method="post">
         @csrf
         <div class="modal-body">
             <div class="mb-2">

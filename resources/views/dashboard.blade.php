@@ -13,7 +13,7 @@
 
     <div class="row">
         <div class="col-md-3 mb-2">
-          <a href="/invoices?filter[invostatus]=1">
+          <a href="{{ route('invoices.index') }}?filter[invostatus]=1">
             <div class="card card-sm">
                 <div class="card-body">
                   <div class="row align-items-center">
@@ -35,7 +35,7 @@
               </div></a>
         </div>
         <div class="col-md-3 mb-2"> 
-          <a href="/invoices?filter[invostatus]=3">
+          <a href="{{ route('invoices.index') }}?filter[invostatus]=3">
             <div class="card card-sm">
                 <div class="card-body">
                   <div class="row align-items-center">
@@ -292,7 +292,7 @@
                     
                    # {{$invoice->invoid}}
                 </td>
-                <td><a href="{{route('editinvoice', ['id' => $invoice->id])}}"> {{$invoice->title}}</a></td>
+                <td><a href="{{ route('invoices.edit', [ $invoice ]) }}">{{ $invoice->title }}</a></td>
                 <td>
                   <a href="/client/ {{ !empty($invoice->client) ? $invoice->client->id:'' }}">   {{ !empty($invoice->client) ? $invoice->client->name:'Removed' }} </a>
                 </td>
@@ -314,13 +314,17 @@
                         <button class="btn  btn-sm dropdown-toggle align-text-top"
                             data-boundary="viewport" data-toggle="dropdown">Actions</button>
                         <div class="dropdown-menu dropdown-menu-right">
+
                             <a class="dropdown-item" href="/invoices/edit/{{$invoice->id}}">
                               {{ __('Edit_Invoice') }}
                             </a>
-                            <a class="dropdown-item" onclick="return confirm('Are you sure?')"
-                                href="/invoices/delete/{{$invoice->id}}">
+                          <form method="post" action="{{ route('invoices.destroy', [ $invoice ]) }}" onsubmit="return confirm('Are you sure?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="dropdown-item">
                                 {{ __('Delete_Invoice') }}
-                            </a>
+                            </button>
+                          </form>
                         </div>
                     </span>
                 </td>
@@ -352,7 +356,7 @@
            </svg>
           </b>
         </div>
-    <form action="{{route('createnewinvoice')}}" method="post">
+    <form action="{{ route('invoices.store') }}" method="post">
         @csrf
         <div class="modal-body">
             <div class="mb-2">

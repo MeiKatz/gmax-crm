@@ -3,157 +3,154 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateInvoiceRequest;
 use Illuminate\Http\Request;
 use App\Models\Client;
 use App\Models\Invoice;
 use Carbon\Carbon;
-use App\Models\InvoiceItem;
 use App\Models\PaymentReceipt;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\InvoiceMail;
-use App\Mail\QuoteMail;
-use App\Models\Setting;
-use App\Models\Notification;
-use App\Models\Project;
 use App\Models\Business;
-use App\Models\ExpenseManager;
-use App\Models\PaymentGateway;
 use Spatie\QueryBuilder\QueryBuilder;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
 {
-    public function listofinvoices(Request $request)
-    { 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request) {
         $counts = Invoice::getCounts();
-        $client = Client::all();
-        $invoices = QueryBuilder::for(Invoice::class)
-        ->allowedFilters(['title','userid','invoid','invostatus'])
-        ->where('type',2)->orderBy('id','desc')->paginate(15);
-        //$invoices = Invoice::orderby('id','desc')->where('type',2)->paginate(15);
-        return view('app.listofinvoices')->with(['invoices' =>$invoices])->with(['clients'=> $client])->with('counts', $counts);     
-    }
+        $clients = Client::all();
+        $invoices = QueryBuilder::for( Invoice::class )
+            ->allowedFilters([
+                'title',
+                'userid',
+                'invoid',
+                'invostatus',
+            ])
+            ->where('type', 2)
+            ->orderBy('id', 'desc')
+            ->paginate(15);
 
-    public function createnewinvoice(Request $request)
-    {       
-        $invoices = Invoice::where('type',2)->orderby('id','desc')->first();  
-        $invoice =new Invoice();
-        $invoice->type=2;
-        $invoice->title =$request->title;
-        $invoice->userid =$request->userid;
-        $invoice->adminid = Auth::id();  
-        if(Invoice::where('type',2)->count()==0){
-        $invoice->invoid =1; }
-        else{
-            $invoice->invoid =$invoices->invoid+1; 
-        }
-        $invoice->project_id = $request->project_id;
-        $invoice->save();        
-        $lastid = $invoice->id;
-       return redirect('/invoice/edit/'.$lastid);
-    }
-
-    
-    public function editinvoicedata(Request $request)
-    {
-     $invoice = Invoice::findOrFail($request->invoiceid);   
-     $invoice->title =$request->title;   
-     $invoice->invodate = $request->invodate;
-     $invoice->duedate = $request->duedate;
-     $invoice->save();  
-     return redirect()->back()->with('success', 'Invoice Updated'); 
-    }
-
-    public function editinvoice(Request $request)
-    {
-     $invoices = Invoice::findOrFail($request->id);
-     $invoiceItems = $invoices->items()->paginate(100);
-     $paymentreceipt = $invoices->payments()->paginate(100);
-     return view('app.editinvoice')->with(['invoice'=> $invoices])->with(['invoice_items'=> $invoiceItems])->with(['payments'=> $paymentreceipt]);
-    }
- 
-    public function newinvoicemeta(Request $request)
-     { 
-        $invoice = Invoice::findOrFail($request->invoiceid);
-
-        $invoiceItem = $invoice->items()->create([
-            'quantity' => $request->quantity,
-            'qtykey' => $request->qtykey,
-            'meta' => $request->meta,
-            'amount_per_item' => $request->amount,
+        return view('app.listofinvoices')->with([
+            'invoices' => $invoices,
+            'clients' => $clients,
+            'counts' => $counts,
         ]);
-
-        //get invoice updated
-        $invoice->totalamount = $invoice->total_amount;
-        $invoice->save();
-
-        return redirect()->back();
-     }
-
-     public function editinvoicemeta(Request $request)
-     {             
-        if($request->meta!=NULL)
-        {
-        $invoice = Invoice::findOrFail($request->invoiceid);
-
-        $invoiceItem = $invoice->items()->find( $request->metaid );
-
-        $invoiceItem->update([
-            'quantity' => $request->quantity,
-            'qtykey' => $request->qtykey,
-            'meta' => $request->meta,
-            'amount_per_item' => $request->amount,
-        ]);
-         
-         return redirect()->back()->with('success', 'Invoice Updated'); 
-        }
-        else
-        {
-            return redirect()->back()->with('warning', 'Particular cannot be blank');
-        }
-
-          
-     }
-
-     public function deleteinvoicemeta(Request $request)
-     {       
-         $invoiceItemId =$request->id;
-         $invoid =$request->invo;        
-         $invoices = Invoice::findOrFail($request->invo);
-         if($invoiceItemId!=NULL)
-         {
-            $meta = $invoices->items()->find( $invoiceItemId );
-           $meta->delete();
-
-          //get invoice updated   
-          $invoiceItemdata = $invoices->items;
-          $totalamt = 0;      
-          foreach ($invoiceItemdata as $value) {
-            $totalamt += $value->total;
-          }                   
-         $invoices->totalamount = $totalamt;  
-          $invoices->save();   
-
-         return redirect()->back()->with('success', 'Item Deleted');
-         }
-         else
-         {
-             return redirect()->back()->with('danger', 'Please Try Again');
-         }
-
-         
- 
-     }
-
-     public function invoicetaxenable(Request $request)
-    {    
-        $invoice =Invoice::findOrFail($request->id);       
-        $invoice->taxable=$request->taxable;             
-        $invoice->save();  
-        return redirect()->back()->with('success', ' Tax Info Updated');
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Invoice  $invoice
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Invoice $invoice) {
+        $business = Business::find(1);
+        $invoiceItems = $invoice->items()->paginate(100);
+        $payments = $invoice->payments()->paginate(100);
+
+        return view('app.viewinvoice')->with([
+            'invoice' => $invoice,
+            'invoiceItems' => $invoiceItems,
+            'payments' => $payments,
+            'business' => $business
+        ]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request) {
+        $invoice = DB::transaction(function () {
+            $lastInvoice = (
+                Invoice::where('type', 2)
+                    ->orderby('id', 'desc')
+                    ->first()
+            );
+            $nextInvoiceNumber = (
+                $lastInvoice
+                    ? $lastInvoice->invoid + 1
+                    : 1
+            );
+
+            return Invoice::create([
+                'type' => 2,
+                'title' => $request->title,
+                'userid' => $request->userid,
+                'adminid' => Auth::id(),
+                'project_id' => $request->project_id,
+                'invoid' => $nextInvoiceNumber,
+            ]);
+        });
+
+        return redirect()->route(
+            'invoices.edit',
+            [ $invoice ]
+        );
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Invoice  $invoice
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(
+        Invoice $invoice
+    ) {
+        $invoiceItems = $invoices->items()->paginate(100);
+        $payments = $invoices->payments()->paginate(100);
+
+        return view('app.editinvoice')->with([
+            'invoice' => $invoice,
+            'invoiceItems' => $invoiceItems,
+            'payments' => $payments,
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\UpdateInvoiceRequest  $request
+     * @param  \App\Models\Invoice  $invoice
+     * @return \Illuminate\Http\Response
+     */
+    public function update(
+        Request $request,
+        Invoice $invoice
+    ) {
+        $invoice->update(
+            $request->validated()
+        );
+
+        return redirect()->back()->with([
+            'success' => 'Invoice updated',
+        ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Invoice  $invoice
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(
+        Invoice $invoice
+    ) {
+        $invoice->delete();
+
+        return redirect()->route('dashboard')->with([
+            'success' => 'Invoice deleted',
+        ]);
+    }
 
      public function invopaymentsave(Request $request)
     { 
@@ -275,102 +272,6 @@ class InvoiceController extends Controller
         }
      }
 
-     public function viewinvoice(Request $request)
-     {
-      
-      $invoices = Invoice::findOrFail($request->id);      
-      $business = Business::find(1);
-      $invoiceItems = $invoices->items()->paginate(100);
-      $paymentreceipt = $invoices->payments()->paginate(100);
-      return view('app.viewinvoice')->with(['invoice'=> $invoices])->with(['invoice_items'=> $invoiceItems])->with(['payments'=> $paymentreceipt])->with(['business'=> $business]);
-     }
-
-
-     public function emailinvoice(Request $request)
-     {
-      $invoices = Invoice::findOrFail($request->id);      
-      Mail::to($invoices->clientdata->email)->send(new InvoiceMail($invoices));
-      return redirect()->back()->with('success', 'Mail Sent!');
-     }
-
-
-     public function payinvoice(Request $request)
-     {
-      
-      $invoices = Invoice::findOrFail($request->id);      
-      $business = Business::find(1);
-      $gateways = PaymentGateway::where('status',1)->get();
-      $invoiceItems = $invoices->items()->paginate(100);
-      $paymentreceipt = $invoices->payments()->paginate(100);
-      return view('app.payinvoice')->with(['invoice'=> $invoices])->with(['invoice_items'=> $invoiceItems])->with(['payments'=> $paymentreceipt])->with(['business'=> $business])->with(['gateways'=> $gateways]);
-     }
-     
-     public function deleteinvoice(Request $request)
-     {
-      $invoices = Invoice::findOrFail($request->id);      
-      $invoices->delete();
-      return redirect('/dashboard')->with('success', 'Record Deleted');  
-     }
-
-
-
-     /****************************** Quotes ******************************* */
-
-     public function listofquotes(Request $request)
-     { 
-         $client = client::all();
-         $invoices = QueryBuilder::for(Invoice::class)
-        ->allowedFilters(['title','userid','quoteid','quotestat'])
-        ->where('type',1)->orderBy('id','desc')->paginate(15);
-        // $invoices = invoice::orderby('id','desc')->where('type',1)->paginate(15);     
-         return view('app.listofquotes')->with(['invoices' =>$invoices])->with(['clients'=> $client]);     
-     }
- 
-     public function createnewquotes(Request $request)
-     {       
-         $invoices = Invoice::orderby('id','desc')->where('type',1)->first();  
-         $invoice =new Invoice();
-         $invoice->type=1;
-         $invoice->title =$request->title;
-         $invoice->userid =$request->userid;
-         $invoice->adminid = Auth::id();  
-         if(Invoice::where('type',1)->count()==0){
-         $invoice->quoteid =1; }
-         else{
-             $invoice->quoteid =$invoices->quoteid+1; 
-         }
-         $invoice->quotestat = 1;             
-         $invoice->save();        
-         $lastid = $invoice->id;
-        return redirect('/quote/edit/'.$lastid);
-     }
- 
-     public function editquote(Request $request)
-     {
-      $invoices = Invoice::findOrFail($request->id);      
-      $invoiceItems = $invoices->items()->paginate(100);
-      $paymentreceipt = $invoices->payments()->paginate(100);
-      return view('app.editquote')->with(['invoice'=> $invoices])->with(['invoice_items'=> $invoiceItems])->with(['payments'=> $paymentreceipt]);
-     }
-
-     
-     public function emailquote(Request $request)
-     {
-      $invoices = Invoice::findOrFail($request->id);      
-      Mail::to($invoices->clientdata->email)->send(new QuoteMail($invoices));
-      return redirect()->back()->with('success', 'Mail Sent!');
-     }
-
-     public function viewquote(Request $request)
-     {
-      
-      $invoices = Invoice::findOrFail($request->id);      
-      $business = Business::find(1);
-      $invoiceItems = $invoices->items()->paginate(100);
-      $paymentreceipt = $invoices->payments()->paginate(100);
-      return view('app.viewquote')->with(['invoice'=> $invoices])->with(['invoice_items'=> $invoiceItems])->with(['payments'=> $paymentreceipt])->with(['business'=> $business]);
-     }
-
      public function viewquotepublic(Request $request)
      {
       
@@ -421,31 +322,6 @@ class InvoiceController extends Controller
       $invoices->save();   
       return redirect('/invoice/edit/'.$request->id)->with('success', 'Converted as Invoice');  
      }
- 
-
-     public function cashbooklist(Request $request)
-     { 
-         $projects = Project::all();
-
-
-         $expenses = QueryBuilder::for(ExpenseManager::class)
-         ->allowedFilters(['date',])
-         ->orderBy('id','desc')->get();   
-
-         $paymentreceipt = QueryBuilder::for(PaymentReceipt::class)
-         ->allowedFilters(['date'])
-         ->orderBy('id','desc')->get();   
-
-       return view('app.cashbook')->with(['expenses' =>$expenses])->with(['recepits' =>$paymentreceipt])->with(['projects'=> $projects]);
-     }
-
-
-
-     /**************file manager*********** */
-     public function filemanager(Request $request)
-     {   
-         return view('app.filemanager');     
-     }
 
 
      /************ recorring invoice ************/
@@ -492,79 +368,4 @@ class InvoiceController extends Controller
          $lastid = $invoice->id;
         return redirect('/invoice/edit/'.$lastid);
      }
-
-     // run this as cron once everyday to create recorring invoices
-
-
-     public function recorringinvoicecron(Request $request)
-     {  
-        $todaydate = date('Y-m-d');
-
-        echo "Gmax CRM Daily Cron job 🚀 <br>";
-
-        //create a loop here and check any pending invoice
-        $reccur = Invoice::recurring()->whereDate('recorringnextdate',$todaydate)->get();
-
-        foreach($reccur as $rcinvo)
-        {   
-            echo "New Invoice Created <br>";   
-            $invoices = Invoice::where('type',2)->orderby('id','desc')->first();  
-            $invoice =new Invoice();
-            $invoice->type=2;
-            $invoice->title =$rcinvo->title;
-            $invoice->userid =$rcinvo->userid;
-            $invoice->adminid = $rcinvo->adminid;  
-            if(Invoice::where('type',2)->count()==0){
-            $invoice->invoid =1; }
-            else{
-                $invoice->invoid =$invoices->invoid+1; 
-            }
-
-            $invoice->project_id = $rcinvo->project_id;
-            $invoice->recorring = 1;
-            $invoice->recorringtype = $rcinvo->recorringtype;
-            
-            $getinvocedate = new Carbon($todaydate);
-
-            if($rcinvo->recorringtype==1) //daily
-            {           
-                $invoice->recorringnextdate = $getinvocedate->addDay(); 
-            }
-            if($rcinvo->recorringtype==2) //weekly
-            {
-                $invoice->recorringnextdate = $getinvocedate->addWeek(); 
-            } 
-            if($rcinvo->recorringtype==3) //monthly
-            {
-                $invoice->recorringnextdate =$getinvocedate->addMonth(); 
-            }
-            if($rcinvo->recorringtype==4) //yearly
-            {
-                $invoice->recorringnextdate = $getinvocedate->addYear(); 
-            }                       
-
-            $invoice->save();   
-                 
-            echo "New Invoice Saved <br>";   
-            // adding metas into it
-            $invoiceItems = Invoice::with('items')->findOrFail( $rcinvo->id )->items;
-            foreach($invoiceItems as $recrmeta)
-            { 
-                echo "New Meta Added <br>";
-                $invoiceItem = $invoice->items()->create([
-                    'quantity' => $recrmeta->quantity,
-                    'qtykey' => $recrmeta->qtykey,
-                    'meta' => $recrmeta->meta,
-                    'amount_per_item' => $recrmeta->amount_per_item,
-                ]);
-            }
-
-            echo "New Invoice Completed <br>";   
-
-        }    
-
-      
-     }
-
-
 }

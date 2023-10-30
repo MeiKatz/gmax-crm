@@ -1,12 +1,19 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CashbookController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\CronjobController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\FileManagerController;
 use App\Http\Controllers\GatewayController;
+use App\Http\Controllers\Invoice;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\Offer;
+use App\Http\Controllers\OfferController;
+use App\Http\Controllers\PayInvoiceController;
 use App\Http\Controllers\Project;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SettingsController;
@@ -51,11 +58,17 @@ Route::get('/dailycron', [
     'recorringinvoicecron'
 ])->name('recorringinvoicecron');
 
+Route::get(
+    'cronjobs',
+    CronjobController::class,
+)->name('cronjobs');
+
+Route::get(
+    'pay/{invoice}',
+    PayInvoiceController::class
+)->name('invoices.pay');
+
 Route::prefix('/invoices')->group(function () {
-    Route::get('/pay/{id}', [
-        InvoiceController::class,
-        'payinvoice'
-    ])->name('payinvoice');
     Route::post('/capture/razorpaypayment', [
         GatewayController::class,
         'razorpaypayment'
@@ -90,6 +103,16 @@ Route::group(['middleware' => ['auth']], function(){
         ClientController::class
     );
 
+    Route::get(
+        'cashbook',
+        CashbookController::class
+    )->name('cashbook');
+
+    Route::get(
+        'file-manager',
+        FileManagerController::class
+    )->name('file-manager');
+
     Route::resource(
         'expenses',
         ExpenseController::class
@@ -99,43 +122,37 @@ Route::group(['middleware' => ['auth']], function(){
         'edit',
     ]);
 
+    Route::resource(
+        'invoices',
+        InvoiceController::class,
+    )->only([
+        'index',
+        'show',
+        'store',
+        'edit',
+        'update',
+        'destroy',
+    ]);
+
+    Route::prefix('invoices/{invoice}')
+        ->name('invoices.')
+        ->group(function () {
+            Route::resource(
+                'items',
+                Invoice\ItemController::class,
+            )->only([
+                'store',
+                'update',
+                'destroy',
+            ]);
+
+            Route::post(
+                'invoice-email',
+                Invoice\InvoiceEmailController::class,
+            )->name('invoice-email.send');
+        });
+
     Route::prefix('/invoices')->group(function () {
-        Route::get('', [
-            InvoiceController::class,
-            'listofinvoices'
-        ])->name('listofinvoices');
-        Route::post('/new/save', [
-            InvoiceController::class,
-            'createnewinvoice'
-        ])->name('createnewinvoice');
-        Route::post('/edit/save', [
-            InvoiceController::class,
-            'editinvoicedata'
-        ])->name('editinvoicedata');
-        Route::get('/edit/{id}', [
-            InvoiceController::class,
-            'editinvoice'
-        ])->name('editinvoice');
-        Route::get('/delete/{id}', [
-            InvoiceController::class,
-            'deleteinvoice'
-        ])->name('deleteinvoice');
-        Route::get('/{id}', [
-            InvoiceController::class,
-            'viewinvoice'
-        ])->name('viewinvoice');
-        Route::post('/meta/save', [
-            InvoiceController::class,
-            'newinvoicemeta'
-        ])->name('newinvoicemeta');
-        Route::post('/meta/edit', [
-            InvoiceController::class,
-            'editinvoicemeta'
-        ])->name('editinvoicemeta');
-        Route::get('/deleteinvoicemeta/{id}/{invo}', [
-            InvoiceController::class,
-            'deleteinvoicemeta'
-        ])->name('deleteinvoicemeta');
         Route::post('/payments/save', [
             InvoiceController::class,
             'invopaymentsave'
@@ -152,14 +169,6 @@ Route::group(['middleware' => ['auth']], function(){
             InvoiceController::class,
             'refundinvoice'
         ])->name('refundinvoice');
-        Route::get('/email/{id}', [
-            InvoiceController::class,
-            'emailinvoice'
-        ])->name('emailinvoice');
-        Route::post('/edit/taxenable', [
-            InvoiceController::class,
-            'invoicetaxenable'
-        ])->name('invoicetaxenable');
         Route::post('/recurring/save', [
             InvoiceController::class,
             'createrecorringinvoice'
@@ -170,23 +179,26 @@ Route::group(['middleware' => ['auth']], function(){
         ])->name('cancelrecurring');
     });
 
+    Route::resource(
+        'offers',
+        OfferController::class
+    )->only([
+        'index',
+        'store',
+        'show',
+        'edit',
+    ]);
+
+    Route::prefix('offers/{offer}')
+        ->name('offers.')
+        ->group(function () {
+            Route::post(
+                'offer-email',
+                Offer\OfferEmailController::class
+            )->name('offer-email.send');
+        });
+
     Route::prefix('/quotes')->group(function () {
-        Route::get('', [
-            InvoiceController::class,
-            'listofquotes'
-        ])->name('listofquotes');
-        Route::post('/new/save', [
-            InvoiceController::class,
-            'createnewquotes'
-        ])->name('createnewquotes');
-        Route::get('/edit/{id}', [
-            InvoiceController::class,
-            'editquote'
-        ])->name('editquote');
-        Route::get('/{id}', [
-            InvoiceController::class,
-            'viewquote'
-        ])->name('viewquote');
         Route::get('/stat/{id}/{stat}', [
             InvoiceController::class,
             'quotestatuschange'
@@ -195,10 +207,6 @@ Route::group(['middleware' => ['auth']], function(){
             InvoiceController::class,
             'converttoinvo'
         ])->name('converttoinvo');
-        Route::get('/email/{id}', [
-            InvoiceController::class,
-            'emailquote'
-        ])->name('emailquote');
     });
 
     Route::resource(
@@ -273,15 +281,6 @@ Route::group(['middleware' => ['auth']], function(){
     )->only([
         'destroy',
     ]);
-
-    Route::get('/cashbook', [
-        InvoiceController::class,
-        'cashbooklist'
-    ])->name('cashbooklist');
-    Route::get('/filemanager', [
-        InvoiceController::class,
-        'filemanager'
-    ])->name('filemanager');
     Route::get('/update', [
         AdminController::class,
         'updatesystem'

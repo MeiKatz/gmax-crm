@@ -6,19 +6,21 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\invoice;
+use App\Models\Invoice;
 
-class QuoteMail extends Mailable
+class OfferMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     public $invoice;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(invoice $invoice)
+    public function __construct(Invoice $invoice)
     {
         $this->invoice = $invoice; 
     }

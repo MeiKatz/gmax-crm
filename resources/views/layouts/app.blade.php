@@ -118,24 +118,24 @@
                     </a>
                     <ul class="dropdown-menu ">
                       <li >
-                        <a class="dropdown-item" href="/invoices" >
+                        <a class="dropdown-item" href="{{ route('invoices.index') }}" >
                           {{ __('All Invoices') }}
                         </a>
                       </li>
                       <li >
-                        <a class="dropdown-item" href="/invoices?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Buserid%5D=&filter%5Binvostatus%5D=1" >
+                        <a class="dropdown-item" href="{{ route('invoices.index') }}?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Buserid%5D=&filter%5Binvostatus%5D=1" >
                           {{ __('Unpaid Invoices') }}
                         </a>
                       </li>
 
                       <li >
-                        <a class="dropdown-item" href="/invoices?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Buserid%5D=&filter%5Binvostatus%5D=2" >
+                        <a class="dropdown-item" href="{{ route('invoices.index') }}?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Buserid%5D=&filter%5Binvostatus%5D=2" >
                           {{ __('Part paid Invoices') }}
                         </a>
                       </li> 
                       
                       <li >
-                        <a class="dropdown-item" href="/invoices?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Buserid%5D=&filter%5Binvostatus%5D=3" >
+                        <a class="dropdown-item" href="{{ route('invoices.index') }}?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Buserid%5D=&filter%5Binvostatus%5D=3" >
                           {{ __('Paid Invoices') }}
                         </a>
                       </li>                  
@@ -241,8 +241,8 @@
 
                
 
-                  <li class="nav-item  @if(Request::is('filemanager')){{ 'active' }}@endif">
-                    <a class="nav-link" href="/filemanager" >
+                  <li class="nav-item  @if(Request::is('file-manager')){{ 'active' }}@endif">
+                    <a class="nav-link" href="{{ route('file-manager') }}">
                       <span class="nav-link-icon d-md-none d-lg-inline-block">
                         <x-icon.file-manager />
                       </span>
@@ -439,18 +439,18 @@
                       </a>
                       <ul class="dropdown-menu ">
                         <li >
-                          <a class="dropdown-item" href="/invoices" >
+                          <a class="dropdown-item" href="{{ route('invoices.index') }}" >
                             {{ __('All Invoices') }}
                           </a>
                         </li>
                         <li >
-                          <a class="dropdown-item" href="/invoices?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Buserid%5D=&filter%5Binvostatus%5D=1" >
+                          <a class="dropdown-item" href="{{ route('invoices.index') }}?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Buserid%5D=&filter%5Binvostatus%5D=1" >
                             {{ __('Unpaid Invoices') }}
                           </a>
                         </li>
                         
                         <li >
-                          <a class="dropdown-item" href="/invoices?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Buserid%5D=&filter%5Binvostatus%5D=3" >
+                          <a class="dropdown-item" href="{{ route('invoices.index') }}?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Buserid%5D=&filter%5Binvostatus%5D=3" >
                             {{ __('Paid Invoices') }}
                           </a>
                         </li>                  
@@ -575,8 +575,8 @@
   
                  
   
-                    <li class="nav-item  @if(Request::is('filemanager')){{ 'active' }}@endif">
-                      <a class="nav-link" href="/filemanager" >
+                    <li class="nav-item  @if(Request::is('file-manager')){{ 'active' }}@endif">
+                      <a class="nav-link" href="{{ route('file-manager') }}">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                           <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-cloud-upload" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>

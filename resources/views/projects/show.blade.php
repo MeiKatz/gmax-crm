@@ -274,7 +274,7 @@
               <tr>
                 <td># {{ $invoice->invoid }}</td>
                 <td>
-                  <a href="{{ route('editinvoice', ['id' => $invoice->id]) }}">{{ $invoice->title }}</a>
+                  <a href="{{ route('invoices.edit', [ $invoice ]) }}">{{ $invoice->title }}</a>
                 </td>
                 <td>{{ $invoice->duedate }}</td>
                 <td>{{ $invoice->totalamount }}</td>
@@ -285,7 +285,11 @@
                     <button class="btn btn-white btn-sm dropdown-toggle align-text-top"data-boundary="viewport" data-toggle="dropdown">Actions</button>
                     <div class="dropdown-menu dropdown-menu-right">
                       <a class="dropdown-item" href="/invoices/edit/{{ $invoice->id }}">{{ __('Edit_Invoice') }}</a>
-                      <a class="dropdown-item" onclick="return confirm('Are you sure?')" href="/invoices/delete/{{ $invoice->id }}">{{ __('Delete_Invoice') }}</a>
+                      <form method="post" action="{{ route('invoices.destroy', [ $invoice ]) }}" onsubmit="return confirm('Are you sure?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="dropdown-item">{{ __('Delete_Invoice') }}</button>
+                      </form>
                     </div>
                   </span>
                 </td>
@@ -371,7 +375,7 @@
           </svg>
         </b>
       </div>
-      <form action="{{ route('createnewinvoice') }}" method="post">
+      <form action="{{ route('invoices.store') }}" method="post">
         @csrf
         <input type="hidden" value="{{ $project->client->id }}" name="userid" />
         <input type="hidden" value="{{ $project->id }}" name="project_id" />
