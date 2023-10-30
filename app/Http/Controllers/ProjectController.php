@@ -47,7 +47,7 @@ class ProjectController extends Controller {
     );
 
     $project->note()->create([
-      'admin' => Auth::id(),
+      'creator_id' => Auth::id(),
       'note' => 'Add Something',
     ]);
 

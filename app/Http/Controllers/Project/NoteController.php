@@ -35,7 +35,6 @@ class NoteController extends Controller {
     $projectNote = $project->note;
     $projectNote->update([
       'note' => $request->note,
-      'admin' => Auth::id(),
     ]);
 
     return redirect()->back()->with([
