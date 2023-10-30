@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use use App\Providers\RouteServiceProvider;
 
 class Admin
 {
@@ -16,14 +17,12 @@ class Admin
      */
     public function handle(Request $request, Closure $next)
     {
-        $usertype = auth()->user()->usertype;   
-        if($usertype!=1)
-        {
-            return redirect()->route('dashboard');
+        if ( auth()->user()->is_admin ) {
+            return redirect(
+                RouteServiceProvider::HOME
+            );
         }
-        else
-        {
-        return $next($request);
-        }
+
+        return $next( $request );
     }
 }
