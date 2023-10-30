@@ -48,7 +48,7 @@ class OfferController extends Controller {
         'type' => 1,
         'title' => $request->title,
         'userid' => $request->userid,
-        'adminid' => Auth::id(),
+        'creator_id' => Auth::id(),
         'quotestat' => 1,
         'quoteid' => $nextOfferNumber,
       ]);

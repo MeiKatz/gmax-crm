@@ -85,7 +85,7 @@ class InvoiceController extends Controller
                 'type' => 2,
                 'title' => $request->title,
                 'userid' => $request->userid,
-                'adminid' => Auth::id(),
+                'creator_id' => Auth::id(),
                 'project_id' => $request->project_id,
                 'invoid' => $nextInvoiceNumber,
             ]);
@@ -333,7 +333,7 @@ class InvoiceController extends Controller
          $invoice->type=2;
          $invoice->title =$request->title;
          $invoice->userid =$request->userid;
-         $invoice->adminid = Auth::id();  
+         $invoice->creator_id = Auth::id();
          if(Invoice::where('type',2)->count()==0){
          $invoice->invoid =1; }
          else{

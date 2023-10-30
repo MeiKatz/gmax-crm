@@ -15,7 +15,7 @@ trait HasRelations {
   public function createdInvoices() {
     return $this->hasMany(
       Invoice::class,
-      'adminid'
+      'creator_id'
     );
   }
 
