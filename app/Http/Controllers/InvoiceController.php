@@ -285,60 +285,11 @@ class InvoiceController extends Controller
      }
 
      /****************************** Quotes ******************************* */
-
-     public function listofquotes(Request $request)
-     { 
-         $client = client::all();
-         $invoices = QueryBuilder::for(Invoice::class)
-        ->allowedFilters(['title','userid','quoteid','quotestat'])
-        ->where('type',1)->orderBy('id','desc')->paginate(15);
-        // $invoices = invoice::orderby('id','desc')->where('type',1)->paginate(15);     
-         return view('app.listofquotes')->with(['invoices' =>$invoices])->with(['clients'=> $client]);     
-     }
- 
-     public function createnewquotes(Request $request)
-     {       
-         $invoices = Invoice::orderby('id','desc')->where('type',1)->first();  
-         $invoice =new Invoice();
-         $invoice->type=1;
-         $invoice->title =$request->title;
-         $invoice->userid =$request->userid;
-         $invoice->adminid = Auth::id();  
-         if(Invoice::where('type',1)->count()==0){
-         $invoice->quoteid =1; }
-         else{
-             $invoice->quoteid =$invoices->quoteid+1; 
-         }
-         $invoice->quotestat = 1;             
-         $invoice->save();        
-         $lastid = $invoice->id;
-        return redirect('/quote/edit/'.$lastid);
-     }
- 
-     public function editquote(Request $request)
-     {
-      $invoices = Invoice::findOrFail($request->id);      
-      $invoiceItems = $invoices->items()->paginate(100);
-      $paymentreceipt = $invoices->payments()->paginate(100);
-      return view('app.editquote')->with(['invoice'=> $invoices])->with(['invoice_items'=> $invoiceItems])->with(['payments'=> $paymentreceipt]);
-     }
-
-     
      public function emailquote(Request $request)
      {
       $invoices = Invoice::findOrFail($request->id);      
       Mail::to($invoices->clientdata->email)->send(new QuoteMail($invoices));
       return redirect()->back()->with('success', 'Mail Sent!');
-     }
-
-     public function viewquote(Request $request)
-     {
-      
-      $invoices = Invoice::findOrFail($request->id);      
-      $business = Business::find(1);
-      $invoiceItems = $invoices->items()->paginate(100);
-      $paymentreceipt = $invoices->payments()->paginate(100);
-      return view('app.viewquote')->with(['invoice'=> $invoices])->with(['invoice_items'=> $invoiceItems])->with(['payments'=> $paymentreceipt])->with(['business'=> $business]);
      }
 
      public function viewquotepublic(Request $request)

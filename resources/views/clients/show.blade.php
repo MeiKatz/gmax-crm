@@ -300,7 +300,7 @@
                               
                              # {{$quote->quoteid}}
                           </td>
-                          <td><a href="{{route('editquote', ['id' => $quote->id])}}"> {{$quote->title}}</a></td>
+                          <td><a href="{{ route('offers.edit', [ $quote ]) }}">{{ $quote->title }}</a></td>
                          
                           <td>
                               {{$quote->invodate}}
@@ -319,7 +319,7 @@
                                   <button class="btn  btn-sm dropdown-toggle align-text-top"
                                       data-boundary="viewport" data-toggle="dropdown">Actions</button>
                                   <div class="dropdown-menu dropdown-menu-right">
-                                      <a class="dropdown-item" href="/quote/edit/{{$quote->id}}">
+                                      <a class="dropdown-item" href="{{ route('offers.edit', [ $quote ]) }}">
                                           Edit Quote
                                       </a>
                                       <form method="post" action="{{ route('invoices.destroy', [ $invoice ]) }}" onsubmit="return confirm('Are you sure?')">

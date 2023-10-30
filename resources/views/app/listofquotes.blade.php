@@ -18,7 +18,7 @@
     </div>
 
     <div id="advancedsearch" style="display:none;">
-      <form action="{{ route('listofquotes') }}" method="get">
+      <form action="{{ route('offers.index') }}" method="get">
         <div class="row" style=" margin:10px;">				
           <div class="col-md-2">					
               <label class="form-label" style="margin-bottom: 0px;  padding-left:2px; font-size:13px;">Title</label>
@@ -78,9 +78,13 @@
                    
                    # {{$invoice->quoteid}}
                 </td>
-                <td><a href="{{route('editquote', ['id' => $invoice->id])}}"> {{$invoice->title}}</a></td>
+                <td><a href="{{ route('offers.edit', [ $invoice ]) }}"> {{$invoice->title}}</a></td>
                 <td>
-                  <a href="/client/ {{ !empty($invoice->client) ? $invoice->client->id:'' }}">   {{ !empty($invoice->client) ? $invoice->client->name:'Removed' }} </a>
+                  @if ( $invoice->client )
+                    <a href="{{ routes('clients.show', [ $invoice->client ]) }}">{{ $invoice->client->name }}</a>
+                  @else
+                    <span>Removed</span>
+                  @endif
                 </td>
                 <td>
                     {{$invoice->invodate}}
@@ -136,7 +140,7 @@
            </svg>
           </b>
         </div>
-    <form action="{{route('createnewquotes')}}" method="post">
+    <form action="{{ route('offers.store') }}" method="post">
         @csrf
         <div class="modal-body">
             <div class="mb-2">

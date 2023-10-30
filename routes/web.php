@@ -8,6 +8,7 @@ use App\Http\Controllers\GatewayController;
 use App\Http\Controllers\Invoice;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\OfferController;
 use App\Http\Controllers\PayInvoiceController;
 use App\Http\Controllers\Project;
 use App\Http\Controllers\ProjectController;
@@ -158,23 +159,17 @@ Route::group(['middleware' => ['auth']], function(){
         ])->name('cancelrecurring');
     });
 
+    Route::resource(
+        'offers',
+        OfferController::class
+    )->only([
+        'index',
+        'store',
+        'show',
+        'edit',
+    ]);
+
     Route::prefix('/quotes')->group(function () {
-        Route::get('', [
-            InvoiceController::class,
-            'listofquotes'
-        ])->name('listofquotes');
-        Route::post('/new/save', [
-            InvoiceController::class,
-            'createnewquotes'
-        ])->name('createnewquotes');
-        Route::get('/edit/{id}', [
-            InvoiceController::class,
-            'editquote'
-        ])->name('editquote');
-        Route::get('/{id}', [
-            InvoiceController::class,
-            'viewquote'
-        ])->name('viewquote');
         Route::get('/stat/{id}/{stat}', [
             InvoiceController::class,
             'quotestatuschange'
