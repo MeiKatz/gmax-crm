@@ -57,7 +57,7 @@
                             </td>
                        
                             <td>
-                                @if($user->usertype==1)
+                                @if($user->is_admin)
                                 <span class="badge bg-cyan">Admin </span>
                                 @else
                                 <span class="badge bg-lime">Staff </span>
@@ -124,7 +124,7 @@
                                         <label class="form-label">User Type</label>
                                         <select class="form-control" name="usertype">
                                               <option value="1"> Admin </option>  
-                                              <option value=""> Staff </option>  
+                                              <option value="2"> Staff </option>
                                         </select>
                                     </div>
                                 </div>
@@ -184,7 +184,7 @@
                     <label class="form-label">User Type</label>
                     <select class="form-control" name="usertype">
                           <option value="1"> Admin </option>  
-                          <option value=""> Staff </option>  
+                          <option value="2"> Staff </option>
                     </select>
                 </div>
             </div>

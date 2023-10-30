@@ -18,6 +18,9 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
 
+    const USER_TYPE_ADMIN = 1;
+    const USER_TYPE_STAFF = 2;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -56,8 +59,22 @@ class User extends Authenticatable
      * @var array
      */
     protected $appends = [
+        'is_admin',
+        'is_staff',
         'profile_photo_url',
     ];
 
-    
+    /**
+     * @return bool
+     */
+    public function getIsAdminAttribute() {
+        return $this->usertype === self::USER_TYPE_ADMIN;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsStaffAttribute() {
+        return $this->usertype === self::USER_TYPE_STAFF;
+    }
 }
