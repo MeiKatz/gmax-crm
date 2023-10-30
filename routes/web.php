@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CashbookController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\CronjobController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\FileManagerController;
@@ -56,6 +57,11 @@ Route::get('/dailycron', [
     InvoiceController::class,
     'recorringinvoicecron'
 ])->name('recorringinvoicecron');
+
+Route::get(
+    'cronjobs',
+    CronjobController::class,
+)->name('cronjobs');
 
 Route::get(
     'pay/{invoice}',
