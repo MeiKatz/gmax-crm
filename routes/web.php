@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CashbookController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExpenseController;
@@ -93,6 +94,11 @@ Route::group(['middleware' => ['auth']], function(){
         'clients',
         ClientController::class
     );
+
+    Route::get(
+        'cashbook',
+        CashbookController::class
+    )->name('cashbook');
 
     Route::resource(
         'expenses',
@@ -256,11 +262,6 @@ Route::group(['middleware' => ['auth']], function(){
     )->only([
         'destroy',
     ]);
-
-    Route::get('/cashbook', [
-        InvoiceController::class,
-        'cashbooklist'
-    ])->name('cashbooklist');
     Route::get('/filemanager', [
         InvoiceController::class,
         'filemanager'

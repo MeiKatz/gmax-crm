@@ -194,7 +194,7 @@
             </tr>
            @endforeach
 
-           @foreach($recepits as $recepit)
+           @foreach($payments as $recepit)
             <tr>
                
               <td> {{$expense->date}}

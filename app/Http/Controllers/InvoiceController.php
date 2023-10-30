@@ -12,9 +12,7 @@ use App\Models\PaymentReceipt;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\InvoiceMail;
 use App\Mail\QuoteMail;
-use App\Models\Project;
 use App\Models\Business;
-use App\Models\ExpenseManager;
 use Spatie\QueryBuilder\QueryBuilder;
 
 use Illuminate\Support\Facades\Auth;
@@ -342,24 +340,6 @@ class InvoiceController extends Controller
       $invoices->save();   
       return redirect('/invoice/edit/'.$request->id)->with('success', 'Converted as Invoice');  
      }
- 
-
-     public function cashbooklist(Request $request)
-     { 
-         $projects = Project::all();
-
-
-         $expenses = QueryBuilder::for(ExpenseManager::class)
-         ->allowedFilters(['date',])
-         ->orderBy('id','desc')->get();   
-
-         $paymentreceipt = QueryBuilder::for(PaymentReceipt::class)
-         ->allowedFilters(['date'])
-         ->orderBy('id','desc')->get();   
-
-       return view('app.cashbook')->with(['expenses' =>$expenses])->with(['recepits' =>$paymentreceipt])->with(['projects'=> $projects]);
-     }
-
 
 
      /**************file manager*********** */
