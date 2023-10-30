@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\User\Concerns;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -17,6 +18,9 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use Concerns\HasAttributes;
+    use Concerns\HasRelations;
+    use Concerns\HasScopes;
 
     const USER_TYPE_ADMIN = 1;
     const USER_TYPE_STAFF = 2;
@@ -63,44 +67,4 @@ class User extends Authenticatable
         'is_staff',
         'profile_photo_url',
     ];
-
-    /**
-     * Scope a query to only include admins.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeAdmin( $query ) {
-        return $query->where(
-            'usertype',
-            self::USER_TYPE_ADMIN
-        );
-    }
-
-    /**
-     * Scope a query to only include users from staff.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeStaff( $query ) {
-        return $query->whereNot(
-            'usertype',
-            self::USER_TYPE_ADMIN
-        );
-    }
-
-    /**
-     * @return bool
-     */
-    public function getIsAdminAttribute() {
-        return $this->usertype == self::USER_TYPE_ADMIN;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getIsStaffAttribute() {
-        return $this->usertype != self::USER_TYPE_ADMIN;
-    }
 }
