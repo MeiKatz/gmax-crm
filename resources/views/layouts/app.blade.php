@@ -69,7 +69,10 @@
              
               <div class="collapse navbar-collapse" id="navbar-menu">
                 <ul class="navbar-nav pt-lg-3">
-                  <li class="nav-item  @if(Request::is('dashboard')){{ 'active' }}@endif">
+                  <li @class([
+                    'nav-item',
+                    'active' => Request::routeIs('dashboard'),
+                  ])>
                     <a class="nav-link" href="/" >
                       <span class="nav-link-icon d-md-none d-lg-inline-block">
                         <x-icon.dashboard />
@@ -80,7 +83,11 @@
                     </a>
                   </li>
 
-                  <li class="nav-item  @if(Request::is('clients')){{ 'active' }}@endif dropdown">
+                  <li @class([
+                    'nav-item',
+                    'dropdown',
+                    'active' => Request::routeIs('clients.*'),
+                  ])>
                     <a class="nav-link dropdown-toggle" href="#navbar-base" data-toggle="dropdown" role="button" aria-expanded="false" >
                       <span class="nav-link-icon d-md-none d-lg-inline-block">
                         <x-icon.client />
@@ -107,7 +114,11 @@
                     </ul>
                   </li>
 
-                  <li class="nav-item  @if(Request::is('invoices')){{ 'active' }}@endif dropdown">
+                  <li @class([
+                    'nav-item',
+                    'dropdown',
+                    'active' => Request::routeIs('invoices.*'),
+                  ])>
                     <a class="nav-link dropdown-toggle" href="#navbar-base" data-toggle="dropdown" role="button" aria-expanded="false" >
                       <span class="nav-link-icon d-md-none d-lg-inline-block">
                         <x-icon.invoice />
@@ -123,19 +134,31 @@
                         </a>
                       </li>
                       <li >
-                        <a class="dropdown-item" href="{{ route('invoices.index') }}?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Bclient_id%5D=&filter%5Binvostatus%5D=1" >
+                        <a class="dropdown-item" href="{{ route('invoices.index', [
+                          'filter' => [
+                            'invostatus' => 1,
+                          ]
+                        ]) }}">
                           {{ __('Unpaid Invoices') }}
                         </a>
                       </li>
 
                       <li >
-                        <a class="dropdown-item" href="{{ route('invoices.index') }}?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Bclient_id%5D=&filter%5Binvostatus%5D=2" >
+                        <a class="dropdown-item" href="{{ route('invoices.index', [
+                          'filter' => [
+                            'invostatus' => 2,
+                          ]
+                        ]) }}">
                           {{ __('Part paid Invoices') }}
                         </a>
                       </li> 
                       
                       <li >
-                        <a class="dropdown-item" href="{{ route('invoices.index') }}?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Bclient_id%5D=&filter%5Binvostatus%5D=3" >
+                        <a class="dropdown-item" href="{{ route('invoices.index', [
+                          'filter' => [
+                            'invostatus' => 3,
+                          ]
+                        ]) }}">
                           {{ __('Paid Invoices') }}
                         </a>
                       </li>                  
@@ -145,7 +168,11 @@
                     </ul>
                   </li>
 
-                  <li class="nav-item  @if(Request::is('quotes')){{ 'active' }}@endif dropdown">
+                  <li @class([
+                    'nav-item',
+                    'dropdown',
+                    'active' => Request::routeIs('offers.*'),
+                  ])>
                     <a class="nav-link dropdown-toggle" href="#navbar-base" data-toggle="dropdown" role="button" aria-expanded="false" >
                       <span class="nav-link-icon d-md-none d-lg-inline-block">
                         <x-icon.offer />
@@ -156,17 +183,25 @@
                     </a>
                     <ul class="dropdown-menu  ">
                       <li >
-                        <a class="dropdown-item" href="/quotes" >
+                        <a class="dropdown-item" href="{{ route('offers.index') }}">
                           {{ __('Quotation') }}
                         </a>
                       </li>
                       <li >
-                        <a class="dropdown-item" href="/quotes?filter%5Btitle%5D=&filter%5Bquoteid%5D=&filter%5Bclient_id%5D=&filter%5Bquotestat%5D=1" >
+                        <a class="dropdown-item" href="{{ route('offers.index', [
+                          'filter' => [
+                            'quotestat' => 1,
+                          ]
+                        ]) }}">
                           {{ __('Pending Quotes') }}
                         </a>
                       </li>
                       <li >
-                        <a class="dropdown-item" href="/quotes?filter%5Btitle%5D=&filter%5Bquoteid%5D=&filter%5Bclient_id%5D=&filter%5Bquotestat%5D=2" >
+                        <a class="dropdown-item" href="{{ route('offers.index', [
+                          'filter' => [
+                            'quotestat' => 2,
+                          ]
+                        ]) }}">
                           {{ __('Approved Quotes') }}
                         </a>
                       </li>
@@ -178,7 +213,11 @@
                   </li>
 
                   
-                  <li class="nav-item  @if(Request::is('projects')){{ 'active' }}@endif dropdown">
+                  <li @class([
+                    'nav-item',
+                    'dropdown',
+                    'active' => Request::routeIs('projects.*'),
+                  ])>
                     <a class="nav-link dropdown-toggle" href="#navbar-base" data-toggle="dropdown" role="button" aria-expanded="false" >
                       <span class="nav-link-icon d-md-none d-lg-inline-block">
                         <x-icon.project />
@@ -194,12 +233,20 @@
                         </a>
                       </li>
                       <li >
-                        <a class="dropdown-item" href="{{ route('projects.index') }}?filter%name%5D=&filter%5Bclient%5D=&filter%5Bstatus%5D=2" >
+                        <a class="dropdown-item" href="{{ route('projects.index', [
+                          'filter' => [
+                            'status' => 2,
+                          ]
+                        ]) }}">
                           {{ __('Ongoing Projects') }}
                         </a>
                       </li>
                       <li >
-                        <a class="dropdown-item" href="{{ route('projects.index') }}?filter%name%5D=&filter%5Bclient%5D=&filter%5Bstatus%5D=5" >
+                        <a class="dropdown-item" href="{{ route('projects.index', [
+                          'filter' => [
+                            'status' => 5,
+                          ]
+                        ]) }}">
                           {{ __('Completed Projects') }}
                         </a>
                       </li>
@@ -217,7 +264,11 @@
                   
 
                   
-                  <li class="nav-item  @if(Request::is('tasks')){{ 'active' }}@endif">
+                  <li @class([
+                    'nav-item',
+                    'dropdown',
+                    'active' => Request::routeIs('tasks.*'),
+                  ])>
                     <a class="nav-link" href="{{ route('tasks.index') }}">
                       <span class="nav-link-icon d-md-none d-lg-inline-block">
                         <x-icon.task />
@@ -228,8 +279,12 @@
                     </a>
                   </li>
 
-                  <li class="nav-item  @if(Request::is('expenses')){{ 'active' }}@endif">
-                    <a class="nav-link" href="/expenses" >
+                  <li @class([
+                    'nav-item',
+                    'dropdown',
+                    'active' => Request::routeIs('expenses.*'),
+                  ])>
+                    <a class="nav-link" href="{{ route('expenses.index') }}">
                       <span class="nav-link-icon d-md-none d-lg-inline-block">
                         <x-icon.expense />
                       </span>
@@ -241,7 +296,11 @@
 
                
 
-                  <li class="nav-item  @if(Request::is('file-manager')){{ 'active' }}@endif">
+                  <li @class([
+                    'nav-item',
+                    'dropdown',
+                    'active' => Request::is('file-manager'),
+                  ])>
                     <a class="nav-link" href="{{ route('file-manager') }}">
                       <span class="nav-link-icon d-md-none d-lg-inline-block">
                         <x-icon.file-manager />
@@ -253,7 +312,11 @@
                   </li>
                 
                   @if(Auth::user()->is_admin)
-                  <li class="nav-item  @if(Request::is('lead')){{ 'active' }}@endif dropdown">
+                  <li @class([
+                    'nav-item',
+                    'dropdown',
+                    'active' => Request::is('lead'),
+                  ])>
                     <a class="nav-link dropdown-toggle" href="#navbar-base" data-toggle="dropdown" role="button" aria-expanded="false" >
                       <span class="nav-link-icon d-md-none d-lg-inline-block">
                         <x-icon.admin-panel />
@@ -274,7 +337,7 @@
                         </a>
                       </li>
                       <li >
-                        <a class="dropdown-item" href="/admin/settings/invoice" >
+                        <a class="dropdown-item" href="{{ route('admin.settings.invoice.show') }}" >
                           {{ __('Customize Invoice') }}
                         </a>
                       </li>
@@ -296,7 +359,7 @@
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu">
                 <span class="navbar-toggler-icon"></span>
               </button>
-              <a href="/dashboard" class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pr-0 pr-md-3">
+              <a href="{{ route('dashboard') }}" class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pr-0 pr-md-3">
                 <img src="/storage/uploads/{{$settings->logo}}"  style="margin-top: -5px;" alt="{{$settings->companyname}}" class="navbar-brand-image">
               </a>
               </div>
@@ -385,7 +448,11 @@
                 <div class="d-flex flex-column flex-md-row flex-fill align-items-stretch align-items-md-center">
                   <ul class="navbar-nav">
                     
-                    <li class="nav-item  @if(Request::is('dashboard')){{ 'active' }}@endif">
+                    <li @class([
+                      'nav-item',
+                      'dropdown',
+                      'active' => Request::routeIs('dashboard'),
+                    ])>
                       <a class="nav-link" href="/" >
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                           <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dashboard" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -401,7 +468,11 @@
                       </a>
                     </li>
   
-                    <li class="nav-item  @if(Request::is('clients')){{ 'active' }}@endif dropdown">
+                    <li @class([
+                      'nav-item',
+                      'dropdown',
+                      'active' => Request::routeIs('clients.*'),
+                    ])>
                       <a class="nav-link dropdown-toggle" href="#navbar-base" data-toggle="dropdown" role="button" aria-expanded="false" >
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                           <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="9" cy="7" r="4" /><path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M21 21v-2a4 4 0 0 0 -3 -3.85" /></svg>
@@ -412,12 +483,12 @@
                       </a>
                       <ul class="dropdown-menu  ">
                         <li >
-                          <a class="dropdown-item" href="/clients" >
+                          <a class="dropdown-item" href="{{ route('clients.index') }}">
                             {{ __('Client_Manager') }}
                           </a>
                         </li>
                         <li >
-                          <a class="dropdown-item" href="/client/add" >
+                          <a class="dropdown-item" href="{{ route('clients.create') }}">
                             {{ __('Add_New_Client') }}
                           </a>
                         </li>
@@ -428,7 +499,11 @@
                       </ul>
                     </li>
   
-                    <li class="nav-item  @if(Request::is('invoices')){{ 'active' }}@endif dropdown">
+                    <li @class([
+                      'nav-item',
+                      'dropdown',
+                      'active' => Request::routeIs('invoices.*'),
+                    ])>
                       <a class="nav-link dropdown-toggle" href="#navbar-base" data-toggle="dropdown" role="button" aria-expanded="false" >
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                           <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><line x1="9" y1="7" x2="10" y2="7" /><line x1="9" y1="13" x2="15" y2="13" /><line x1="13" y1="17" x2="15" y2="17" /></svg>
@@ -444,13 +519,21 @@
                           </a>
                         </li>
                         <li >
-                          <a class="dropdown-item" href="{{ route('invoices.index') }}?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Bclient_id%5D=&filter%5Binvostatus%5D=1" >
+                          <a class="dropdown-item" href="{{ route('invoices.index', [
+                            'filter' => [
+                              'invostatus' => 1,
+                            ]
+                          ]) }}">
                             {{ __('Unpaid Invoices') }}
                           </a>
                         </li>
                         
                         <li >
-                          <a class="dropdown-item" href="{{ route('invoices.index') }}?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Bclient_id%5D=&filter%5Binvostatus%5D=3" >
+                          <a class="dropdown-item" href="{{ route('invoices.index', [
+                            'filter' => [
+                              'invostatus' => 3,
+                            ]
+                          ]) }}">
                             {{ __('Paid Invoices') }}
                           </a>
                         </li>                  
@@ -460,7 +543,11 @@
                       </ul>
                     </li>
   
-                    <li class="nav-item  @if(Request::is('quotes')){{ 'active' }}@endif dropdown">
+                    <li @class([
+                      'nav-item',
+                      'dropdown',
+                      'active' => Request::routeIs('offers.*'),
+                    ])>
                       <a class="nav-link dropdown-toggle" href="#navbar-base" data-toggle="dropdown" role="button" aria-expanded="false" >
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                           <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-quote" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -475,17 +562,25 @@
                       </a>
                       <ul class="dropdown-menu  ">
                         <li >
-                          <a class="dropdown-item" href="/quotes" >
+                          <a class="dropdown-item" href="{{ route('offers.index') }}" >
                             {{ __('Quotation') }}
                           </a>
                         </li>
                         <li >
-                          <a class="dropdown-item" href="/quotes?filter%5Btitle%5D=&filter%5Bquoteid%5D=&filter%5Bclient_id%5D=&filter%5Bquotestat%5D=1" >
+                          <a class="dropdown-item" href="{{ route('offers.index', [
+                            'filter' => [
+                              'quotestat' => 1,
+                            ]
+                          ]) }}">
                             {{ __('Pending Quotes') }}
                           </a>
                         </li>
                         <li >
-                          <a class="dropdown-item" href="/quotes?filter%5Btitle%5D=&filter%5Bquoteid%5D=&filter%5Bclient_id%5D=&filter%5Bquotestat%5D=2" >
+                          <a class="dropdown-item" href="{{ route('offers.index', [
+                            'filter' => [
+                              'quotestat' => 2,
+                            ]
+                          ]) }}">
                             {{ __('Approved Quotes') }}
                           </a>
                         </li>
@@ -497,7 +592,11 @@
                     </li>
   
                     
-                    <li class="nav-item  @if(Request::is('projects')){{ 'active' }}@endif dropdown">
+                    <li @class([
+                      'nav-item',
+                      'dropdown',
+                      'active' => Request::routeIs('projects.*'),
+                    ])>
                       <a class="nav-link dropdown-toggle" href="#navbar-base" data-toggle="dropdown" role="button" aria-expanded="false" >
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                           <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-adjustments-alt" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -524,12 +623,20 @@
                           </a>
                         </li>
                         <li >
-                          <a class="dropdown-item" href="{{ route('projects.index') }}?filter%5Bname%5D=&filter%5Bclient%5D=&filter%5Bstatus%5D=2" >
+                          <a class="dropdown-item" href="{{ route('projects.index', [
+                            'filter' => [
+                              'status' => 2,
+                            ]
+                          ]) }}">
                             {{ __('Ongoing Projects') }}
                           </a>
                         </li>
                         <li >
-                          <a class="dropdown-item" href="{{ route('projects.index') }}?filter%5Bname%5D=&filter%5Bclient%5D=&filter%5Bstatus%5D=5" >
+                          <a class="dropdown-item" href="{{ route('projects.index', [
+                            'filter' => [
+                              'status' => 5,
+                            ]
+                          ]) }}">
                             {{ __('Completed Projects') }}
                           </a>
                         </li>
@@ -547,7 +654,11 @@
                     
   
                     
-                    <li class="nav-item  @if(Request::is('tasks')){{ 'active' }}@endif">
+                    <li @class([
+                      'nav-item',
+                      'dropdown',
+                      'active' => Request::routeIs('tasks.*'),
+                    ])>
                       <a class="nav-link" href="{{ route('tasks.index') }}" >
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                           <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><rect x="4" y="4" width="6" height="6" rx="1" /><rect x="4" y="14" width="6" height="6" rx="1" /><rect x="14" y="14" width="6" height="6" rx="1" /><line x1="14" y1="7" x2="20" y2="7" /><line x1="17" y1="4" x2="17" y2="10" /></svg>
@@ -558,8 +669,12 @@
                       </a>
                     </li>
   
-                    <li class="nav-item  @if(Request::is('expenses')){{ 'active' }}@endif">
-                      <a class="nav-link" href="/expenses" >
+                    <li @class([
+                      'nav-item',
+                      'dropdown',
+                      'active' => Request::routeIs('expenses.*'),
+                    ])>
+                      <a class="nav-link" href="{{ route('expenses.index') }}">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                           <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-wallet" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -575,7 +690,11 @@
   
                  
   
-                    <li class="nav-item  @if(Request::is('file-manager')){{ 'active' }}@endif">
+                    <li @class([
+                      'nav-item',
+                      'dropdown',
+                      'active' => Request::is('file-manager'),
+                    ])>
                       <a class="nav-link" href="{{ route('file-manager') }}">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                           <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-cloud-upload" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -592,7 +711,11 @@
                     </li>
                   
                     @if(Auth::user()->is_admin)
-                    <li class="nav-item  @if(Request::is('lead')){{ 'active' }}@endif dropdown">
+                    <li @class([
+                      'nav-item',
+                      'dropdown',
+                      'active' => Request::is('lead'),
+                    ])>
                       <a class="nav-link dropdown-toggle" href="#navbar-base" data-toggle="dropdown" role="button" aria-expanded="false" >
                         <span class="nav-link-icon d-md-none d-lg-inline-block"><svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="12 3 20 7.5 20 16.5 12 21 4 16.5 4 7.5 12 3" /><line x1="12" y1="12" x2="20" y2="7.5" /><line x1="12" y1="12" x2="12" y2="21" /><line x1="12" y1="12" x2="4" y2="7.5" /><line x1="16" y1="5.25" x2="8" y2="9.75" /></svg>
                         </span>
@@ -612,7 +735,7 @@
                           </a>
                         </li>
                         <li >
-                          <a class="dropdown-item" href="/admin/settings/invoice" >
+                          <a class="dropdown-item" href="{{ route('admin.settings.invoice.show') }}">
                             {{ __('Customize Invoice') }}
                           </a>
                         </li>

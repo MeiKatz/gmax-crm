@@ -28,7 +28,7 @@
           
             @foreach($clients as $client)
             <tr>
-                <td><a href="/client/{{$client->id}}" class="text-reset" tabindex="-1"> {{$client->name}}</a></td>
+                <td><a href="{{ route('clients.show', [ $client ]) }}" class="text-reset" tabindex="-1"> {{$client->name}}</a></td>
                 <td>
                     
                     {{$client->business}}

@@ -13,7 +13,11 @@
 
     <div class="row">
         <div class="col-md-3 mb-2">
-          <a href="{{ route('invoices.index') }}?filter[invostatus]=1">
+          <a href="{{ route('invoices.index', [
+            'filter' => [
+              'invostatus' => 1
+            ]
+          ]) }}">
             <div class="card card-sm">
                 <div class="card-body">
                   <div class="row align-items-center">
@@ -35,7 +39,11 @@
               </div></a>
         </div>
         <div class="col-md-3 mb-2"> 
-          <a href="{{ route('invoices.index') }}?filter[invostatus]=3">
+          <a href="{{ route('invoices.index', [
+            'filter' => [
+              'invostatus' => 3,
+            ]
+          ]) }}">
             <div class="card card-sm">
                 <div class="card-body">
                   <div class="row align-items-center">
@@ -59,7 +67,7 @@
         </div>
 
         <div class="col-md-3 mb-2">
-          <a href="/quotes">
+          <a href="{{ route('offers.index') }}">
             <div class="card card-sm">
                 <div class="card-body">
                   <div class="row align-items-center">
@@ -83,7 +91,11 @@
         </div>
 
         <div class="col-md-3 mb-2">
-          <a href="{{ route('projects.index') }}?filter[status]=2">
+          <a href="{{ route('projects.index', [
+            'filter' => [
+              'status' => 2
+            ]
+          ]) }}">
             <div class="card card-sm">
                 <div class="card-body">
                   <div class="row align-items-center">
@@ -294,7 +306,11 @@
                 </td>
                 <td><a href="{{ route('invoices.edit', [ $invoice ]) }}">{{ $invoice->title }}</a></td>
                 <td>
-                  <a href="/client/ {{ !empty($invoice->client) ? $invoice->client->id:'' }}">   {{ !empty($invoice->client) ? $invoice->client->name:'Removed' }} </a>
+                  @if ( $invoice->client )
+                    <a href="{{ route('clients.show', [ $invoice->client ]) }}">{{ $invoice->client->name }}</a>
+                  @else
+                    <span>Removed</span>
+                  @endif
                 </td>
                 <td>
                     {{$invoice->invodate}}
@@ -315,7 +331,7 @@
                             data-boundary="viewport" data-toggle="dropdown">Actions</button>
                         <div class="dropdown-menu dropdown-menu-right">
 
-                            <a class="dropdown-item" href="/invoices/edit/{{$invoice->id}}">
+                            <a class="dropdown-item" href="{{ route('invoices.edit', [ $invoice ]) }}">
                               {{ __('Edit_Invoice') }}
                             </a>
                           <form method="post" action="{{ route('invoices.destroy', [ $invoice ]) }}" onsubmit="return confirm('Are you sure?')">

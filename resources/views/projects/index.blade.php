@@ -78,8 +78,11 @@
                 </td>
                 <td><a href="{{ route('projects.show', [ $project ]) }}"> {{$project->name}}</a></td>
                 <td>
-                  <a href="/client/ {{ !empty($project->client) ? $project->client->id:'' }}">   {{ !empty($project->client) ? $project->client->name:'Removed' }} </a>
-                 
+                  @if ( $project->client )
+                    <a href="{{ route('clients.show', [ $project->client ]) }}">{{ $project->client->name }}</a>
+                  @else
+                    <span>Removed</span>
+                  @endif
                 </td>
                 <td>
                     {{$project->starts_at}}

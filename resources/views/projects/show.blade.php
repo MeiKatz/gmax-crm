@@ -78,7 +78,7 @@
               <dd class="col-7"><strong>{{$project->name}}</strong></dd>
               <dt class="col-5">Client:</dt>
               <dd class="col-7">
-                <a href="/client/{{$project->client->id}}">{{$project->client->name}}</a>
+                <a href="{{ route('clients.show', [ $project->client ]) }}">{{$project->client->name}}</a>
               </dd>
               <dt class="col-5">Start Date:</dt>
               <dd class="col-7"><strong>{{$project->starts_at}}</strong></dd>
@@ -284,7 +284,7 @@
                   <span class="dropdown ml-1">
                     <button class="btn btn-white btn-sm dropdown-toggle align-text-top"data-boundary="viewport" data-toggle="dropdown">Actions</button>
                     <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="/invoices/edit/{{ $invoice->id }}">{{ __('Edit_Invoice') }}</a>
+                      <a class="dropdown-item" href="{{ route('invoices.edit', [ $invoice ]) }}">{{ __('Edit_Invoice') }}</a>
                       <form method="post" action="{{ route('invoices.destroy', [ $invoice ]) }}" onsubmit="return confirm('Are you sure?')">
                         @csrf
                         @method('DELETE')

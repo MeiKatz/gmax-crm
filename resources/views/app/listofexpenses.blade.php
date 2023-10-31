@@ -195,8 +195,10 @@
                    # {{$expense->id }}
                 </td>
                 <td> {{$expense->item}}</td>
-                <td> 
-                  <a href="/projects/{{ !empty($expense->project) ? $expense->project->id:'' }}">   {{ !empty($expense->project) ? $expense->project->name:'' }} </a>
+                <td>
+                  @if ( $expense->project )
+                    <a href="{{ route('projects.show', [ $expense->project ]) }}">{{ $expense->project->name }}</a>
+                  @endif
                 </td>
                 <td>
                     {{$expense->amount}}
@@ -216,10 +218,11 @@
                             <a class="dropdown-item" data-toggle="modal" data-target="#editexpense{{$expense->id}}" href="#"    >
                                 Edit expense
                             </a>
-                            <a class="dropdown-item" onclick="return confirm('Are you sure?')"
-                                href="/expenses/delete/{{$expense->id}}">
-                                Delete expense
-                            </a>
+                            <form method="post" action="{{ route('expenses.destroy', [ $expense ]) }}" onsubmit="return confirm('Are you sure?')">
+                              @csrf
+                              @method('DELETE')
+                              <button type="submit" class="dropdown-item">Delete expense</button>
+                            </form>
                         </div>
                     </span>
                 </td>

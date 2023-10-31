@@ -81,7 +81,7 @@
                 <td><a href="{{ route('offers.edit', [ $invoice ]) }}"> {{$invoice->title}}</a></td>
                 <td>
                   @if ( $invoice->client )
-                    <a href="{{ routes('clients.show', [ $invoice->client ]) }}">{{ $invoice->client->name }}</a>
+                    <a href="{{ route('clients.show', [ $invoice->client ]) }}">{{ $invoice->client->name }}</a>
                   @else
                     <span>Removed</span>
                   @endif
@@ -103,7 +103,7 @@
                         <button class="btn btn-sm dropdown-toggle align-text-top"
                             data-boundary="viewport" data-toggle="dropdown">Actions</button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="/invoices/edit/{{$invoice->id}}">
+                            <a class="dropdown-item" href="{{ route('invoices.edit', [ $invoice ]) }}">
                                 Edit Quote
                             </a>
                             <form method="post" action="{{ route('invoices.destroy', [ $invoice ]) }}" onsubmit="return confirm('Are you sure?')">

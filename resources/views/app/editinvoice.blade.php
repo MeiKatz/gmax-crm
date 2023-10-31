@@ -7,7 +7,7 @@
         <div class="col-md-3">
             <div class="dropdown-menu dropdown-menu-demo">
                 <span class="dropdown-header">Menu</span>
-                <a class="dropdown-item " href="/invoices/{{ $invoice->id }}">
+                <a class="dropdown-item" href="{{ route('invoices.edit', [ $invoice ]) }}">
 	            <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px;" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><line x1="9" y1="7" x2="10" y2="7" /><line x1="9" y1="13" x2="15" y2="13" /><line x1="13" y1="17" x2="15" y2="17" /></svg>
                      View Invoice
                 </a>
@@ -45,7 +45,7 @@
                          Edit Invoice
                     </a>
                 
-                <a class="dropdown-item " href="/invoices/cancel/{{$invoice->id}}" onclick="return confirm('Are you sure?')">
+                <a class="dropdown-item " href="{{ route('cancelinvoice', [ $invoice ]) }}" onclick="return confirm('Are you sure?')">
                   <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" style="margin-right: 10px;" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 21v-16m2 -2h10a2 2 0 0 1 2 2v10m0 4.01v1.99l-3 -2l-2 2l-2 -2l-2 2l-2 -2l-3 2" /><line x1="11" y1="7" x2="15" y2="7" /><line x1="9" y1="11" x2="11" y2="11" /><line x1="13" y1="15" x2="15" y2="15" /><line x1="15" y1="11" x2="15" y2="11.01" /><line x1="3" y1="3" x2="21" y2="21" /></svg>
                          Cancel Invoice
                     </a>
@@ -89,7 +89,7 @@
 
                 @php $todaydate = date('Y-m-d'); @endphp
                 @if($todaydate<$invoice->recorringnextdate)
-                                    <a class="dropdown-item " href="/invoices/cancelrecurring/{{$invoice->id}}" onclick="return confirm('Are you sure?')">
+                                    <a class="dropdown-item " href="{{ route('cancelrecurring', [ $invoice ]) }}" onclick="return confirm('Are you sure?')">
                      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"  style="margin-right: 10px;" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9" /><path d="M10 10l4 4m0 -4l-4 4" /></svg>
                            Cancel Recurring Invoice
                 </a>  
@@ -149,7 +149,7 @@
                         <dd class="col-7"><strong>{{$invoice->title}}</strong></dd>
                         @if($invoice->project)
                         <dt class="col-5">Project:</dt>
-                        <dd class="col-7"><strong><a href="/projects/{{$invoice->project_id}}">{{$invoice->project->name}} </a></strong></dd>
+                        <dd class="col-7"><strong><a href="{{ route('projects.show', [ $invoice->project ]) }}">{{$invoice->project->name}} </a></strong></dd>
                         @endif
                         <dt class="col-5">Date:</dt>
                         <dd class="col-7">  {{$invoice->invodate}}</dd>
@@ -350,7 +350,7 @@
                                 </td>
                                   
                                   <td>
-                                    <a onclick="return confirm('Are you sure?')" href="/invoices/reversepayment/{{$payment->id}}/{{$invoice->id}}" class="btn btn-warning btn-sm"  style="color: #fff;">Del</a>
+                                    <a onclick="return confirm('Are you sure?')" href="{{ route('deletepayment', [ $payment, $invoice ]) }}" class="btn btn-warning btn-sm"  style="color: #fff;">Del</a>
                                 </td>
                               
                           </tr>
