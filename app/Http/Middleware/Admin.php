@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use use App\Providers\RouteServiceProvider;
+use App\Providers\RouteServiceProvider;
 
 class Admin
 {
