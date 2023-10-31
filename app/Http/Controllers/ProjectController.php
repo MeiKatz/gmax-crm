@@ -7,7 +7,6 @@ use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Client;
 use App\Models\Project;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ProjectController extends Controller {
@@ -47,7 +46,7 @@ class ProjectController extends Controller {
     );
 
     $project->note()->create([
-      'creator_id' => Auth::id(),
+      'creator_id' => auth()->user()->id,
       'note' => 'Add Something',
     ]);
 

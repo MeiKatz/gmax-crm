@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Task;
 use App\Models\TaskItem;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class ItemController extends Controller {
   /**
@@ -19,7 +18,7 @@ class ItemController extends Controller {
   public function store(Request $request, Task $task) {
     $task->items()->create([
       'task' => $request->task,
-      'creator_id' => Auth::id(),
+      'creator_id' => auth()->user()->id,
       'status' => 0,
     ]);
 

@@ -311,7 +311,7 @@
                     </a>
                   </li>
                 
-                  @if(Auth::user()->is_admin)
+                  @if( auth()->user()->is_admin )
                   <li @class([
                     'nav-item',
                     'dropdown',
@@ -411,10 +411,10 @@
 
                 <div class="nav-item dropdown">
                   <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
-                    <span class="avatar avatar-sm" style="background-image: url({{ Auth::user()->profile_photo_url }})"></span>
+                    <span class="avatar avatar-sm" style="background-image: url({{ auth()->user()->profile_photo_url }})"></span>
                     <div class="d-none d-xl-block ps-2">
-                      <div>{{ Auth::user()->name }}</div>
-                      <div class="mt-1 small text-muted">{{ Auth::user()->email }}</div>
+                      <div>{{ auth()->user()->name }}</div>
+                      <div class="mt-1 small text-muted">{{ auth()->user()->email }}</div>
                     </div>
                   </a>
                   <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
@@ -710,7 +710,7 @@
                       </a>
                     </li>
                   
-                    @if(Auth::user()->is_admin)
+                    @if( auth()->user()->is_admin )
                     <li @class([
                       'nav-item',
                       'dropdown',

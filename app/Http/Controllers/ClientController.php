@@ -8,8 +8,6 @@ use App\Models\Client;
 use App\Models\Invoice;
 use App\Models\Project;
 
-use Illuminate\Support\Facades\Auth;
-
 class ClientController extends Controller
 {
     /**
@@ -46,7 +44,7 @@ class ClientController extends Controller
     {
         $client = Client::create([
             ...$request->all(),
-            'addedby' => Auth::id(),
+            'addedby' => auth()->user()->id,
         ]);
 
         // Mail::to($request->email)->send(new welcomemail($client));

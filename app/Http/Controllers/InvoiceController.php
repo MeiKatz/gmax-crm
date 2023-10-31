@@ -12,7 +12,6 @@ use App\Models\PaymentReceipt;
 use App\Models\Business;
 use Spatie\QueryBuilder\QueryBuilder;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
@@ -85,7 +84,7 @@ class InvoiceController extends Controller
                 'type' => 2,
                 'title' => $request->title,
                 'client_id' => $request->client_id,
-                'creator_id' => Auth::id(),
+                'creator_id' => auth()->user()->id,
                 'project_id' => $request->project_id,
                 'invoid' => $nextInvoiceNumber,
             ]);
@@ -158,7 +157,7 @@ class InvoiceController extends Controller
         {
             $paymentreceipt =new PaymentReceipt();
             $paymentreceipt->invoiceid=$request->invoiceid;
-            $paymentreceipt->adminid = Auth::id();
+            $paymentreceipt->adminid = auth()->user()->id;
             $paymentreceipt->amount =$request->amount;
             $paymentreceipt->date =$request->date;
             $paymentreceipt->transation =$request->transation;
@@ -251,7 +250,7 @@ class InvoiceController extends Controller
         {
             $paymentreceipt =new PaymentReceipt();
             $paymentreceipt->invoiceid=$request->invoiceid;
-            $paymentreceipt->adminid = Auth::id();
+            $paymentreceipt->adminid = auth()->user()->id;
             $paymentreceipt->amount =-$request->amount;
             $paymentreceipt->date =$request->date;
             $paymentreceipt->transation =$request->transation;
@@ -333,7 +332,7 @@ class InvoiceController extends Controller
          $invoice->type=2;
          $invoice->title =$request->title;
          $invoice->client_id =$request->client_id;
-         $invoice->creator_id = Auth::id();
+         $invoice->creator_id = auth()->user()->id;
          if(Invoice::where('type',2)->count()==0){
          $invoice->invoid =1; }
          else{
