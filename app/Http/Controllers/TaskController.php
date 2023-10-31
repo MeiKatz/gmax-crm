@@ -38,7 +38,7 @@ class TaskController extends Controller {
     $taskComments = $task->updates()->orderby('id', 'desc')->paginate(7);
 
     return view('app.viewtask')->with([
-      'project' => $project,
+      'project' => $task->project,
       'task' => $task,
       'taskcomments' => $taskComments,
       'taskItems' => $taskItems,
