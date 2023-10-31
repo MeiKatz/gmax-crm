@@ -45,7 +45,7 @@ class CreateRecurringInvoice implements ShouldQueue {
       $invoice = Invoice::create([
         'type' => 2,
         'title' => $rcinvo->title,
-        'userid' => $rcinvo->userid,
+        'client_id' => $rcinvo->client_id,
         'creator_id' => $rcinvo->creator_id,
         'invoid' => $lastInvoiceNumber++,
         'project_id' => $rcinvo->project_id,

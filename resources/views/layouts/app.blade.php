@@ -123,19 +123,19 @@
                         </a>
                       </li>
                       <li >
-                        <a class="dropdown-item" href="{{ route('invoices.index') }}?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Buserid%5D=&filter%5Binvostatus%5D=1" >
+                        <a class="dropdown-item" href="{{ route('invoices.index') }}?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Bclient_id%5D=&filter%5Binvostatus%5D=1" >
                           {{ __('Unpaid Invoices') }}
                         </a>
                       </li>
 
                       <li >
-                        <a class="dropdown-item" href="{{ route('invoices.index') }}?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Buserid%5D=&filter%5Binvostatus%5D=2" >
+                        <a class="dropdown-item" href="{{ route('invoices.index') }}?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Bclient_id%5D=&filter%5Binvostatus%5D=2" >
                           {{ __('Part paid Invoices') }}
                         </a>
                       </li> 
                       
                       <li >
-                        <a class="dropdown-item" href="{{ route('invoices.index') }}?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Buserid%5D=&filter%5Binvostatus%5D=3" >
+                        <a class="dropdown-item" href="{{ route('invoices.index') }}?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Bclient_id%5D=&filter%5Binvostatus%5D=3" >
                           {{ __('Paid Invoices') }}
                         </a>
                       </li>                  
@@ -161,12 +161,12 @@
                         </a>
                       </li>
                       <li >
-                        <a class="dropdown-item" href="/quotes?filter%5Btitle%5D=&filter%5Bquoteid%5D=&filter%5Buserid%5D=&filter%5Bquotestat%5D=1" >
+                        <a class="dropdown-item" href="/quotes?filter%5Btitle%5D=&filter%5Bquoteid%5D=&filter%5Bclient_id%5D=&filter%5Bquotestat%5D=1" >
                           {{ __('Pending Quotes') }}
                         </a>
                       </li>
                       <li >
-                        <a class="dropdown-item" href="/quotes?filter%5Btitle%5D=&filter%5Bquoteid%5D=&filter%5Buserid%5D=&filter%5Bquotestat%5D=2" >
+                        <a class="dropdown-item" href="/quotes?filter%5Btitle%5D=&filter%5Bquoteid%5D=&filter%5Bclient_id%5D=&filter%5Bquotestat%5D=2" >
                           {{ __('Approved Quotes') }}
                         </a>
                       </li>
@@ -444,13 +444,13 @@
                           </a>
                         </li>
                         <li >
-                          <a class="dropdown-item" href="{{ route('invoices.index') }}?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Buserid%5D=&filter%5Binvostatus%5D=1" >
+                          <a class="dropdown-item" href="{{ route('invoices.index') }}?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Bclient_id%5D=&filter%5Binvostatus%5D=1" >
                             {{ __('Unpaid Invoices') }}
                           </a>
                         </li>
                         
                         <li >
-                          <a class="dropdown-item" href="{{ route('invoices.index') }}?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Buserid%5D=&filter%5Binvostatus%5D=3" >
+                          <a class="dropdown-item" href="{{ route('invoices.index') }}?filter%5Btitle%5D=&filter%5Binvoid%5D=&filter%5Bclient_id%5D=&filter%5Binvostatus%5D=3" >
                             {{ __('Paid Invoices') }}
                           </a>
                         </li>                  
@@ -480,12 +480,12 @@
                           </a>
                         </li>
                         <li >
-                          <a class="dropdown-item" href="/quotes?filter%5Btitle%5D=&filter%5Bquoteid%5D=&filter%5Buserid%5D=&filter%5Bquotestat%5D=1" >
+                          <a class="dropdown-item" href="/quotes?filter%5Btitle%5D=&filter%5Bquoteid%5D=&filter%5Bclient_id%5D=&filter%5Bquotestat%5D=1" >
                             {{ __('Pending Quotes') }}
                           </a>
                         </li>
                         <li >
-                          <a class="dropdown-item" href="/quotes?filter%5Btitle%5D=&filter%5Bquoteid%5D=&filter%5Buserid%5D=&filter%5Bquotestat%5D=2" >
+                          <a class="dropdown-item" href="/quotes?filter%5Btitle%5D=&filter%5Bquoteid%5D=&filter%5Bclient_id%5D=&filter%5Bquotestat%5D=2" >
                             {{ __('Approved Quotes') }}
                           </a>
                         </li>

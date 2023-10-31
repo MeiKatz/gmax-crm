@@ -366,7 +366,7 @@
             <div class="mb-2">
                 <label class="form-label">Select Client <a href="{{route('clients.create')}}" style="float:right;"> Add New Client </a></label>
                 <x-select-client
-                  name="userid"
+                  name="client_id"
                   id="select-users"
                 />
             </div>

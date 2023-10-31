@@ -139,7 +139,7 @@
           </div>
             <div class="col-md-2">					
               <label class="form-label" style="margin-bottom: 0px;  padding-left:2px; font-size:13px;">Project</label>
-              <select class="form-select  form-select-sm" name="filter[userid]">
+              <select class="form-select  form-select-sm" name="filter[client_id]">
                
                 <option value="">Select Project</option>
                    @foreach($projects as $project)        

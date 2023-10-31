@@ -144,7 +144,7 @@
               <label class="form-label" style="margin-bottom: 0px;  padding-left:2px; font-size:13px;">Client</label>
               <x-select-client
                 class="form-select-sm"
-                name="filter[userid]"
+                name="filter[client_id]"
               />
             </div>
             <div class="col-md-2">					
@@ -276,7 +276,7 @@
             <div class="mb-2">
                 <label class="form-label">Select Client <a href="{{route('clients.create')}}" style="float:right;"> Add New Client </a></label>
                 <x-select-client
-                  name="userid"
+                  name="client_id"
                   id="select-users"
                 />
             </div>

@@ -119,7 +119,7 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-        Invoice::where('userid', $client->id)->delete();
+        Invoice::forClient( $client )->delete();
         $client->projects()->delete();
         $client->delete();
 

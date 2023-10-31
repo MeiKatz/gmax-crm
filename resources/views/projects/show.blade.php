@@ -377,7 +377,7 @@
       </div>
       <form action="{{ route('invoices.store') }}" method="post">
         @csrf
-        <input type="hidden" value="{{ $project->client->id }}" name="userid" />
+        <input type="hidden" value="{{ $project->client->id }}" name="client_id" />
         <input type="hidden" value="{{ $project->id }}" name="project_id" />
         <div class="modal-body">
           <div class="mb-2">

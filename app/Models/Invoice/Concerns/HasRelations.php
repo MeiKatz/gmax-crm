@@ -14,9 +14,7 @@ trait HasRelations {
    */
   public function client() {
     return $this->belongsTo(
-      Client::class,
-      'userid',
-      'id'
+      Client::class
     );
   }
 

@@ -28,7 +28,7 @@ class InvoiceController extends Controller
         $invoices = QueryBuilder::for( Invoice::class )
             ->allowedFilters([
                 'title',
-                'userid',
+                'client_id',
                 'invoid',
                 'invostatus',
             ])
@@ -84,7 +84,7 @@ class InvoiceController extends Controller
             return Invoice::create([
                 'type' => 2,
                 'title' => $request->title,
-                'userid' => $request->userid,
+                'client_id' => $request->client_id,
                 'creator_id' => Auth::id(),
                 'project_id' => $request->project_id,
                 'invoid' => $nextInvoiceNumber,
@@ -332,7 +332,7 @@ class InvoiceController extends Controller
          $invoice =new Invoice();
          $invoice->type=2;
          $invoice->title =$request->title;
-         $invoice->userid =$request->userid;
+         $invoice->client_id =$request->client_id;
          $invoice->creator_id = Auth::id();
          if(Invoice::where('type',2)->count()==0){
          $invoice->invoid =1; }
