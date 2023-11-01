@@ -157,7 +157,6 @@ class InvoiceController extends Controller
         {
             $paymentreceipt =new PaymentReceipt();
             $paymentreceipt->invoice_id=$request->invoice_id;
-            $paymentreceipt->adminid = auth()->user()->id;
             $paymentreceipt->amount =$request->amount;
             $paymentreceipt->date =$request->date;
             $paymentreceipt->transation =$request->transation;
@@ -250,7 +249,6 @@ class InvoiceController extends Controller
         {
             $paymentreceipt =new PaymentReceipt();
             $paymentreceipt->invoice_id=$request->invoice_id;
-            $paymentreceipt->adminid = auth()->user()->id;
             $paymentreceipt->amount =-$request->amount;
             $paymentreceipt->date =$request->date;
             $paymentreceipt->transation =$request->transation;

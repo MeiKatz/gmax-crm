@@ -29,7 +29,7 @@ trait HasRelations {
   public function createdPaymentReceipts() {
     return $this->hasMany(
       PaymentReceipt::class,
-      'adminid'
+      'creator_id'
     );
   }
 
