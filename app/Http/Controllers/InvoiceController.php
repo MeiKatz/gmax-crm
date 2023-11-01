@@ -319,7 +319,9 @@ class InvoiceController extends Controller
       $invoices->markAsUnpaid();
       $invoices->type =2;             
       $invoices->save();   
-      return redirect('/invoice/edit/'.$request->id)->with('success', 'Converted as Invoice');  
+      return redirect()->route('invoices.edit', [ $invoices ])->with([
+        'success' => 'Converted as Invoice',
+      ]);
      }
 
 
@@ -364,7 +366,7 @@ class InvoiceController extends Controller
              $invoice->recorringnextdate = $getinvocedate->addYear(); 
          }                       
          $invoice->save();        
-         $lastid = $invoice->id;
-        return redirect('/invoice/edit/'.$lastid);
+
+        return redirect()->route('invoices.edit', [ $invoice ]);
      }
 }
