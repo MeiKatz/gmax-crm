@@ -404,7 +404,7 @@
                 </div>
                 <form action="{{route('invopaymentsave')}}" method="post">
                     @csrf
-                    <input type="hidden" name="invoiceid" value="{{$invoice->id}}">
+                    <input type="hidden" name="invoice_id" value="{{$invoice->id}}">
                 <div class="modal-body">
                     <div class="mb-2">
                         
@@ -447,7 +447,7 @@
                 </div>
                 <form action="{{route('refundinvoice')}}" method="post">
                     @csrf
-                    <input type="hidden" name="invoiceid" value="{{$invoice->id}}">
+                    <input type="hidden" name="invoice_id" value="{{$invoice->id}}">
                 <div class="modal-body">
                     <div class="mb-2">
                         

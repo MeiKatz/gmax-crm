@@ -44,7 +44,7 @@ trait HasRelations {
   public function payments() {
     return $this->hasMany(
       PaymentReceipt::class,
-      'invoiceid'
+      'invoice_id'
     );
   }
 

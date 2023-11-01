@@ -39,10 +39,10 @@ class GatewayController extends Controller
             try 
             {
                 $response = $api->payment->fetch($input['razorpay_payment_id'])->capture(array('amount'=>$payment['amount'])); 
-                 $invoices = Invoice::findOrFail($request->invoid);
+                 $invoices = Invoice::findOrFail($request->invoice_id);
                     $paidamountnow = $invoices->totalamount - $invoices->paidamount;
                     $paymentreceipt =new PaymentReceipt();
-                    $paymentreceipt->invoiceid=$request->invoid;
+                    $paymentreceipt->invoice_id=$request->invoice_id;
                     $paymentreceipt->amount =$paidamountnow;
                     $paymentreceipt->date =date('Y-m-d');
                     $paymentreceipt->transation =$input['razorpay_payment_id'];
@@ -78,7 +78,7 @@ class GatewayController extends Controller
     public function stripepayment(Request $request)
     {
         $gateways =PaymentGateway::findOrFail(2);
-        $invoices = Invoice::findOrFail($request->invoid);
+        $invoices = Invoice::findOrFail($request->invoice_id);
         $setting = Setting::find(1);
         $paidamountnow = $invoices->totalamount - $invoices->paidamount;
         $famount = $paidamountnow*100;
@@ -91,7 +91,7 @@ class GatewayController extends Controller
         ]);
           
         $paymentreceipt =new PaymentReceipt();
-        $paymentreceipt->invoiceid=$request->invoid;
+        $paymentreceipt->invoice_id=$request->invoice_id;
         $paymentreceipt->amount =$paidamountnow;
         $paymentreceipt->date =date('Y-m-d');
         $paymentreceipt->transation =$request->stripeToken;
@@ -119,15 +119,15 @@ class GatewayController extends Controller
 
     public function paypalhandlePayment(Request $request)
     {
-        $oderidd =$request->invoid;
+        $oderidd =$request->invoice_id;
         $paymentid =$request->orderID;
        
         if($request->orderID!=NULL)
         {
-            $invoices = Invoice::findOrFail($request->invoid);
+            $invoices = Invoice::findOrFail($request->invoice_id);
             $paidamountnow = $invoices->totalamount - $invoices->paidamount;
             $paymentreceipt =new PaymentReceipt();
-            $paymentreceipt->invoiceid=$request->invoid;
+            $paymentreceipt->invoice_id=$request->invoice_id;
             $paymentreceipt->amount =$paidamountnow;
             $paymentreceipt->date =date('Y-m-d');
             $paymentreceipt->transation =$request->orderID;

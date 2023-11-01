@@ -156,7 +156,7 @@ class InvoiceController extends Controller
         if($request->amount!=NULL)
         {
             $paymentreceipt =new PaymentReceipt();
-            $paymentreceipt->invoiceid=$request->invoiceid;
+            $paymentreceipt->invoice_id=$request->invoice_id;
             $paymentreceipt->adminid = auth()->user()->id;
             $paymentreceipt->amount =$request->amount;
             $paymentreceipt->date =$request->date;
@@ -164,7 +164,7 @@ class InvoiceController extends Controller
             $paymentreceipt->note =$request->note;
             $paymentreceipt->save();
 
-            $invoices = Invoice::findOrFail($request->invoiceid);
+            $invoices = Invoice::findOrFail($request->invoice_id);
             $currentpaid =  $invoices->paidamount;
             $invoices->paidamount = $currentpaid + $request->amount; 
             $nowpaid=  $currentpaid + $request->amount;
@@ -192,12 +192,12 @@ class InvoiceController extends Controller
     public function deletepayment(Request $request)
      {       
          $payment =$request->id;      
-         $invoid =$request->invo;        
+         $invoid =$request->invoice_id;
          if($invoid!=NULL)
          {
-           $meta = PaymentReceipt::where('invoiceid',$invoid)->where('id',$payment)->first();
+           $meta = PaymentReceipt::where('invoice_id',$invoice_id)->where('id',$payment)->first();
            $getamount = $meta->amount;
-           $invoices = Invoice::findOrFail($request->invo); 
+           $invoices = Invoice::findOrFail($request->invoice_id);
            $getpaidamount = $invoices->paidamount;
            $revesedpayment = $getpaidamount - $getamount;
            $invoices->paidamount =$revesedpayment;
@@ -249,7 +249,7 @@ class InvoiceController extends Controller
         if($request->amount!=NULL)
         {
             $paymentreceipt =new PaymentReceipt();
-            $paymentreceipt->invoiceid=$request->invoiceid;
+            $paymentreceipt->invoice_id=$request->invoice_id;
             $paymentreceipt->adminid = auth()->user()->id;
             $paymentreceipt->amount =-$request->amount;
             $paymentreceipt->date =$request->date;
@@ -257,7 +257,7 @@ class InvoiceController extends Controller
             $paymentreceipt->note =$request->note;
             $paymentreceipt->save();
 
-            $invoices = Invoice::findOrFail($request->invoiceid);
+            $invoices = Invoice::findOrFail($request->invoice_id);
             $currentpaid =  $invoices->paidamount;
             $invoices->paidamount = $currentpaid - $request->amount; 
             $invoices->markAsRefunded();
