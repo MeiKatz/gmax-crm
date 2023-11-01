@@ -47,7 +47,7 @@ class GatewayController extends Controller
                     $paymentreceipt->date =date('Y-m-d');
                     $paymentreceipt->transation =$input['razorpay_payment_id'];
                     $paymentreceipt->note ='Paid using Razorpay';
-                    $paymentreceipt->gateway ='Razorpay';
+                    $paymentreceipt->payment_gateway_id = $gateways->id;
                     $paymentreceipt->save();
                 
                     $currentpaid =  $invoices->paidamount;
@@ -96,7 +96,7 @@ class GatewayController extends Controller
         $paymentreceipt->date =date('Y-m-d');
         $paymentreceipt->transation =$request->stripeToken;
         $paymentreceipt->note ='Paid using Stripe';
-        $paymentreceipt->gateway ='Stripe';
+        $paymentreceipt->payment_gateway_id = $gateways->id;
         $paymentreceipt->save();
       
         $currentpaid =  $invoices->paidamount;
@@ -119,6 +119,7 @@ class GatewayController extends Controller
 
     public function paypalhandlePayment(Request $request)
     {
+        $gateway =PaymentGateway::findOrFail(1);
         $oderidd =$request->invoice_id;
         $paymentid =$request->orderID;
        
@@ -132,6 +133,7 @@ class GatewayController extends Controller
             $paymentreceipt->date =date('Y-m-d');
             $paymentreceipt->transation =$request->orderID;
             $paymentreceipt->note ='Paid using Paypal';
+            $paymentreceipt->payment_gateway_id = $gateway->id;
             $paymentreceipt->gateway ='Paypal';
             $paymentreceipt->save();
           

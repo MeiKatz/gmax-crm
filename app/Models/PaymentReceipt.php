@@ -16,4 +16,13 @@ class PaymentReceipt extends Model
             }
         });
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function paymentGateway() {
+        return $this->belongsTo(
+            PaymentGateway::class
+        );
+    }
 }
