@@ -26,11 +26,11 @@ class PayInvoiceController extends Controller {
     $business = Business::find(1);
     $gateways = PaymentGateway::where('status', 1)->get();
     $invoiceItems = $invoice->items()->paginate(100);
-    $paymentreceipt = $invoice->payments()->paginate(100);
+    $payments = $invoice->payments()->paginate(100);
 
     return view('app.payinvoice')->with([
       'invoice' => $invoice,
-      'invoice_items' => $invoiceItems,
+      'invoiceItems' => $invoiceItems,
       'payments' => $payments,
       'business' => $business,
       'gateways' => $gateways
