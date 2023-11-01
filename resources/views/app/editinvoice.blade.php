@@ -250,7 +250,7 @@
                                     </form>
                                   </td>
                                   <td>
-                                    <form method="post" action="{{ route('invoices.items.destroy', []) }}" onsubmit="return confirm('Are you sure?')">
+                                    <form method="post" action="{{ route('invoices.items.destroy', [ $invoice, $invoiceItem ]) }}" onsubmit="return confirm('Are you sure?')">
                                       @csrf
                                       @method('DELETE')
                                       <button type="submit" class="btn btn-warning btn-sm" style="color: #fff;">Del</button>

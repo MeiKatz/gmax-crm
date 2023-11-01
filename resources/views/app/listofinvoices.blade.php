@@ -296,6 +296,12 @@
                   id="select-users"
                 />
             </div>
+            <div class="mb-2">
+                <label class="form-label">Select project</label>
+                <x-select-project
+                  name="project_id"
+                />
+            </div>
             
            
         </div>

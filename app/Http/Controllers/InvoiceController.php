@@ -68,7 +68,7 @@ class InvoiceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        $invoice = DB::transaction(function () {
+        $invoice = DB::transaction(function () use ( $request ) {
             $lastInvoice = (
                 Invoice::where('type', 2)
                     ->orderby('id', 'desc')
@@ -105,8 +105,8 @@ class InvoiceController extends Controller
     public function edit(
         Invoice $invoice
     ) {
-        $invoiceItems = $invoices->items()->paginate(100);
-        $payments = $invoices->payments()->paginate(100);
+        $invoiceItems = $invoice->items()->paginate(100);
+        $payments = $invoice->payments()->paginate(100);
 
         return view('app.editinvoice')->with([
             'invoice' => $invoice,

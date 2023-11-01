@@ -32,6 +32,20 @@ class Invoice extends Model
     ];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'client_id',
+        'creator_id',
+        'invoid',
+        'project_id',
+        'title',
+        'type',
+    ];
+
+    /**
      * The accessors to append to the model's array form.
      *
      * @var array
