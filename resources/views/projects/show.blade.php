@@ -83,7 +83,7 @@
               <dt class="col-5">Start Date:</dt>
               <dd class="col-7"><strong>{{$project->starts_at}}</strong></dd>
               <dt class="col-5">Deadline:</dt>
-              <dd class="col-7"><strong>{{$project->deadline}}</strong></dd>
+              <dd class="col-7"><strong>{{$project->deadline_at}}</strong></dd>
               <dt class="col-5">Status:</dt>
               <dd class="col-7">
                 <x-project-status :project="$project" />
@@ -100,9 +100,9 @@
       <div class="col-md-4">
         <div class="card">
           <div class="card-body p-4 py-3 text-center">
-            <span class="avatar avatar-xl mb-2 avatar-rounded @if($today>$project->deadline) bg-red-lt  @else bg-green-lt  @endif">{{$balanceDays}}</span>
+            <span class="avatar avatar-xl mb-2 avatar-rounded @if($today>$project->deadline_at) bg-red-lt  @else bg-green-lt  @endif">{{$balanceDays}}</span>
 
-            @if ( $today > $project->deadline )
+            @if ( $today > $project->deadline_at )
               <h3 class="mb-0">Days Overdue</h3>
             @else
               <h3 class="mb-0">Days Left</h3>
@@ -111,7 +111,7 @@
         </div>
       </div>
       <div class="progress card-progress">
-        <div class="progress-bar @if ( $today > $project->deadline ) bg-red  @else bg-green @endif" style="width: {{ $percentage }}%" role="progressbar" aria-valuenow="{{ $percentage }}" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar @if ( $today > $project->deadline_at ) bg-red  @else bg-green @endif" style="width: {{ $percentage }}%" role="progressbar" aria-valuenow="{{ $percentage }}" aria-valuemin="0" aria-valuemax="100">
           <span class="visually-hidden">{{ $percentage }}% Complete</span>
         </div>
       </div>
@@ -351,7 +351,7 @@
           </div>
           <div class="mb-2">
             <label class="form-label">DeadLine</label>
-            <input type="date" value="{{ $project->deadline }}" class="form-control" name="deadline" placeholder="DeadLine" />
+            <input type="date" value="{{ $project->deadline_at }}" class="form-control" name="deadline_at" placeholder="DeadLine" />
           </div>
         </div>
         <div class="modal-footer">

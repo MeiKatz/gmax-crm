@@ -163,7 +163,7 @@
                           <td>
                               {{$project->starts_at}}
                           </td>
-                          <td> {{$project->deadline}}
+                          <td> {{$project->deadline_at}}
                           </td>  
                         
                           <td>

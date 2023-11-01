@@ -87,7 +87,7 @@
                 <td>
                     {{$project->starts_at}}
                 </td>
-                <td> {{$project->deadline}}
+                <td> {{$project->deadline_at}}
                 </td>  
               
                 <td>
@@ -148,7 +148,7 @@
             </div>
             <div class="mb-2">
                 <label class="form-label">DeadLine</label>
-                <input type="date" value="@php echo date('Y-m-d'); @endphp" class="form-control" name="deadline" placeholder="DeadLine">
+                <input type="date" value="@php echo date('Y-m-d'); @endphp" class="form-control" name="deadline_at" placeholder="DeadLine">
             </div>
             
            

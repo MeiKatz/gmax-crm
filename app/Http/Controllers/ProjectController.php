@@ -71,7 +71,7 @@ class ProjectController extends Controller {
     );
 
     $startDate = Carbon::parse( $project->starts_at );
-    $deadline  = Carbon::parse( $project->deadline );
+    $deadline  = Carbon::parse( $project->deadline_at );
     $totalDays = $startDate->diffInDays( $deadline );
     $today = Carbon::now();
     $balanceDays = $today->diffInDays( $deadline );

@@ -41,7 +41,7 @@ class UpdateProjectRequest extends FormRequest {
         'nullable',
         'date_format:Y-m-d',
       ],
-      'deadline' => [
+      'deadline_at' => [
         'nullable',
         'date_format:Y-m-d',
       ],
