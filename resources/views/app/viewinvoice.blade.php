@@ -241,7 +241,7 @@ $footerimagedataUri = 'data:image/' . $footerimagetype . ';base64,' . base64_enc
                   
                   <div class="mb-2">
                       <label class="form-label">Payment Link</label>
-                      <input type="text" class="form-control" placeholder="Payment link" value="@php echo URL::to('/');@endphp/invoices/pay/{{$invoice->id}}">
+                      <input type="text" class="form-control" placeholder="Payment link" value="{{ \Illuminate\Support\Facades\URL::signedRoute('invoices.pay', [ $invoice ]) }}">
                   </div>
                   
               </div>
