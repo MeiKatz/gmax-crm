@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Casts\Money;
+use App\Models\Concerns\SerializesMoney;
 use App\Models\Contracts\HasCurrency;
 use App\Models\Project\Concerns;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 class Project extends Model implements HasCurrency
 {
     use HasFactory;
+    use SerializesMoney;
     use Concerns\HasAttributes;
     use Concerns\HasRelations;
     use Concerns\HasScopes;
@@ -59,6 +61,15 @@ class Project extends Model implements HasCurrency
         'is_not_started',
         'is_on_hold',
     ];
+
+    /**
+     * @return array
+     */
+    public function toArray() {
+        return $this->serializeMoneyInArray(
+            parent::toArray()
+        );
+    }
 
     /**
      * @return array<string,int>

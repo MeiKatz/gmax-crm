@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Casts\Money;
 use App\Models\Concerns\HasCurrencyAttribute;
+use App\Models\Concerns\SerializesMoney;
 use App\Models\Contracts\HasCurrency;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,6 +16,7 @@ class InvoiceItem extends Model implements HasCurrency
 {
     use HasFactory;
     use HasCurrencyAttribute;
+    use SerializesMoney;
 
     /**
      * The attributes that should be cast.
@@ -63,6 +65,15 @@ class InvoiceItem extends Model implements HasCurrency
                 $model->creator_id = auth()->user()->id;
             }
         });
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray() {
+        return $this->serializeMoneyInArray(
+            parent::toArray()
+        );
     }
 
     /**

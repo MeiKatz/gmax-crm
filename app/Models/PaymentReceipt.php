@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Casts\Money;
+use App\Models\Concerns\SerializesMoney;
 use App\Models\Contracts\HasCurrency;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class PaymentReceipt extends Model implements HasCurrency
 {
     use HasFactory;
+    use SerializesMoney;
 
     /**
      * The attributes that should be cast.
@@ -27,6 +29,15 @@ class PaymentReceipt extends Model implements HasCurrency
                 $model->creator_id = optional( auth()->user() )->id;
             }
         });
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray() {
+        return $this->serializeMoneyInArray(
+            parent::toArray()
+        );
     }
 
     /**
