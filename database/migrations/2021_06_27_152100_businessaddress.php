@@ -4,14 +4,12 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Businessaddress extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('businesses', function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -22,20 +20,18 @@ class Businessaddress extends Migration
             $table->text('address')->nullable();
             $table->text('address2')->nullable();
             $table->text('city')->nullable();
-            $table->text('state')->nullable();   
-            $table->text('country')->nullable();     
+            $table->text('state')->nullable();
+            $table->text('country')->nullable();
             $table->text('logo')->nullable();
-            $table->text('status')->nullable();                     
-            $table->timestamps();          
+            $table->text('status')->nullable();
+            $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('businesses');
     }

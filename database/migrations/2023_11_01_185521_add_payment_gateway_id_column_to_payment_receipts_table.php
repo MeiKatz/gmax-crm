@@ -5,14 +5,12 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
 
-class AddPaymentGatewayIdColumnToPaymentReceiptsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         DB::transaction(function () {
             Schema::table('payment_receipts', function (Blueprint $table) {
@@ -46,10 +44,8 @@ class AddPaymentGatewayIdColumnToPaymentReceiptsTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('payment_receipts', function (Blueprint $table) {
             $table->dropColumn('payment_gateway_id');
