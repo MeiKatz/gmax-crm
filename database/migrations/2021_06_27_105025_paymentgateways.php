@@ -4,14 +4,12 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Paymentgateways extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('paymentgateways', function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -20,19 +18,17 @@ class Paymentgateways extends Migration
             $table->text('paytitle')->nullable();
             $table->text('apikey')->nullable();
             $table->text('apisecret')->nullable();
-            $table->text('apiextra')->nullable();     
+            $table->text('apiextra')->nullable();
             $table->text('apiextra2')->nullable();
-            $table->text('status')->nullable();                     
-            $table->timestamps();          
+            $table->text('status')->nullable();
+            $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('paymentgateways');
     }
