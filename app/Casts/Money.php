@@ -53,8 +53,8 @@ class Money implements CastsAttributes {
     }
 
     return [
-      $key => $value->getCurrency()->getCode(),
-      'currency_code' => $value->getAmount(),
+      $key => (int) $value->getAmount(),
+      'currency_code' => $value->getCurrency()->getCode(),
     ];
   }
 }
