@@ -11,9 +11,20 @@ trait HasCurrencyAttribute {
    */
   protected function currency(): Attribute {
     return Attribute::get(
-      fn ( $value, array $attributes ) => (
-        new MoneyCurrency( $attributes['currency_code'] ?: 'XXX' )
+      fn () => (
+        $this->getCurrency()
       )
+    );
+  }
+
+  /**
+   * @return \Money\Currency
+   */
+  public function getCurrency(): MoneyCurrency {
+    $attributes = $this->getAttributes();
+
+    return new MoneyCurrency(
+      $attributes['currency_code'] ?: 'XX'
     );
   }
 }

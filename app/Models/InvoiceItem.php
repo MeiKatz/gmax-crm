@@ -4,13 +4,14 @@ namespace App\Models;
 
 use App\Casts\Money;
 use App\Models\Concerns\HasCurrencyAttribute;
+use App\Models\Contracts\HasCurrency;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Money\Money as MoneyMoney;
 
-class InvoiceItem extends Model
+class InvoiceItem extends Model implements HasCurrency
 {
     use HasFactory;
     use HasCurrencyAttribute;

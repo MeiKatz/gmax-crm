@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use App\Casts\Money;
+use App\Models\Contracts\HasCurrency;
 use App\Models\Invoice\Concerns;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Invoice extends Model
+class Invoice extends Model implements HasCurrency
 {
     use HasFactory;
     use Concerns\HasActions;
