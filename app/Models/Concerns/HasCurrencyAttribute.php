@@ -24,7 +24,7 @@ trait HasCurrencyAttribute {
     $attributes = $this->getAttributes();
 
     return new MoneyCurrency(
-      $attributes['currency_code'] ?: 'XX'
+      $attributes['currency_code'] ?: 'XXX'
     );
   }
 }
