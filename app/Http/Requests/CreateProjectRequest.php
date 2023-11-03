@@ -49,7 +49,7 @@ class CreateProjectRequest extends FormRequest {
     ];
   }
 
-  public function validated() {
+  public function validated($key = null, $default = null) {
     $data = parent::validated();
 
     if ( isset( $data['client'] ) ) {
@@ -57,6 +57,10 @@ class CreateProjectRequest extends FormRequest {
       unset( $data['client'] );
     }
 
-    return $data;
+    if ( $key === null ) {
+      return $data;
+    }
+
+    return $data[ $key ] ?? $default;
   }
 }
