@@ -32,6 +32,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Route::resourceVerbs([
+            'edit' => 'edit',
+            'create' => 'new',
+        ]);
+
         Route::macro(
             'update',
             function ($uri, $callback) {
