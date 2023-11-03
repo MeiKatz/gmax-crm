@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\Money;
 use App\Models\Invoice\Concerns;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +20,16 @@ class Invoice extends Model
     const STATUS_PAID      = 3;
     const STATUS_REFUNDED  = 4;
     const STATUS_CANCELLED = 5;
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'totalamount' => Money::class,
+        'paidamount' => Money::class,
+    ];
 
     /**
      * The model's default values for attributes.

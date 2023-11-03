@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\Money;
 use App\Models\Project\Concerns;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +20,15 @@ class Project extends Model
     const STATUS_ON_HOLD     = 4;
     const STATUS_COMPLETED   = 5;
     const STATUS_CANCELLED   = 6;
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'amount' => Money::class,
+    ];
 
     /**
      * The attributes that are mass assignable.
