@@ -2,9 +2,12 @@
 
 namespace App\Models\Project\Concerns;
 
+use App\Models\Concerns\HasCurrencyAttribute;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
 trait HasAttributes {
+  use HasCurrencyAttribute;
+
   /**
    * @return \Illuminate\Database\Eloquent\Casts\Attribute
    */

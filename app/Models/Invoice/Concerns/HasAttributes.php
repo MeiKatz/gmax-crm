@@ -2,11 +2,13 @@
 
 namespace App\Models\Invoice\Concerns;
 
+use App\Models\Concerns\HasCurrencyAttribute;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Money\Currency as MoneyCurrency;
 use Money\Money as MoneyMoney;
 
 trait HasAttributes {
+  use HasCurrencyAttribute;
+
   /**
    * @return \Illuminate\Database\Eloquent\Casts\Attribute
    */
