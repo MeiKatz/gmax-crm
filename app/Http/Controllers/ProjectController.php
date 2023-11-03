@@ -7,7 +7,6 @@ use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Client;
 use App\Models\Project;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ProjectController extends Controller {
@@ -47,7 +46,7 @@ class ProjectController extends Controller {
     );
 
     $project->note()->create([
-      'admin' => Auth::id(),
+      'creator_id' => auth()->user()->id,
       'note' => 'Add Something',
     ]);
 
@@ -72,7 +71,7 @@ class ProjectController extends Controller {
     );
 
     $startDate = Carbon::parse( $project->starts_at );
-    $deadline  = Carbon::parse( $project->deadline );
+    $deadline  = Carbon::parse( $project->deadline_at );
     $totalDays = $startDate->diffInDays( $deadline );
     $today = Carbon::now();
     $balanceDays = $today->diffInDays( $deadline );

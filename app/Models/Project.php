@@ -28,7 +28,7 @@ class Project extends Model
     protected $fillable = [
         'amount',
         'client_id',
-        'deadline',
+        'deadline_at',
         'description',
         'name',
         'starts_at',

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Project;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class NoteController extends Controller {
   /**
@@ -35,7 +34,6 @@ class NoteController extends Controller {
     $projectNote = $project->note;
     $projectNote->update([
       'note' => $request->note,
-      'admin' => Auth::id(),
     ]);
 
     return redirect()->back()->with([

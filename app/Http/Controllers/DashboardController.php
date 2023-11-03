@@ -11,7 +11,6 @@ use App\Models\Project;
 use App\Models\Task;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -59,8 +58,8 @@ class DashboardController extends Controller
         $counts['prjincompleted'] = Project::where('status',5)->count();
 
         $tasks = Task::where(
-            'assignedto',
-            Auth::id()
+            'assigned_user_id',
+            auth()->user()->id
         )->where('status',1)->orderby('id','desc')->get();
         $invoices = Invoice::where(
             'invostatus',
@@ -69,7 +68,7 @@ class DashboardController extends Controller
         $notifications = Notification::where(
             'status',
             1
-        )->where('toid', Auth::id())->orderby('id','desc')->paginate(5);
+        )->where('toid', auth()->user()->id)->orderby('id','desc')->paginate(5);
 
         return view('dashboard')->with([
             'clients' => $client,

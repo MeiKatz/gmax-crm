@@ -15,14 +15,14 @@ class ProjectNote extends Model
      * @var array
      */
     protected $fillable = [
-        'admin',
+        'creator_id',
         'note',
         'project_id',
     ];
 
     public function admindata()
 	{
-        return  $this->belongsTo(User::class, 'admin', 'id');
+        return  $this->belongsTo(User::class, 'creator_id', 'id');
     }
 
     public function project() {

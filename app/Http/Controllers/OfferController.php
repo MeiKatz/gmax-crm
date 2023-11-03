@@ -20,7 +20,7 @@ class OfferController extends Controller {
     $offers = QueryBuilder::for( Invoice::class )
       ->allowedFilters([
         'title',
-        'userid',
+        'client_id',
         'quoteid',
         'quotestat',
       ])
@@ -47,8 +47,8 @@ class OfferController extends Controller {
       return Invoice::create([
         'type' => 1,
         'title' => $request->title,
-        'userid' => $request->userid,
-        'adminid' => Auth::id(),
+        'client_id' => $request->client_id,
+        'creator_id' => auth()->user()->id,
         'quotestat' => 1,
         'quoteid' => $nextOfferNumber,
       ]);

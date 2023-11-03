@@ -39,15 +39,15 @@ class GatewayController extends Controller
             try 
             {
                 $response = $api->payment->fetch($input['razorpay_payment_id'])->capture(array('amount'=>$payment['amount'])); 
-                 $invoices = Invoice::findOrFail($request->invoid);
+                 $invoices = Invoice::findOrFail($request->invoice_id);
                     $paidamountnow = $invoices->totalamount - $invoices->paidamount;
                     $paymentreceipt =new PaymentReceipt();
-                    $paymentreceipt->invoiceid=$request->invoid;
+                    $paymentreceipt->invoice_id=$request->invoice_id;
                     $paymentreceipt->amount =$paidamountnow;
                     $paymentreceipt->date =date('Y-m-d');
                     $paymentreceipt->transation =$input['razorpay_payment_id'];
                     $paymentreceipt->note ='Paid using Razorpay';
-                    $paymentreceipt->gateway ='Razorpay';
+                    $paymentreceipt->payment_gateway_id = $gateways->id;
                     $paymentreceipt->save();
                 
                     $currentpaid =  $invoices->paidamount;
@@ -78,7 +78,7 @@ class GatewayController extends Controller
     public function stripepayment(Request $request)
     {
         $gateways =PaymentGateway::findOrFail(2);
-        $invoices = Invoice::findOrFail($request->invoid);
+        $invoices = Invoice::findOrFail($request->invoice_id);
         $setting = Setting::find(1);
         $paidamountnow = $invoices->totalamount - $invoices->paidamount;
         $famount = $paidamountnow*100;
@@ -91,12 +91,12 @@ class GatewayController extends Controller
         ]);
           
         $paymentreceipt =new PaymentReceipt();
-        $paymentreceipt->invoiceid=$request->invoid;
+        $paymentreceipt->invoice_id=$request->invoice_id;
         $paymentreceipt->amount =$paidamountnow;
         $paymentreceipt->date =date('Y-m-d');
         $paymentreceipt->transation =$request->stripeToken;
         $paymentreceipt->note ='Paid using Stripe';
-        $paymentreceipt->gateway ='Stripe';
+        $paymentreceipt->payment_gateway_id = $gateways->id;
         $paymentreceipt->save();
       
         $currentpaid =  $invoices->paidamount;
@@ -119,19 +119,21 @@ class GatewayController extends Controller
 
     public function paypalhandlePayment(Request $request)
     {
-        $oderidd =$request->invoid;
+        $gateway =PaymentGateway::findOrFail(1);
+        $oderidd =$request->invoice_id;
         $paymentid =$request->orderID;
        
         if($request->orderID!=NULL)
         {
-            $invoices = Invoice::findOrFail($request->invoid);
+            $invoices = Invoice::findOrFail($request->invoice_id);
             $paidamountnow = $invoices->totalamount - $invoices->paidamount;
             $paymentreceipt =new PaymentReceipt();
-            $paymentreceipt->invoiceid=$request->invoid;
+            $paymentreceipt->invoice_id=$request->invoice_id;
             $paymentreceipt->amount =$paidamountnow;
             $paymentreceipt->date =date('Y-m-d');
             $paymentreceipt->transation =$request->orderID;
             $paymentreceipt->note ='Paid using Paypal';
+            $paymentreceipt->payment_gateway_id = $gateway->id;
             $paymentreceipt->gateway ='Paypal';
             $paymentreceipt->save();
           

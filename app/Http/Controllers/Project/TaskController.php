@@ -10,7 +10,6 @@ use App\Models\Task;
 use App\Models\TaskItem;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller {
   /**
@@ -24,7 +23,7 @@ class TaskController extends Controller {
     $tasks = (
       $project
         ->tasks()
-        ->where('assignedto', Auth::id())
+        ->where('assigned_user_id', auth()->user()->id)
         ->paginate(30)
     );
 
@@ -46,7 +45,7 @@ class TaskController extends Controller {
     Project $project,
     Task $task
   ) {
-    if ( $task->assignedto !== Auth::id() ) {
+    if ( auth()->user()->isNot( $task->assigned_user ) ) {
       abort(404);
     }
 
@@ -73,18 +72,18 @@ class TaskController extends Controller {
     Project $project
   ) {
     $task = $project->tasks()->create([
-      'creator_id' => Auth::id(),
+      'creator_id' => auth()->user()->id,
       'task' => $request->task,
-      'assignedto' => $request->assignedto,
+      'assigned_user_id' => $request->assigned_user_id,
       'type' => $request->type,
       'status' => 1,
     ]);
 
     //send notification
-    if ( $request->assignedto ) {
+    if ( $request->assigned_user_id ) {
       $notification = new Notification();
-      $notification->fromid = Auth::id();
-      $notification->toid = $request->assignedto;
+      $notification->fromid = auth()->user()->id;
+      $notification->toid = $request->assigned_user_id;
       $notification->message = 'New Project Task Assigned #' . $task->id;
       $notification->link = route('tasks.show', [ $task ]);
       $notification->style = $request->type;
@@ -109,8 +108,8 @@ class TaskController extends Controller {
     Request $request,
     Task $task,
   ) {
-    if ( !in_array( Auth::id(), [
-      $task->assignedto,
+    if ( !in_array( auth()->user()->id, [
+      $task->assigned_user_id,
       $task->creator_id
     ]) ) {
       abort(404);

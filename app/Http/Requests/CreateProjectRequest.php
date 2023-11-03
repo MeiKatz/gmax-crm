@@ -42,7 +42,7 @@ class CreateProjectRequest extends FormRequest {
         'required',
         'date_format:Y-m-d',
       ],
-      'deadline' => [
+      'deadline_at' => [
         'required',
         'date_format:Y-m-d',
       ],

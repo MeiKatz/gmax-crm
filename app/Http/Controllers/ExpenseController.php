@@ -6,7 +6,6 @@ use App\Models\ExpenseManager;
 use App\Models\Project;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ExpenseController extends Controller
@@ -49,7 +48,7 @@ class ExpenseController extends Controller
     {
         $expense = new ExpenseManager([
             ...$request->all(),
-            'auth' => Auth::id(),
+            'auth' => auth()->user()->id,
             'status' => 1,
         ]);
 

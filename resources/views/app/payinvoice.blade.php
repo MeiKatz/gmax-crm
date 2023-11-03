@@ -306,7 +306,7 @@ $footerimagedataUri = 'data:image/' . $footerimagetype . ';base64,' . base64_enc
                               
                                 <form role="form" action="{{ route('stripepayment') }}" method="post" class="require-validation" data-cc-on-file="false" data-stripe-publishable-key="{{$gateway->apikey}}" id="payment-form">
                                    @csrf
-                                   <input type="hidden" name="invoid" value="{{$invoice->id}}">
+                                   <input type="hidden" name="invoice_id" value="{{$invoice->id}}">
                                   <div class="row"> 
                                  <div class="col-md-12">
                                     <div class="mb-2">
@@ -401,7 +401,8 @@ $footerimagedataUri = 'data:image/' . $footerimagetype . ';base64,' . base64_enc
                            
                     
                             
-                                <form action="{!!route('razorpaypayment')!!}" method="POST" >                        
+                                <form action="{{ route('razorpaypayment') }}" method="POST">
+                                  @csrf
                                     <script  src="https://checkout.razorpay.com/v1/checkout.js"
                                             data-key="{{$gateway->apikey}}"
                                             data-amount="{{$balanceamount}}00"
@@ -414,8 +415,8 @@ $footerimagedataUri = 'data:image/' . $footerimagetype . ';base64,' . base64_enc
                                             data-prefill.email="{{$invoice->client->email}}"
                                             data-theme.color="#2b81c2">
                                     </script>
-                                    <input type="hidden" name="_token" value="{!!csrf_token()!!}">
-                                    <input type="hidden" name="invoid" value="{{$invoice->id}}">
+
+                                    <input type="hidden" name="invoice_id" value="{{$invoice->id}}">
                                 </form>
                           
                         </div>

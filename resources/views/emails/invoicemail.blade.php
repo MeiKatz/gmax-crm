@@ -14,7 +14,7 @@ Invoice Date : {{$invoice->invodate}}<br>
 
 
 
-@php $link = URL::to('/')."/invoices/pay/".$invoice->id; @endphp
+@php $link = \Illuminate\Support\Facades\URL::signedRoute('invoices.pay', [ $invoice ]); @endphp
 @component('mail::button', ['url' => $link ,  'color' => 'success'])
 View Invoice 
 @endcomponent

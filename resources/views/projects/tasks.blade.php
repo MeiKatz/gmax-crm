@@ -32,7 +32,7 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Assigned To</label>
-                    <select class="form-select" name="assignedto">
+                    <select class="form-select" name="assigned_user_id">
                         <option value="bg-azure">Select User</option>
                         @foreach($users as $user)
                             <option value="{{$user->id}}">{{$user->name}}</option>
@@ -90,8 +90,8 @@
                     <div class="row">
                       <div class="col">
                         <div class="avatar-list avatar-list-stacked">
-                          @if($task->assignedto)                          
-                         <span class="avatar  rounded-circle" data-toggle="tooltip" data-placement="bottom" style="background-image: url({{$task->assigned->profile_photo_url}})" title="Assigned to : {{$task->assigned->name}} "></span>                      
+                          @if($task->is_assigned)
+                         <span class="avatar  rounded-circle" data-toggle="tooltip" data-placement="bottom" style="background-image: url({{$task->assignedUser->profile_photo_url}})" title="Assigned to : {{$task->assignedUser->name}} "></span>
                            @endif
                      
                          

@@ -8,9 +8,10 @@ Please find the details by clicking view quote button.
 
 
 
-
-@php $link = URL::to('/')."/quote/public/".$invoice->id; @endphp
-@component('mail::button', ['url' => $link ,  'color' => 'success'])
+@component('mail::button', [
+  'url' => route('viewquotepublic', [ $invoice ]),
+  'color' => 'success',
+])
 View Quote 
 @endcomponent
 

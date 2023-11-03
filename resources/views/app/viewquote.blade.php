@@ -169,12 +169,18 @@ $dataUri = 'data:image/' . $type . ';base64,' . base64_encode($data);
 	                <svg xmlns="http://www.w3.org/2000/svg"  style="margin-right: 10px;" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11 7h-5a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-5" /><line x1="10" y1="14" x2="20" y2="4" /><polyline points="15 4 20 4 20 9" /></svg>
                             Public Link
                     </a>
-                    <a class="dropdown-item " href="/quotes/email/{{$invoice->id}}" onclick="return confirm('Are you sure?')"  >
-                       
-	                <svg xmlns="http://www.w3.org/2000/svg"  style="margin-right: 10px;" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="4" /><path d="M16 12v1.5a2.5 2.5 0 0 0 5 0v-1.5a9 9 0 1 0 -5.5 8.28" /></svg>
-                                Send Email
-                    </a>
-                    <a class="dropdown-item " href="#"  onclick="printDiv('invoice')">            
+                    <form method="post" action="{{ route('offers.offer-email.send', [ $invoive ]) }}" onsubmit="return confirm('Are you sure?')">
+                      @csrf
+                      <button type="submit" class="dropdown-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px;" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <circle cx="12" cy="12" r="4" />
+                          <path d="M16 12v1.5a2.5 2.5 0 0 0 5 0v-1.5a9 9 0 1 0 -5.5 8.28" />
+                        </svg>
+                        <span>Send Email</span>
+                      </button>
+                    </form>
+                    <a class="dropdown-item" href="#" onclick="printDiv('invoice')">
                             
                 	<svg xmlns="http://www.w3.org/2000/svg"  style="margin-right: 10px;" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2" /><path d="M17 9v-4a2 2 0 0 0 -2 -2h-6a2 2 0 0 0 -2 2v4" /><rect x="7" y="13" width="10" height="8" rx="2" /></svg>
                                Print Quote
@@ -187,20 +193,20 @@ $dataUri = 'data:image/' . $type . ';base64,' . base64_encode($data);
             <div class="dropdown-menu dropdown-menu-demo">
               <span class="dropdown-header">Actions</span>
          
-              <a class="dropdown-item " href="/quotes/convert/{{$invoice->id}}" onclick="return confirm('Are you sure?')">
+              <a class="dropdown-item " href="{{ route('converttoinvo', [ $invoice ]) }}" onclick="return confirm('Are you sure?')">
              
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" style="margin-right: 10px;"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><line x1="9" y1="7" x2="10" y2="7" /><line x1="9" y1="13" x2="15" y2="13" /><line x1="13" y1="17" x2="15" y2="17" /></svg>
                      Convert To Invoice
                   </a>
 
                          
-                  <a class="dropdown-item " href="/quotes/stat/{{$invoice->id}}/2" onclick="return confirm('Are you sure?')">
+                  <a class="dropdown-item" href="{{ route('quotestatuschange', [ $invoice, 2 ]) }}" onclick="return confirm('Are you sure?')">
                    
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" style="margin-right: 10px;" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 12l5 5l10 -10" /><path d="M2 12l5 5m5 -5l5 -5" /></svg>
                                 Mark as Approved
                             </a>  
 
-                  <a class="dropdown-item " href="/quotes/stat/{{$invoice->id}}/4" onclick="return confirm('Are you sure?')">
+                  <a class="dropdown-item " href="{{ route('quotestatuschange', [ $invoice, 4 ]) }}" onclick="return confirm('Are you sure?')">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" style="margin-right: 10px;" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 21v-16m2 -2h10a2 2 0 0 1 2 2v10m0 4.01v1.99l-3 -2l-2 2l-2 -2l-2 2l-2 -2l-3 2" /><line x1="11" y1="7" x2="15" y2="7" /><line x1="9" y1="11" x2="11" y2="11" /><line x1="13" y1="15" x2="15" y2="15" /><line x1="15" y1="11" x2="15" y2="11.01" /><line x1="3" y1="3" x2="21" y2="21" /></svg>
                            Cancel Quote
                       </a>    
@@ -230,7 +236,7 @@ $dataUri = 'data:image/' . $type . ';base64,' . base64_encode($data);
                   
                   <div class="mb-2">
                       <label class="form-label">Public Link</label>
-                      <input type="text" class="form-control" placeholder="Payment link" value="@php echo URL::to('/');@endphp/quotes/public/{{$invoice->id}}">
+                      <input type="text" class="form-control" placeholder="Payment link" value="{{ route('viewquotepublic', [ $invoice ]) }}">
                   </div>
                   
               </div>

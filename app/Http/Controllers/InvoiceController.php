@@ -12,7 +12,6 @@ use App\Models\PaymentReceipt;
 use App\Models\Business;
 use Spatie\QueryBuilder\QueryBuilder;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
@@ -28,7 +27,7 @@ class InvoiceController extends Controller
         $invoices = QueryBuilder::for( Invoice::class )
             ->allowedFilters([
                 'title',
-                'userid',
+                'client_id',
                 'invoid',
                 'invostatus',
             ])
@@ -69,7 +68,7 @@ class InvoiceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        $invoice = DB::transaction(function () {
+        $invoice = DB::transaction(function () use ( $request ) {
             $lastInvoice = (
                 Invoice::where('type', 2)
                     ->orderby('id', 'desc')
@@ -84,8 +83,8 @@ class InvoiceController extends Controller
             return Invoice::create([
                 'type' => 2,
                 'title' => $request->title,
-                'userid' => $request->userid,
-                'adminid' => Auth::id(),
+                'client_id' => $request->client_id,
+                'creator_id' => auth()->user()->id,
                 'project_id' => $request->project_id,
                 'invoid' => $nextInvoiceNumber,
             ]);
@@ -106,8 +105,8 @@ class InvoiceController extends Controller
     public function edit(
         Invoice $invoice
     ) {
-        $invoiceItems = $invoices->items()->paginate(100);
-        $payments = $invoices->payments()->paginate(100);
+        $invoiceItems = $invoice->items()->paginate(100);
+        $payments = $invoice->payments()->paginate(100);
 
         return view('app.editinvoice')->with([
             'invoice' => $invoice,
@@ -157,15 +156,14 @@ class InvoiceController extends Controller
         if($request->amount!=NULL)
         {
             $paymentreceipt =new PaymentReceipt();
-            $paymentreceipt->invoiceid=$request->invoiceid;
-            $paymentreceipt->adminid = Auth::id();
+            $paymentreceipt->invoice_id=$request->invoice_id;
             $paymentreceipt->amount =$request->amount;
             $paymentreceipt->date =$request->date;
             $paymentreceipt->transation =$request->transation;
             $paymentreceipt->note =$request->note;
             $paymentreceipt->save();
 
-            $invoices = Invoice::findOrFail($request->invoiceid);
+            $invoices = Invoice::findOrFail($request->invoice_id);
             $currentpaid =  $invoices->paidamount;
             $invoices->paidamount = $currentpaid + $request->amount; 
             $nowpaid=  $currentpaid + $request->amount;
@@ -193,12 +191,12 @@ class InvoiceController extends Controller
     public function deletepayment(Request $request)
      {       
          $payment =$request->id;      
-         $invoid =$request->invo;        
+         $invoid =$request->invoice_id;
          if($invoid!=NULL)
          {
-           $meta = PaymentReceipt::where('invoiceid',$invoid)->where('id',$payment)->first();
+           $meta = PaymentReceipt::where('invoice_id',$invoice_id)->where('id',$payment)->first();
            $getamount = $meta->amount;
-           $invoices = Invoice::findOrFail($request->invo); 
+           $invoices = Invoice::findOrFail($request->invoice_id);
            $getpaidamount = $invoices->paidamount;
            $revesedpayment = $getpaidamount - $getamount;
            $invoices->paidamount =$revesedpayment;
@@ -250,15 +248,14 @@ class InvoiceController extends Controller
         if($request->amount!=NULL)
         {
             $paymentreceipt =new PaymentReceipt();
-            $paymentreceipt->invoiceid=$request->invoiceid;
-            $paymentreceipt->adminid = Auth::id();
+            $paymentreceipt->invoice_id=$request->invoice_id;
             $paymentreceipt->amount =-$request->amount;
             $paymentreceipt->date =$request->date;
             $paymentreceipt->transation =$request->transation;
             $paymentreceipt->note =$request->note;
             $paymentreceipt->save();
 
-            $invoices = Invoice::findOrFail($request->invoiceid);
+            $invoices = Invoice::findOrFail($request->invoice_id);
             $currentpaid =  $invoices->paidamount;
             $invoices->paidamount = $currentpaid - $request->amount; 
             $invoices->markAsRefunded();
@@ -320,7 +317,9 @@ class InvoiceController extends Controller
       $invoices->markAsUnpaid();
       $invoices->type =2;             
       $invoices->save();   
-      return redirect('/invoice/edit/'.$request->id)->with('success', 'Converted as Invoice');  
+      return redirect()->route('invoices.edit', [ $invoices ])->with([
+        'success' => 'Converted as Invoice',
+      ]);
      }
 
 
@@ -332,8 +331,8 @@ class InvoiceController extends Controller
          $invoice =new Invoice();
          $invoice->type=2;
          $invoice->title =$request->title;
-         $invoice->userid =$request->userid;
-         $invoice->adminid = Auth::id();  
+         $invoice->client_id =$request->client_id;
+         $invoice->creator_id = auth()->user()->id;
          if(Invoice::where('type',2)->count()==0){
          $invoice->invoid =1; }
          else{
@@ -365,7 +364,7 @@ class InvoiceController extends Controller
              $invoice->recorringnextdate = $getinvocedate->addYear(); 
          }                       
          $invoice->save();        
-         $lastid = $invoice->id;
-        return redirect('/invoice/edit/'.$lastid);
+
+        return redirect()->route('invoices.edit', [ $invoice ]);
      }
 }

@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use App\Models\Project;
 use Illuminate\View\Component;
 
 class SelectProject extends Component
@@ -16,7 +17,7 @@ class SelectProject extends Component
      *
      * @return void
      */
-    public function __construct( $selected )
+    public function __construct( $selected = null )
     {
         $this->selected = $selected;
     }
@@ -29,7 +30,10 @@ class SelectProject extends Component
     public function render()
     {
         return view('components.select-project', [
-            'projects' => Project::orderBy('name'),
+            'projects' => (
+                Project::select(['name', 'id'])
+                    ->orderBy('name')->get()
+            ),
             'selected' => $this->selected,
         ]);
     }

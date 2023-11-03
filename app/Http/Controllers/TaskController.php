@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller {
   /**
@@ -14,8 +13,8 @@ class TaskController extends Controller {
    */
   public function index() {
     $tasks = Task::where(
-      'assignedto',
-      Auth::id()
+      'assigned_user_id',
+      auth()->user()->id
     )->orderby('id', 'desc')->paginate(20);
 
     return view('app.mytasks')->with([
@@ -30,7 +29,7 @@ class TaskController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function show(Task $task) {
-    if ( $task->assignedto !== Auth::id() ) {
+    if ( auth()->user()->isNot( $task->assigned_user ) ) {
       abort(404);
     }
 
@@ -38,7 +37,7 @@ class TaskController extends Controller {
     $taskComments = $task->updates()->orderby('id', 'desc')->paginate(7);
 
     return view('app.viewtask')->with([
-      'project' => $project,
+      'project' => $task->project,
       'task' => $task,
       'taskcomments' => $taskComments,
       'taskItems' => $taskItems,

@@ -99,7 +99,7 @@ trait HasScopes {
     }
 
     return $query->where(
-      'userid',
+      'client_id',
       $clientId
     );
   }

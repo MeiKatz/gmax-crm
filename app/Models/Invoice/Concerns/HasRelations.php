@@ -6,6 +6,7 @@ use App\Models\Client;
 use App\Models\InvoiceItem;
 use App\Models\PaymentReceipt;
 use App\Models\Project;
+use App\Models\User;
 
 trait HasRelations {
   /**
@@ -13,9 +14,7 @@ trait HasRelations {
    */
   public function client() {
     return $this->belongsTo(
-      Client::class,
-      'userid',
-      'id'
+      Client::class
     );
   }
 
@@ -45,7 +44,14 @@ trait HasRelations {
   public function payments() {
     return $this->hasMany(
       PaymentReceipt::class,
-      'invoiceid'
+      'invoice_id'
+    );
+  }
+
+  public function creator() {
+    return $this->belongsTo(
+      User::class,
+      'creator_id'
     );
   }
 }
