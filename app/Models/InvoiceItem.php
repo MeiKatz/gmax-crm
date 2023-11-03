@@ -82,7 +82,8 @@ class InvoiceItem extends Model implements HasCurrency
         return Attribute::get(
             fn ( $value, array $attributes ) => (
                 MoneyMoney::make(
-                    $attributes['amount_per_item']
+                    $attributes['amount_per_item'],
+                    $this->getCurrency()
                 )->multiply( $attributes['quantity'] )
             )
         );
@@ -94,7 +95,7 @@ class InvoiceItem extends Model implements HasCurrency
     protected function totalAmount(): Attribute {
         return Attribute::get(
             fn () => (
-                $this->total_amount_without_taxes + $this->getTaxes()
+                $this->total_amount_without_taxes->add( $this->getTaxes() )
             )
         );
     }
@@ -106,7 +107,7 @@ class InvoiceItem extends Model implements HasCurrency
         if ( !$this->invoice->is_taxable ) {
             return MoneyMoney::make(
                 0,
-                new MoneyCurrency( $this->currency_code ?? 'XXX' )
+                $this->getCurrency()
             );
         }
 

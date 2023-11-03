@@ -3,6 +3,7 @@
 namespace App\Models\Invoice\Concerns;
 
 use App\Models\Concerns\HasCurrencyAttribute;
+use App\Models\InvoiceItem;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Money\Money as MoneyMoney;
 
@@ -26,9 +27,15 @@ trait HasAttributes {
   protected function totalAmount(): Attribute {
     return Attribute::get(
       fn () => (
-        $this->items->reduce(function ( $carry, $current ) {
-          return $carry + $current->total_amount;
-        }, 0)
+        $this->items->reduce(function (
+          MoneyMoney $carry,
+          InvoiceItem $current
+        ) {
+          return $carry->add( $current->total_amount );
+        }, new MoneyMoney(
+          0,
+          $this->getCurrency()
+        ))
       )
     );
   }
