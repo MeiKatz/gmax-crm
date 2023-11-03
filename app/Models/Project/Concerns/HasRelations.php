@@ -8,12 +8,15 @@ use App\Models\Invoice;
 use App\Models\ProjectNote;
 use App\Models\ProjectUpdate;
 use App\Models\Task;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 trait HasRelations {
   /**
    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
    */
-  public function client() {
+  public function client(): BelongsTo {
     return $this->belongsTo(
       Client::class
     );
@@ -22,7 +25,7 @@ trait HasRelations {
   /**
    * @return \Illuminate\Database\Eloquent\Relations\HasMany
    */
-  public function expenses() {
+  public function expenses(): HasMany {
     return $this->hasMany(
       ExpenseManager::class
     );
@@ -31,7 +34,7 @@ trait HasRelations {
   /**
    * @return \Illuminate\Database\Eloquent\Relations\HasMany
    */
-  public function invoices() {
+  public function invoices(): HasMany {
     return $this->hasMany(
       Invoice::class
     );
@@ -40,7 +43,7 @@ trait HasRelations {
   /**
    * @return \Illuminate\Database\Eloquent\Relations\HasOne
    */
-  public function note() {
+  public function note(): HasOne {
     return $this->hasOne(
       ProjectNote::class
     );

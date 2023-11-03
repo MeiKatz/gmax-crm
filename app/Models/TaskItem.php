@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TaskItem extends Model
 {
@@ -23,7 +24,10 @@ class TaskItem extends Model
         'task_id',
     ];
 
-    public function creator() {
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function creator(): BelongsTo {
         return $this->belongsTo(
             User::class,
             'creator_id'

@@ -2,46 +2,62 @@
 
 namespace App\Models\Project\Concerns;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
+
 trait HasAttributes {
   /**
-   * @return bool
+   * @return \Illuminate\Database\Eloquent\Casts\Attribute
    */
-  public function getIsNotStartedAttribute() {
-    return $this->status == self::STATUS_NOT_STARTED;
+  protected function isNotStarted(): Attribute {
+    return $this->newAttributeForStatus( self::STATUS_NOT_STARTED );
   }
 
   /**
-   * @return bool
+   * @return \Illuminate\Database\Eloquent\Casts\Attribute
    */
-  public function getIsInProgressAttribute() {
-    return $this->status == self::STATUS_IN_PROGRESS;
+  protected function isInProgress(): Attribute {
+    return $this->newAttributeForStatus( self::STATUS_IN_PROGRESS );
   }
 
   /**
-   * @return bool
+   * @return \Illuminate\Database\Eloquent\Casts\Attribute
    */
-  public function getIsInReviewAttribute() {
-    return $this->status == self::STATUS_IN_REVIEW;
+  protected function isInReview(): Attribute {
+    return $this->newAttributeForStatus( self::STATUS_IN_REVIEW );
   }
 
   /**
-   * @return bool
+   * @return \Illuminate\Database\Eloquent\Casts\Attribute
    */
-  public function getIsOnHoldAttribute() {
-    return $this->status == self::STATUS_ON_HOLD;
+  protected function isOnHold(): Attribute {
+    return $this->newAttributeForStatus( self::STATUS_ON_HOLD );
   }
 
   /**
-   * @return bool
+   * @return \Illuminate\Database\Eloquent\Casts\Attribute
    */
-  public function getIsCompletedAttribute() {
-    return $this->status == self::STATUS_COMPLETED;
+  protected function isCompleted(): Attribute {
+    return $this->newAttributeForStatus( self::STATUS_COMPLETED );
   }
 
   /**
-   * @return bool
+   * @return \Illuminate\Database\Eloquent\Casts\Attribute
    */
-  public function getIsCancelledAttribute() {
-    return $this->status == self::STATUS_CANCELLED;
+  protected function isCancelled(): Attribute {
+    return $this->newAttributeForStatus( self::STATUS_CANCELLED );
+  }
+
+  /**
+   * @param  int  $status
+   * @return \Illuminate\Database\Eloquent\Casts\Attribute
+   */
+  private function newAttributeForStatus(
+    int $status
+  ): Attribute {
+    return Attribute::get(
+      fn ( $value, array $attributes ) => (
+        $attributes['status'] == $status
+      )
+    );
   }
 }

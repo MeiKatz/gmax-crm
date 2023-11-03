@@ -52,7 +52,7 @@ class Project extends Model
     /**
      * @return array<string,int>
      */
-    public static function getCounts() {
+    public static function getCounts(): array {
         $results = (
             self::groupBy('status')
                 ->selectRaw('COUNT(*) AS count')

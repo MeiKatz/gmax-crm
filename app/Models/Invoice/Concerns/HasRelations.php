@@ -7,12 +7,14 @@ use App\Models\InvoiceItem;
 use App\Models\PaymentReceipt;
 use App\Models\Project;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 trait HasRelations {
   /**
    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
    */
-  public function client() {
+  public function client(): BelongsTo {
     return $this->belongsTo(
       Client::class
     );
@@ -21,7 +23,7 @@ trait HasRelations {
   /**
    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
    */
-  public function project() {
+  public function project(): BelongsTo {
     return $this->belongsTo(
       Project::class,
       'id'
@@ -31,7 +33,7 @@ trait HasRelations {
   /**
    * @return \Illuminate\Database\Eloquent\Relations\HasMany
    */
-  public function items() {
+  public function items(): HasMany {
     return $this->hasMany(
       InvoiceItem::class,
       'invoice_id'
@@ -41,14 +43,17 @@ trait HasRelations {
   /**
    * @return \Illuminate\Database\Eloquent\Relations\HasMany
    */
-  public function payments() {
+  public function payments(): HasMany {
     return $this->hasMany(
       PaymentReceipt::class,
       'invoice_id'
     );
   }
 
-  public function creator() {
+  /**
+   * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+   */
+  public function creator(): BelongsTo {
     return $this->belongsTo(
       User::class,
       'creator_id'
