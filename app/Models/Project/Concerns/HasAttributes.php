@@ -51,12 +51,15 @@ trait HasAttributes {
   }
 
   /**
+   * !! Cannot define the return value because otherwise
+   * Laravel will recognize this function as an attribute. !!
+   *
    * @param  int  $status
    * @return \Illuminate\Database\Eloquent\Casts\Attribute
    */
   private function newAttributeForStatus(
     int $status
-  ): Attribute {
+  ) {
     return Attribute::get(
       fn ( $value, array $attributes ) => (
         $attributes['status'] == $status
