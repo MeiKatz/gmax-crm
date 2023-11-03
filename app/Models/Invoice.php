@@ -78,7 +78,7 @@ class Invoice extends Model
     /**
      * @return array<string,int>
      */
-    public static function getCounts() {
+    public static function getCounts(): array {
         $results = (
             self::groupBy('invostatus')
                 ->selectRaw('COUNT(*) AS count, invostatus AS status')

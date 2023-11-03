@@ -3,6 +3,7 @@
 namespace App\Models\Invoice\Concerns;
 
 use App\Models\Client;
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 
 trait HasScopes {
   /**
@@ -10,10 +11,13 @@ trait HasScopes {
    *
    * @param  \Illuminate\Database\Eloquent\Builder  $query
    * @param  bool  $isRecurring
-   * @return \Illuminate\Database\Eloquent\Builder
+   * @return void
    */
-  public function scopeRecurring( $query, $isRecurring = true ) {
-    return $query->where(
+  public function scopeRecurring(
+    QueryBuilder $query,
+    bool $isRecurring = true
+  ): void {
+    $query->where(
       'recorring',
       $isRecurring ? 1 : 0
     );
@@ -23,10 +27,12 @@ trait HasScopes {
    * Scope a query to only include unpaid invoices.
    *
    * @param  \Illuminate\Database\Eloquent\Builder  $query
-   * @return \Illuminate\Database\Eloquent\Builder
+   * @return void
    */
-  public function scopeUnpaid( $query ) {
-    return $query->where(
+  public function scopeUnpaid(
+    QueryBuilder $query
+  ): void {
+    $query->where(
       'invostatus',
       self::STATUS_PAID
     );
@@ -36,10 +42,12 @@ trait HasScopes {
    * Scope a query to only include partially paid invoices.
    *
    * @param  \Illuminate\Database\Eloquent\Builder  $query
-   * @return \Illuminate\Database\Eloquent\Builder
+   * @return void
    */
-  public function scopePartiallyPaid( $query ) {
-    return $query->where(
+  public function scopePartiallyPaid(
+    QueryBuilder $query
+  ): void {
+    $query->where(
       'invostatus',
       self::STATUS_PARTIALLY_PAID
     );
@@ -49,10 +57,12 @@ trait HasScopes {
    * Scope a query to only include paid invoices.
    *
    * @param  \Illuminate\Database\Eloquent\Builder  $query
-   * @return \Illuminate\Database\Eloquent\Builder
+   * @return void
    */
-  public function scopePaid( $query ) {
-    return $query->where(
+  public function scopePaid(
+    QueryBuilder $query
+  ): void {
+    $query->where(
       'invostatus',
       self::STATUS_PAID
     );
@@ -62,10 +72,12 @@ trait HasScopes {
    * Scope a query to only include refunded invoices.
    *
    * @param  \Illuminate\Database\Eloquent\Builder  $query
-   * @return \Illuminate\Database\Eloquent\Builder
+   * @return void
    */
-  public function scopeRefunded( $query ) {
-    return $query->where(
+  public function scopeRefunded(
+    QueryBuilder $query
+  ): void {
+    $query->where(
       'invostatus',
       self::STATUS_REFUNDED
     );
@@ -75,10 +87,12 @@ trait HasScopes {
    * Scope a query to only include cancelled invoices.
    *
    * @param  \Illuminate\Database\Eloquent\Builder  $query
-   * @return \Illuminate\Database\Eloquent\Builder
+   * @return void
    */
-  public function scopeCancelled( $query ) {
-    return $query->where(
+  public function scopeCancelled(
+    QueryBuilder $query
+  ): void {
+    $query->where(
       'invostatus',
       self::STATUS_CANCELLED
     );
@@ -89,9 +103,12 @@ trait HasScopes {
    *
    * @param  \Illuminate\Database\Eloquent\Builder  $query
    * @param  \App\Models\Client|int  $client
-   * @return \Illuminate\Database\Eloquent\Builder
+   * @return void
    */
-  public function scopeForClient( $query, $client ) {
+  public function scopeForClient(
+    QueryBuilder $query,
+    Client|int $client
+  ): void {
     if ( $client instanceof Client ) {
       $clientId = $client->id;
     } else {

@@ -6,39 +6,56 @@ use App\Models\User;
 use App\Models\TaskItem;
 use App\Models\Project;
 use App\Models\ProjectUpdate;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 trait HasRelations {
-  public function creator() {
+  /**
+   * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+   */
+  public function creator(): BelongsTo {
     return $this->belongsTo(
       User::class,
       'creator_id'
     );
   }
 
-  public function assignedUser() {
+  /**
+   * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+   */
+  public function assignedUser(): BelongsTo {
     return $this->belongsTo(
       User::class,
       'assigned_user_id'
     );
   }
 
-  public function assigned_user() {
+  public function assigned_user(): BelongsTo {
     return $this->assignedUser();
   }
 
-  public function items() {
+  /**
+   * @return \Illuminate\Database\Eloquent\Relations\HasMany
+   */
+  public function items(): HasMany {
     return $this->hasMany(
       TaskItem::class
     );
   }
 
-  public function updates() {
+  /**
+   * @return \Illuminate\Database\Eloquent\Relations\HasMany
+   */
+  public function updates(): HasMany {
     return $this->hasMany(
       ProjectUpdate::class
     );
   }
 
-  public function project() {
+  /**
+   * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+   */
+  public function project(): BelongsTo {
     return $this->belongsTo(
       Project::class
     );

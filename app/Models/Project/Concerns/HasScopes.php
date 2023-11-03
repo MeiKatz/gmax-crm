@@ -2,15 +2,19 @@
 
 namespace App\Models\Project\Concerns;
 
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+
 trait HasScopes {
   /**
    * Scope a query to only include projects that are not started yet.
    *
    * @param  \Illuminate\Database\Eloquent\Builder  $query
-   * @return \Illuminate\Database\Eloquent\Builder
+   * @return void
    */
-  public function notStarted( $query ) {
-    return $query->where(
+  public function notStarted(
+    QueryBuilder $query
+  ): void {
+    $query->where(
       'status',
       self::STATUS_NOT_STARTED
     );
@@ -20,10 +24,12 @@ trait HasScopes {
    * Scope a query to only include projects that are in progress.
    *
    * @param  \Illuminate\Database\Eloquent\Builder  $query
-   * @return \Illuminate\Database\Eloquent\Builder
+   * @return void
    */
-  public function inProgress( $query ) {
-    return $query->where(
+  public function inProgress(
+    QueryBuilder $query
+  ): void {
+    $query->where(
       'status',
       self::STATUS_IN_PROGRESS
     );
@@ -33,10 +39,12 @@ trait HasScopes {
    * Scope a query to only include projects that in review.
    *
    * @param  \Illuminate\Database\Eloquent\Builder  $query
-   * @return \Illuminate\Database\Eloquent\Builder
+   * @return void
    */
-  public function inReview( $query ) {
-    return $query->where(
+  public function inReview(
+    QueryBuilder $query
+  ): void {
+    $query->where(
       'status',
       self::STATUS_IN_REVIEW
     );
@@ -46,10 +54,12 @@ trait HasScopes {
    * Scope a query to only include projects that are on hold.
    *
    * @param  \Illuminate\Database\Eloquent\Builder  $query
-   * @return \Illuminate\Database\Eloquent\Builder
+   * @return void
    */
-  public function onHold( $query ) {
-    return $query->where(
+  public function onHold(
+    QueryBuilder $query
+  ): void {
+    $query->where(
       'status',
       self::STATUS_ON_HOLD
     );
@@ -59,10 +69,12 @@ trait HasScopes {
    * Scope a query to only include projects that completed.
    *
    * @param  \Illuminate\Database\Eloquent\Builder  $query
-   * @return \Illuminate\Database\Eloquent\Builder
+   * @return void
    */
-  public function completed( $query ) {
-    return $query->where(
+  public function completed(
+    QueryBuilder $query
+  ): void {
+    $query->where(
       'status',
       self::STATUS_COMPLETED
     );
@@ -72,10 +84,12 @@ trait HasScopes {
    * Scope a query to only include projects that are cancelled.
    *
    * @param  \Illuminate\Database\Eloquent\Builder  $query
-   * @return \Illuminate\Database\Eloquent\Builder
+   * @return void
    */
-  public function cancelled( $query ) {
-    return $query->where(
+  public function cancelled(
+    QueryBuilder $query
+  ): void {
+    $query->where(
       'status',
       self::STATUS_CANCELLED
     );

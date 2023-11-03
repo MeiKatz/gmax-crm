@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ProjectNote extends Model
 {
@@ -20,12 +21,21 @@ class ProjectNote extends Model
         'project_id',
     ];
 
-    public function admindata()
-	{
-        return  $this->belongsTo(User::class, 'creator_id', 'id');
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function admindata(): BelongsTo {
+        return $this->belongsTo(
+            User::class,
+            'creator_id',
+            'id'
+        );
     }
 
-    public function project() {
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function project(): BelongsTo {
         return $this->belongsTo(
             Project::class
         );

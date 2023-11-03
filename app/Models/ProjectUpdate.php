@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ProjectUpdate extends Model
 {
@@ -23,14 +24,20 @@ class ProjectUpdate extends Model
         'task_id',
     ];
 
-    public function creator() {
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function creator(): BelongsTo {
         return $this->belongsTo(
             User::class,
             'creator_id'
         );
     }
 
-    public function project() {
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function project(): BelongsTo {
         return $this->belongsTo(
             Project::class
         );
