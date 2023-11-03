@@ -2,18 +2,28 @@
 
 namespace App\Models\User\Concerns;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
+
 trait HasAttributes {
   /**
-   * @return bool
+   * @return \Illuminate\Database\Eloquent\Casts\Attribute
    */
-  public function getIsAdminAttribute() {
-    return $this->usertype == self::USER_TYPE_ADMIN;
+  protected function isAdmin(): Attribute {
+    return Attribute::get(
+      fn ( $value, array $attributes ) => (
+        $attributes['usertype'] == self::USER_TYPE_ADMIN
+      )
+    );
   }
 
   /**
-   * @return bool
+   * @return \Illuminate\Database\Eloquent\Casts\Attribute
    */
-  public function getIsStaffAttribute() {
-    return $this->usertype != self::USER_TYPE_ADMIN;
+  protected function isStaff(): Attribute {
+    return Attribute::get(
+      fn ( $value, array $attributes ) => (
+        $attributes['usertype'] != self::USER_TYPE_ADMIN
+      )
+    );
   }
 }

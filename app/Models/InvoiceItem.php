@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -61,17 +62,25 @@ class InvoiceItem extends Model
     }
 
     /**
-     * @return int
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
      */
-    public function getTotalAmountWithoutTaxesAttribute() {
-        return $this->quantity * $this->amount_per_item;
+    protected function totalAmountWithoutTaxes(): Attribute {
+        return Attribute::get(
+            fn ( $value, array $attributes ) => (
+                $attributes['quantity'] * $attributes['amount_per_item']
+            )
+        );
     }
 
     /**
-     * @return int
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
      */
-    public function getTotalAmountAttribute() {
-        return $this->total_amount_without_taxes + $this->getTaxes();
+    protected function totalAmount(): Attribute {
+        return Attribute::get(
+            fn () => (
+                $this->total_amount_without_taxes + $this->getTaxes()
+            )
+        );
     }
 
     /**

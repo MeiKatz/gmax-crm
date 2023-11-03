@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Task\Concerns;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -35,9 +36,13 @@ class Task extends Model
     ];
 
     /**
-     * @return bool
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
      */
-    public function getIsAssignedAttribute() {
-        return $this->assigned_user_id !== null;
+    protected function isAssigned(): Attribute {
+        return Attribute::get(
+            fn ( $value, array $attributes ) => (
+                $attributes['assigned_user_id'] !== null
+            )
+        );
     }
 }

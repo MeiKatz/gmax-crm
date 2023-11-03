@@ -2,68 +2,99 @@
 
 namespace App\Models\Invoice\Concerns;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
+
 trait HasAttributes {
   /**
-   * @return bool
+   * @return \Illuminate\Database\Eloquent\Casts\Attribute
    */
-  public function getIsTaxableAttribute() {
-    return $this->taxable == 1;
+  protected function isTaxable(): Attribute {
+    return Attribute::get(
+      fn ( $value, array $attributes ) => (
+        $attributes['taxable'] == 1
+      )
+    );
   }
 
   /**
-   * @return int
+   * @return \Illuminate\Database\Eloquent\Casts\Attribute
    */
-  public function getTotalAmountAttribute() {
-    return $this->items->reduce(function ( $carry, $current ) {
-      return $carry + $current->total_amount;
-    }, 0);
+  protected function totalAmount(): Attribute {
+    return Attribute::get(
+      fn () => (
+        $this->items->reduce(function ( $carry, $current ) {
+          return $carry + $current->total_amount;
+        }, 0)
+      )
+    );
   }
 
   /**
-   * @return bool
+   * @return \Illuminate\Database\Eloquent\Casts\Attribute
    */
-  public function getIsUnpaidAttribute() {
-    return $this->invostatus === self::STATUS_UNPAID;
+  protected function isUnpaid(): Attribute {
+    return $this->newAttributeForStatus( self::STATUS_UNPAID );
   }
 
   /**
-   * @return bool
+   * @return \Illuminate\Database\Eloquent\Casts\Attribute
    */
-  public function getIsPartiallyPaidAttribute() {
-    return $this->invostatus === self::STATUS_PARTIALLY_PAID;
+  protected function isPartiallyPaid(): Attribute {
+    return $this->newAttributeForStatus( self::STATUS_PARTIALLY_PAID );
   }
 
   /**
-   * @return bool
+   * @return \Illuminate\Database\Eloquent\Casts\Attribute
    */
-  public function getIsPaidAttribute() {
-    return $this->invostatus === self::STATUS_PAID;
+  protected function isPaid(): Attribute {
+    return $this->newAttributeForStatus( self::STATUS_PAID );
   }
 
   /**
-   * @return bool
+   * @return \Illuminate\Database\Eloquent\Casts\Attribute
    */
-  public function getIsRefundedAttribute() {
-    return $this->invostatus === self::STATUS_REFUNDED;
+  protected function isRefunded(): Attribute {
+    return $this->newAttributeForStatus( self::STATUS_REFUNDED );
   }
 
   /**
-   * @return bool
+   * @return \Illuminate\Database\Eloquent\Casts\Attribute
    */
-  public function getIsCancelledAttribute() {
-    return $this->invostatus === self::STATUS_CANCELLED;
+  protected function isCancelled(): Attribute {
+    return $this->newAttributeForStatus( self::STATUS_CANCELLED );
   }
 
   /**
-   * @return bool
+   * @return \Illuminate\Database\Eloquent\Casts\Attribute
    */
-  public function getIsOverdueAttribute() {
-    $today = date('Y-m-d');
+  protected function isOverdue(): Attribute {
+    return Attribute::get(
+      function ( $value, array $attributes ) {
+        $today = date('Y-m-d');
 
-    if ( $this->duedate >= $today ) {
-      return false;
-    }
+        if ( $attributes['duedate'] >= $today ) {
+          return false;
+        }
 
-    return ( $this->is_unpaid || $this->is_partially_paid );
+        return (
+          $this->is_unpaid
+            || $this->is_partially_paid
+        );
+      }
+    );
+  }
+
+  /**
+   * @param  int  $status
+   * @return \Illuminate\Database\Eloquent\Casts\Attribute
+   */
+  private function newAttributeForStatus(
+    int $status
+  ): Attribute {
+    return Attribute::get(
+      fn ( $value, array $attributes ) => (
+        $attributes['invostatus'] == $status
+      )
+    );
   }
 }
