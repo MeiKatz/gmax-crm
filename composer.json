@@ -17,6 +17,7 @@
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^3.0",
+        "moneyphp/money": "^3.3",
         "razorpay/razorpay": "^2.8",
         "spatie/laravel-permission": "^6.0",
         "spatie/laravel-query-builder": "^5.6",

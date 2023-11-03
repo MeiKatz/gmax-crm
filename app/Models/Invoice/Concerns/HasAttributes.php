@@ -3,6 +3,8 @@
 namespace App\Models\Invoice\Concerns;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Money\Currency as MoneyCurrency;
+use Money\Money as MoneyMoney;
 
 trait HasAttributes {
   /**

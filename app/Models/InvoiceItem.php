@@ -2,14 +2,26 @@
 
 namespace App\Models;
 
+use App\Casts\Money;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Money\Currency as MoneyCurrency;
+use Money\Money as MoneyMoney;
 
 class InvoiceItem extends Model
 {
     use HasFactory;
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'amount_per_item' => Money::class,
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -67,7 +79,9 @@ class InvoiceItem extends Model
     protected function totalAmountWithoutTaxes(): Attribute {
         return Attribute::get(
             fn ( $value, array $attributes ) => (
-                $attributes['quantity'] * $attributes['amount_per_item']
+                MoneyMoney::make(
+                    $attributes['amount_per_item']
+                )->multiply( $attributes['quantity'] )
             )
         );
     }
@@ -84,14 +98,19 @@ class InvoiceItem extends Model
     }
 
     /**
-     * @return int
+     * @return \Money\Money
      */
-    private function getTaxes(): int {
+    private function getTaxes(): MoneyMoney {
         if ( !$this->invoice->is_taxable ) {
-            return 0;
+            return MoneyMoney::make(
+                0,
+                new MoneyCurrency( $this->currency_code ?? 'XXX' )
+            );
         }
 
-        return $this->getTaxInPercents() * $this->total_amount_without_taxes / 100;
+        return $this->total_amount_without_taxes->multiply(
+            $this->getTaxInPercents() / 100
+        );
     }
 
     /**
