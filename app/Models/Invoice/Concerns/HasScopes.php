@@ -115,7 +115,7 @@ trait HasScopes {
       $clientId = $client;
     }
 
-    return $query->where(
+    $query->where(
       'client_id',
       $clientId
     );
