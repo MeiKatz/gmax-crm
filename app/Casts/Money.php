@@ -48,7 +48,10 @@ class Money implements CastsAttributes {
   ): mixed {
     if ( !( $value instanceof MoneyMoney ) ) {
       throw new InvalidArgumentException(
-        'The given value is not a Money instance.'
+        sprintf(
+          'The given value is not an instance of %s.',
+          MoneyMoney::class
+        )
       );
     }
 
