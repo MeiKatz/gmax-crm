@@ -164,9 +164,9 @@
                         </dd>
                         
                         <dt class="col-5">Amount:</dt>
-                        <dd class="col-7"><strong>{{$settings->prefix}}{{$invoice->totalamount}}</strong></dd>
+                        <dd class="col-7"><strong>{{$settings->prefix}}<x-money :money="$invoice->totalamount" /></strong></dd>
                         <dt class="col-5">Balance:</dt>
-                        <dd class="col-7"><strong>{{$settings->prefix}}{{$invoice->totalamount - $invoice->paidamount}}</strong></dd>
+                        <dd class="col-7"><strong>{{$settings->prefix}}<x-money :money="$invoice->totalamount->subtract( $invoice->paidamount )" /></strong></dd>
                         @if($settings->taxstatus==1)
                         <dt class="col-5">Enable Tax:</dt>
                         <dd class="col-7"> 
@@ -333,15 +333,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @php $totalamt = 0; @endphp
+                          @php
+                            if ( $payments->count() > 0 ) {
+                              $totalAmount = new \Money\Money(
+                                0,
+                                $payments->first()->getCurrency()
+                              );
+                            } else {
+                              $totalAmount = null;
+                            }
+                          @endphp
                           @foreach($payments as $payment)
                             <tr>                             
                                   <td class="text-muted">
                                     {{$payment->date}}
                                   </td>
                                   <td class="text-muted">
-                                    {{$settings->prefix}} {{$payment->amount}}
-                                    @php $totalamt += $payment->amount; @endphp
+                                    {{$settings->prefix}} <x-money :money="$payment->amount" />
                                 </td>
                                 <td class="text-muted">
                                     {{$payment->note}}
@@ -355,13 +363,21 @@
                                 </td>
                               
                           </tr>
+                            @php
+                              $totalAmount = $totalAmount->add( $payment->amount );
+                            @endphp
                           @endforeach
                           <tr>                             
                             <td class="text-">
                              Total Payment : 
                             </td>
                             <td class="text-">                             
-                          <strong>   {{$settings->prefix}} @php echo $totalamt; @endphp </strong>
+                          <strong>
+                            <span>{{$settings->prefix}}</span>
+                            @if ( $totalAmount !== null )
+                              <x-money :money="$totalAmount" />
+                            @endif
+                          </strong>
                           </td>
                           <td class="text-muted">
                              

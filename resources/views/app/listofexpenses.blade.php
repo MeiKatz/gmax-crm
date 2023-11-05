@@ -201,7 +201,7 @@
                   @endif
                 </td>
                 <td>
-                    {{$expense->amount}}
+                  <x-money :money="$expense->amount" />
                 </td>
                 <td> {{$expense->date}}
                 </td>

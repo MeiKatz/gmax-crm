@@ -179,9 +179,7 @@
                 <td>
                   <span class="badge bg-yellow">Expense</span>
               </td>
-                <td>
-                    {{$expense->amount}}
-                </td>
+                <td><x-money :money="$expense->amount" /></td>
                 <td>
                   
                 </td>
@@ -211,10 +209,7 @@
                 <td>
                    
                 </td>
-                <td>
-                  {{$payment->amount}}
-                </td>
-               
+                <td><x-money :money="$payment->amount" /></td>
                 <td> {{$payment->bill}}
                 </td>
               
