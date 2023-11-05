@@ -164,9 +164,9 @@
                         </dd>
                         
                         <dt class="col-5">Amount:</dt>
-                        <dd class="col-7"><strong>{{$settings->prefix}}{{$invoice->totalamount}}</strong></dd>
+                        <dd class="col-7"><strong>{{$settings->prefix}}<x-money :money="$invoice->totalamount" /></strong></dd>
                         <dt class="col-5">Balance:</dt>
-                        <dd class="col-7"><strong>{{$settings->prefix}}{{$invoice->totalamount - $invoice->paidamount}}</strong></dd>
+                        <dd class="col-7"><strong>{{$settings->prefix}}<x-money :money="$invoice->totalamount->subtract( $invoice->paidamount )" /></strong></dd>
                         @if($settings->taxstatus==1)
                         <dt class="col-5">Enable Tax:</dt>
                         <dd class="col-7"> 
@@ -230,8 +230,8 @@
                                         <option value="Nos" @if($invoiceItem->qtykey=="Nos") selected @endif> Nos </option>
                                       </select>
                                   </td>
-                                  <td>                                         
-                                    <input form="{{ $formId }}" class="form-control form-control-sm" type="text" name="amount"  value="{{$invoiceItem->amount_per_item}}" placeholder="amount" />
+                                  <td>
+                                    <x-input-money form="{{ $formId }}" class="input-group-sm" name="amount" :money="$invoiceItem->amount_per_item" placeholder="amount" />
                                  </td>
                                  @if($invoice->is_taxable)
                                  <td> 
@@ -239,7 +239,8 @@
                                 </td>
                                 @endif
                                   <td>
-                                    <input form="{{ $formId }}" class="form-control form-control-sm" type="text" value="{{$settings->prefix}}{{$invoiceItem->total}}"  placeholder="total" disabled />
+                                    <span>{{$settings->prefix}}</span>
+                                    <x-input-money form="{{ $formId }}" class="input-group-sm" type="text" :money="$invoiceItem->total_amount" placeholder="total" disabled />
                                  </td>
                                 
                                   <td>
@@ -332,15 +333,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @php $totalamt = 0; @endphp
+                          @php
+                            if ( $payments->count() > 0 ) {
+                              $totalAmount = new \Money\Money(
+                                0,
+                                $payments->first()->getCurrency()
+                              );
+                            } else {
+                              $totalAmount = null;
+                            }
+                          @endphp
                           @foreach($payments as $payment)
                             <tr>                             
                                   <td class="text-muted">
                                     {{$payment->date}}
                                   </td>
                                   <td class="text-muted">
-                                    {{$settings->prefix}} {{$payment->amount}}
-                                    @php $totalamt += $payment->amount; @endphp
+                                    {{$settings->prefix}} <x-money :money="$payment->amount" />
                                 </td>
                                 <td class="text-muted">
                                     {{$payment->note}}
@@ -354,13 +363,21 @@
                                 </td>
                               
                           </tr>
+                            @php
+                              $totalAmount = $totalAmount->add( $payment->amount );
+                            @endphp
                           @endforeach
                           <tr>                             
                             <td class="text-">
                              Total Payment : 
                             </td>
                             <td class="text-">                             
-                          <strong>   {{$settings->prefix}} @php echo $totalamt; @endphp </strong>
+                          <strong>
+                            <span>{{$settings->prefix}}</span>
+                            @if ( $totalAmount !== null )
+                              <x-money :money="$totalAmount" />
+                            @endif
+                          </strong>
                           </td>
                           <td class="text-muted">
                              
@@ -412,7 +429,7 @@
                     </div>
                     <div class="mb-2">
                         <label class="form-label">Amount</label>
-                        <input type="text" class="form-control" name="amount" placeholder="Amount" value="{{$invoice->totalamount - $invoice->paidamount}}">
+                        <x-input-money name="amount" placeholder="Amount" :money="$invoice->totalamount->subtract( $invoice->paidamount )" />
                     </div>
                     <div class="mb-2">
                         <label class="form-label">Note</label>
@@ -455,7 +472,7 @@
                     </div>
                     <div class="mb-2">
                         <label class="form-label">Refund Amount</label>
-                        <input type="text" class="form-control" name="amount" placeholder="Amount" value="{{$invoice->paidamount}}">
+                        <x-input-money class="input-group-sm" name="amount" placeholder="Amount" :money="$invoice->paidamount" />
                     </div>
                     <div class="mb-2">
                         <label class="form-label">Note</label>

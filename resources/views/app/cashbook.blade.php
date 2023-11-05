@@ -179,9 +179,7 @@
                 <td>
                   <span class="badge bg-yellow">Expense</span>
               </td>
-                <td>
-                    {{$expense->amount}}
-                </td>
+                <td><x-money :money="$expense->amount" /></td>
                 <td>
                   
                 </td>
@@ -194,12 +192,12 @@
             </tr>
            @endforeach
 
-           @foreach($payments as $recepit)
+           @foreach($payments as $payment)
             <tr>
                
               <td> {{$expense->date}}
               </td>
-                <td> {{$recepit->item}}</td>
+                <td> {{$payment->item}}</td>
                 <td> 
                   @if ( $expense->project )
                     <a href="{{ route('projects.show', [ $expense->project ]) }}">{{ $expense->project->name }}</a>
@@ -211,11 +209,8 @@
                 <td>
                    
                 </td>
-                <td>
-                  {{$recepit->amount}}
-                </td>
-               
-                <td> {{$recepit->bill}}
+                <td><x-money :money="$payment->amount" /></td>
+                <td> {{$payment->bill}}
                 </td>
               
                              

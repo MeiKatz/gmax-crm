@@ -103,16 +103,25 @@ $footerimagedataUri = 'data:image/' . $footerimagetype . ';base64,' . base64_enc
                         {{$invoiceItem->quantity}}<small>{{$invoiceItem->qtykey}}</small>
                       </td>
                       @if($invoice->is_taxable)
-                      <td class="text-end">{{$settings->prefix}}{{$invoiceItem->amount_per_item}}</td>
+                      <td class="text-end">
+                        <span>{{$settings->prefix}}</span>
+                        <x-money :money="$invoiceItem->amount_per_item" />
+                      </td>
                       @endif
                       <td class="text-end">{{$settings->prefix}}@php echo $invoiceItem->tax; $tottax +=$invoiceItem->tax;  @endphp </td>
-                      <td class="text-end">{{$settings->prefix}}{{$invoiceItem->total}}</td>
+                      <td class="text-end">
+                        <span>{{$settings->prefix}}</span>
+                        <x-money :money="$invoiceItem->total" />
+                      </td>
                     </tr>
               
                     @endforeach
                     <tr>
                       <td colspan="@if($invoice->is_taxable) 5 @else 4 @endif" class="strong text-end"> @if($invoice->is_taxable)Total Before Tax @else Sub Total @endif</td>
-                      <td class="text-end">{{$settings->prefix}}{{$invoice->total_amount}}</td>
+                      <td class="text-end">
+                        <span>{{$settings->prefix}}</span>
+                        <x-money :money="$invoice->total_amount" />
+                      </td>
                     </tr>
                     @if($invoice->is_taxable)
                     <tr>
@@ -121,12 +130,18 @@ $footerimagedataUri = 'data:image/' . $footerimagetype . ';base64,' . base64_enc
                     </tr>
                     <tr>
                       <td colspan="5" class="strong text-end">{{$settings->taxname}} Due</td>
-                      <td class="text-end">{{$settings->prefix}}{{$tottax}}</td>
+                      <td class="text-end">
+                        <span>{{$settings->prefix}}</span>
+                        <x-money :money="$tottax" />
+                      </td>
                     </tr>
                     @endif
                     <tr>
                       <td colspan="@if($invoice->is_taxable) 5 @else 4 @endif" class="font-weight-bold text-uppercase text-end">Total Due</td>
-                      <td class="font-weight-bold text-end">{{$settings->prefix}}{{$invoice->total_amount}}</td>
+                      <td class="font-weight-bold text-end">
+                        <span>{{$settings->prefix}}</span>
+                        <x-money :money="$invoice->total_amount" />
+                      </td>
                     </tr>
                   </table>
                   @if($payments->count()>0)
@@ -152,18 +167,30 @@ $footerimagedataUri = 'data:image/' . $footerimagetype . ';base64,' . base64_enc
                         {{$payment->transation}}  
                       </td>
                       
-                      <td class="text-end"> {{$settings->prefix}}{{$payment->amount}}
-                        @php $totalpaid += $payment->amount; @endphp</td>
+                      <td class="text-end">
+                        <span>{{$settings->prefix}}</span>
+                        <x-money :money="$payment->amount" />
+                      </td>
                     </tr>
+                    @php
+                      $totalpaid = $totalpaid->add( $payment->amount );
+                    @endphp</td>
+
                    @endforeach
                    
                     <tr>
                       <td colspan="3" class=" font-weight-bold text-end">Total Paid</td>
-                      <td class=" text-end">{{$settings->prefix}}{{ $totalpaid}}</td>
+                      <td class="text-end">
+                        <span>{{$settings->prefix}}</span>
+                        <x-money :money="$totalpaid" />
+                      </td>
                     </tr>
                     <tr>
                         <td colspan="3" class="font-weight-bold text-uppercase text-end">Balance Due</td>
-                        <td class="font-weight-bold text-end">{{$settings->prefix}}{{ $invoice->total_amount - $invoice->paidamount }}</td>
+                        <td class="font-weight-bold text-end">
+                          <span>{{$settings->prefix}}</span>
+                          <x-money :money="$invoice->total_amount->subtract( $invoice->paidamount )" />
+                        </td>
                       </tr>
                   </table>
                   @endif

@@ -3,13 +3,16 @@
 namespace App\Models;
 
 use App\Casts\Money;
+use App\Models\Concerns\SerializesMoney;
+use App\Models\Contracts\HasCurrency;
 use App\Models\Invoice\Concerns;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Invoice extends Model
+class Invoice extends Model implements HasCurrency
 {
     use HasFactory;
+    use SerializesMoney;
     use Concerns\HasActions;
     use Concerns\HasAttributes;
     use Concerns\HasRelations;
@@ -84,6 +87,15 @@ class Invoice extends Model
                 $model->duedate = $today;
             }
         });
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray() {
+        return $this->serializeMoneyInArray(
+            parent::toArray()
+        );
     }
 
     /**

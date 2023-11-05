@@ -277,8 +277,8 @@
                   <a href="{{ route('invoices.edit', [ $invoice ]) }}">{{ $invoice->title }}</a>
                 </td>
                 <td>{{ $invoice->duedate }}</td>
-                <td>{{ $invoice->totalamount }}</td>
-                <td>{{ $invoice->paidamount }}</td>
+                <td><x-money :money="$invoice->totalamount" /></td>
+                <td><x-money :money="$invoice->paidamount" /></td>
                 <td><x-invoice-status :invoice="$invoice" /></td>
                 <td class="text-right">
                   <span class="dropdown ml-1">

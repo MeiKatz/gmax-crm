@@ -201,7 +201,7 @@
                   @endif
                 </td>
                 <td>
-                    {{$expense->amount}}
+                  <x-money :money="$expense->amount" />
                 </td>
                 <td> {{$expense->date}}
                 </td>
@@ -264,7 +264,7 @@
                       </div>
                       <div class="mb-2">
                           <label class="form-label">Amount</label>
-                          <input type="text" class="form-control" name="amount" value="{{$expense->amount}}" placeholder="Amount">
+                          <x-input-money name="amount" :money="$expense->amount" placeholder="Amount" />
                       </div>
                       <div class="mb-2">
                           <label class="form-label">Bill Date</label>

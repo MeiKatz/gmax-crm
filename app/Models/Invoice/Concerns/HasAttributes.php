@@ -2,11 +2,14 @@
 
 namespace App\Models\Invoice\Concerns;
 
+use App\Models\Concerns\HasCurrencyAttribute;
+use App\Models\InvoiceItem;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Money\Currency as MoneyCurrency;
 use Money\Money as MoneyMoney;
 
 trait HasAttributes {
+  use HasCurrencyAttribute;
+
   /**
    * @return \Illuminate\Database\Eloquent\Casts\Attribute
    */
@@ -24,9 +27,15 @@ trait HasAttributes {
   protected function totalAmount(): Attribute {
     return Attribute::get(
       fn () => (
-        $this->items->reduce(function ( $carry, $current ) {
-          return $carry + $current->total_amount;
-        }, 0)
+        $this->items->reduce(function (
+          MoneyMoney $carry,
+          InvoiceItem $current
+        ) {
+          return $carry->add( $current->total_amount );
+        }, new MoneyMoney(
+          0,
+          $this->getCurrency()
+        ))
       )
     );
   }
@@ -87,12 +96,15 @@ trait HasAttributes {
   }
 
   /**
+   * !! Cannot define the return value because otherwise
+   * Laravel will recognize this function as an attribute. !!
+   *
    * @param  int  $status
    * @return \Illuminate\Database\Eloquent\Casts\Attribute
    */
   private function newAttributeForStatus(
     int $status
-  ): Attribute {
+  ) {
     return Attribute::get(
       fn ( $value, array $attributes ) => (
         $attributes['invostatus'] == $status

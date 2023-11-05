@@ -3,16 +3,20 @@
 namespace App\Models;
 
 use App\Casts\Money;
+use App\Models\Concerns\HasCurrencyAttribute;
+use App\Models\Concerns\SerializesMoney;
+use App\Models\Contracts\HasCurrency;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Money\Currency as MoneyCurrency;
 use Money\Money as MoneyMoney;
 
-class InvoiceItem extends Model
+class InvoiceItem extends Model implements HasCurrency
 {
     use HasFactory;
+    use HasCurrencyAttribute;
+    use SerializesMoney;
 
     /**
      * The attributes that should be cast.
@@ -64,6 +68,15 @@ class InvoiceItem extends Model
     }
 
     /**
+     * @return array
+     */
+    public function toArray() {
+        return $this->serializeMoneyInArray(
+            parent::toArray()
+        );
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function invoice(): BelongsTo {
@@ -78,11 +91,16 @@ class InvoiceItem extends Model
      */
     protected function totalAmountWithoutTaxes(): Attribute {
         return Attribute::get(
-            fn ( $value, array $attributes ) => (
-                MoneyMoney::make(
-                    $attributes['amount_per_item']
-                )->multiply( $attributes['quantity'] )
-            )
+            function ( $value, array $attributes ) {
+                $money = new MoneyMoney(
+                    $attributes['amount_per_item'],
+                    $this->getCurrency()
+                );
+
+                return $money->multiply(
+                    $attributes['quantity'] ?: 1
+                );
+            }
         );
     }
 
@@ -92,7 +110,7 @@ class InvoiceItem extends Model
     protected function totalAmount(): Attribute {
         return Attribute::get(
             fn () => (
-                $this->total_amount_without_taxes + $this->getTaxes()
+                $this->total_amount_without_taxes->add( $this->getTaxes() )
             )
         );
     }
@@ -102,9 +120,9 @@ class InvoiceItem extends Model
      */
     private function getTaxes(): MoneyMoney {
         if ( !$this->invoice->is_taxable ) {
-            return MoneyMoney::make(
+            return new MoneyMoney(
                 0,
-                new MoneyCurrency( $this->currency_code ?? 'XXX' )
+                $this->getCurrency()
             );
         }
 

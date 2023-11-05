@@ -223,9 +223,9 @@
                 </td>
                 <td> {{$invoice->duedate}}
                 </td>
-                <td>{{$settings->prefix}} {{$invoice->totalamount}}
+                <td>{{$settings->prefix}}<x-money :money="$invoice->totalamount" />
                 </td>
-                <td>{{$settings->prefix}} {{$invoice->paidamount}}
+                <td>{{$settings->prefix}}<x-money :money="$invoice->paidamount" />
                 </td>
                 <td>
                   @if($invoice->recorringtype==NULL)One Time @endif

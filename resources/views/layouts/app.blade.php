@@ -29,6 +29,19 @@
 
         <script src="/js/jquery.min.js"></script>
         <style>
+          .input-money > .input-group-text {
+            border-right: none;
+            background-color: #fff;
+          }
+
+          .theme-dark .input-money > .input-group-text {
+            background-color: #1b2434;
+          }
+
+          .input-money > .form-control {
+            border-left: none;
+          }
+
           #hideMe {
             -webkit-animation: cssAnimation 5s forwards; 
             animation: cssAnimation 5s forwards;
@@ -50,6 +63,7 @@
 
 
         @livewireStyles
+        @stack('scripts')
 
         <!-- Scripts -->
         <script src="/js/alpine.js" defer></script>

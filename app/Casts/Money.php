@@ -3,10 +3,10 @@
 namespace App\Casts;
 
 use InvalidArgumentException;
+use App\Models\Contracts\HasCurrency;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
 use Money\Money as MoneyMoney;
-use Money\Currency as MoneyCurrency;
 
 class Money implements CastsAttributes {
   /**
@@ -20,11 +20,18 @@ class Money implements CastsAttributes {
     mixed $value,
     array $attributes
   ): mixed {
-    $currencyCode = $attributes['currency_code'] ?? 'XXX';
+    if ( !( $model instanceof HasCurrency ) ) {
+      throw new InvalidArgumentException(
+        sprintf(
+          'The given model does not implement %s.',
+          HasCurrency::class
+        )
+      );
+    }
 
     return new MoneyMoney(
       $value,
-      new MoneyCurrency( $currencyCode )
+      $model->getCurrency()
     );
   }
 
@@ -41,13 +48,16 @@ class Money implements CastsAttributes {
   ): mixed {
     if ( !( $value instanceof MoneyMoney ) ) {
       throw new InvalidArgumentException(
-        'The given value is not a Money instance.'
+        sprintf(
+          'The given value is not an instance of %s.',
+          MoneyMoney::class
+        )
       );
     }
 
     return [
-      $key => $value->getCurrency()->getCode(),
-      'currency_code' => $value->getAmount(),
+      $key => (int) $value->getAmount(),
+      'currency_code' => $value->getCurrency()->getCode(),
     ];
   }
 }
