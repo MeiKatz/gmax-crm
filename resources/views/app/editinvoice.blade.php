@@ -230,8 +230,8 @@
                                         <option value="Nos" @if($invoiceItem->qtykey=="Nos") selected @endif> Nos </option>
                                       </select>
                                   </td>
-                                  <td>                                         
-                                    <input form="{{ $formId }}" class="form-control form-control-sm" type="text" name="amount"  value="{{$invoiceItem->amount_per_item}}" placeholder="amount" />
+                                  <td>
+                                    <x-input-money form="{{ $formId }}" class="input-group-sm" name="amount" :money="$invoiceItem->amount_per_item" placeholder="amount" />
                                  </td>
                                  @if($invoice->is_taxable)
                                  <td> 
@@ -239,7 +239,8 @@
                                 </td>
                                 @endif
                                   <td>
-                                    <input form="{{ $formId }}" class="form-control form-control-sm" type="text" value="{{$settings->prefix}}{{$invoiceItem->total}}"  placeholder="total" disabled />
+                                    <span>{{$settings->prefix}}</span>
+                                    <x-input-money form="{{ $formId }}" class="input-group-sm" type="text" :money="$invoiceItem->total_amount" placeholder="total" disabled />
                                  </td>
                                 
                                   <td>
@@ -412,7 +413,7 @@
                     </div>
                     <div class="mb-2">
                         <label class="form-label">Amount</label>
-                        <input type="text" class="form-control" name="amount" placeholder="Amount" value="{{$invoice->totalamount - $invoice->paidamount}}">
+                        <x-input-money name="amount" placeholder="Amount" :money="$invoice->totalamount->subtract( $invoice->paidamount )" />
                     </div>
                     <div class="mb-2">
                         <label class="form-label">Note</label>
@@ -455,7 +456,7 @@
                     </div>
                     <div class="mb-2">
                         <label class="form-label">Refund Amount</label>
-                        <input type="text" class="form-control" name="amount" placeholder="Amount" value="{{$invoice->paidamount}}">
+                        <x-input-money class="input-group-sm" name="amount" placeholder="Amount" :money="$invoice->paidamount" />
                     </div>
                     <div class="mb-2">
                         <label class="form-label">Note</label>
