@@ -194,12 +194,12 @@
             </tr>
            @endforeach
 
-           @foreach($payments as $recepit)
+           @foreach($payments as $payment)
             <tr>
                
               <td> {{$expense->date}}
               </td>
-                <td> {{$recepit->item}}</td>
+                <td> {{$payment->item}}</td>
                 <td> 
                   @if ( $expense->project )
                     <a href="{{ route('projects.show', [ $expense->project ]) }}">{{ $expense->project->name }}</a>
@@ -212,10 +212,10 @@
                    
                 </td>
                 <td>
-                  {{$recepit->amount}}
+                  {{$payment->amount}}
                 </td>
                
-                <td> {{$recepit->bill}}
+                <td> {{$payment->bill}}
                 </td>
               
                              
