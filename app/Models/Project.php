@@ -6,6 +6,7 @@ use App\Casts\Money;
 use App\Models\Concerns\SerializesMoney;
 use App\Models\Contracts\HasCurrency;
 use App\Models\Project\Concerns;
+use App\Models\Project\Status as ProjectStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,13 +18,6 @@ class Project extends Model implements HasCurrency
     use Concerns\HasRelations;
     use Concerns\HasScopes;
 
-    const STATUS_NOT_STARTED = 1;
-    const STATUS_IN_PROGRESS = 2;
-    const STATUS_IN_REVIEW   = 3;
-    const STATUS_ON_HOLD     = 4;
-    const STATUS_COMPLETED   = 5;
-    const STATUS_CANCELLED   = 6;
-
     /**
      * The attributes that should be cast.
      *
@@ -31,6 +25,7 @@ class Project extends Model implements HasCurrency
      */
     protected $casts = [
         'amount' => Money::class,
+        'status' => ProjectStatus::class,
     ];
 
     /**
@@ -85,12 +80,12 @@ class Project extends Model implements HasCurrency
         );
 
         return [
-            'not_started' => $results[ self::STATUS_NOT_STARTED ] ?? 0,
-            'in_progress' => $results[ self::STATUS_IN_PROGRESS ] ?? 0,
-            'in_review'   => $results[ self::STATUS_IN_REVIEW ]   ?? 0,
-            'on_hold'     => $results[ self::STATUS_ON_HOLD ]     ?? 0,
-            'completed'   => $results[ self::STATUS_COMPLETED ]   ?? 0,
-            'cancelled'   => $results[ self::STATUS_CANCELLED ]   ?? 0,
+            'not_started' => $results[ ProjectStatus::NOT_STARTED->value ] ?? 0,
+            'in_progress' => $results[ ProjectStatus::IN_PROGRESS->value ] ?? 0,
+            'in_review'   => $results[ ProjectStatus::IN_REVIEW->value ]   ?? 0,
+            'on_hold'     => $results[ ProjectStatus::ON_HOLD->value ]     ?? 0,
+            'completed'   => $results[ ProjectStatus::COMPLETED->value ]   ?? 0,
+            'cancelled'   => $results[ ProjectStatus::CANCELLED->value ]   ?? 0,
         ];
     }
 }

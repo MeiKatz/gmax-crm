@@ -2,6 +2,7 @@
 
 namespace App\Models\Project\Concerns;
 
+use App\Models\Project\Status as ProjectStatus;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 
 trait HasScopes {
@@ -16,7 +17,7 @@ trait HasScopes {
   ): void {
     $query->where(
       'status',
-      self::STATUS_NOT_STARTED
+      ProjectStatus::NOT_STARTED->value
     );
   }
 
@@ -31,7 +32,7 @@ trait HasScopes {
   ): void {
     $query->where(
       'status',
-      self::STATUS_IN_PROGRESS
+      ProjectStatus::IN_PROGRESS->value
     );
   }
 
@@ -46,7 +47,7 @@ trait HasScopes {
   ): void {
     $query->where(
       'status',
-      self::STATUS_IN_REVIEW
+      ProjectStatus::IN_REVIEW->value
     );
   }
 
@@ -61,7 +62,7 @@ trait HasScopes {
   ): void {
     $query->where(
       'status',
-      self::STATUS_ON_HOLD
+      ProjectStatus::ON_HOLD->value
     );
   }
 
@@ -76,7 +77,7 @@ trait HasScopes {
   ): void {
     $query->where(
       'status',
-      self::STATUS_COMPLETED
+      ProjectStatus::COMPLETED->value
     );
   }
 
@@ -91,7 +92,7 @@ trait HasScopes {
   ): void {
     $query->where(
       'status',
-      self::STATUS_CANCELLED
+      ProjectStatus::CANCELLED->value
     );
   }
 }
