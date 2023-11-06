@@ -17,7 +17,7 @@ trait HasScopes {
   ): void {
     $query->where(
       'status',
-      ProjectStatus::NOT_STARTED->value
+      ProjectStatus::NOT_STARTED
     );
   }
 
@@ -32,7 +32,7 @@ trait HasScopes {
   ): void {
     $query->where(
       'status',
-      ProjectStatus::IN_PROGRESS->value
+      ProjectStatus::IN_PROGRESS
     );
   }
 
@@ -47,7 +47,7 @@ trait HasScopes {
   ): void {
     $query->where(
       'status',
-      ProjectStatus::IN_REVIEW->value
+      ProjectStatus::IN_REVIEW
     );
   }
 
@@ -62,7 +62,7 @@ trait HasScopes {
   ): void {
     $query->where(
       'status',
-      ProjectStatus::ON_HOLD->value
+      ProjectStatus::ON_HOLD
     );
   }
 
@@ -77,7 +77,7 @@ trait HasScopes {
   ): void {
     $query->where(
       'status',
-      ProjectStatus::COMPLETED->value
+      ProjectStatus::COMPLETED
     );
   }
 
@@ -92,7 +92,7 @@ trait HasScopes {
   ): void {
     $query->where(
       'status',
-      ProjectStatus::CANCELLED->value
+      ProjectStatus::CANCELLED
     );
   }
 }
