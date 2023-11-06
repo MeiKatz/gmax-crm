@@ -3,6 +3,7 @@
 namespace App\Models\Invoice\Concerns;
 
 use App\Models\Client;
+use App\Models\Invoice\Status as InvoiceStatus;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 
 trait HasScopes {
@@ -34,7 +35,7 @@ trait HasScopes {
   ): void {
     $query->where(
       'invostatus',
-      self::STATUS_PAID
+      InvoiceStatus::PAID
     );
   }
 
@@ -49,7 +50,7 @@ trait HasScopes {
   ): void {
     $query->where(
       'invostatus',
-      self::STATUS_PARTIALLY_PAID
+      InvoiceStatus::PARTIALLY_PAID
     );
   }
 
@@ -64,7 +65,7 @@ trait HasScopes {
   ): void {
     $query->where(
       'invostatus',
-      self::STATUS_PAID
+      InvoiceStatus::PAID
     );
   }
 
@@ -79,7 +80,7 @@ trait HasScopes {
   ): void {
     $query->where(
       'invostatus',
-      self::STATUS_REFUNDED
+      InvoiceStatus::REFUNDED
     );
   }
 
@@ -94,7 +95,7 @@ trait HasScopes {
   ): void {
     $query->where(
       'invostatus',
-      self::STATUS_CANCELLED
+      InvoiceStatus::CANCELLED
     );
   }
 

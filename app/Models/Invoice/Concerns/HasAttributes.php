@@ -3,6 +3,7 @@
 namespace App\Models\Invoice\Concerns;
 
 use App\Models\Concerns\HasCurrencyAttribute;
+use App\Models\Invoice\Status as InvoiceStatus;
 use App\Models\InvoiceItem;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Money\Money as MoneyMoney;
@@ -44,35 +45,35 @@ trait HasAttributes {
    * @return \Illuminate\Database\Eloquent\Casts\Attribute
    */
   protected function isUnpaid(): Attribute {
-    return $this->newAttributeForStatus( self::STATUS_UNPAID );
+    return $this->newAttributeForStatus( InvoiceStatus::UNPAID );
   }
 
   /**
    * @return \Illuminate\Database\Eloquent\Casts\Attribute
    */
   protected function isPartiallyPaid(): Attribute {
-    return $this->newAttributeForStatus( self::STATUS_PARTIALLY_PAID );
+    return $this->newAttributeForStatus( InvoiceStatus::PARTIALLY_PAID );
   }
 
   /**
    * @return \Illuminate\Database\Eloquent\Casts\Attribute
    */
   protected function isPaid(): Attribute {
-    return $this->newAttributeForStatus( self::STATUS_PAID );
+    return $this->newAttributeForStatus( InvoiceStatus::PAID );
   }
 
   /**
    * @return \Illuminate\Database\Eloquent\Casts\Attribute
    */
   protected function isRefunded(): Attribute {
-    return $this->newAttributeForStatus( self::STATUS_REFUNDED );
+    return $this->newAttributeForStatus( InvoiceStatus::REFUNDED );
   }
 
   /**
    * @return \Illuminate\Database\Eloquent\Casts\Attribute
    */
   protected function isCancelled(): Attribute {
-    return $this->newAttributeForStatus( self::STATUS_CANCELLED );
+    return $this->newAttributeForStatus( InvoiceStatus::CANCELLED );
   }
 
   /**
@@ -99,15 +100,15 @@ trait HasAttributes {
    * !! Cannot define the return value because otherwise
    * Laravel will recognize this function as an attribute. !!
    *
-   * @param  int  $status
+   * @param  \App\Models\Invoice\Status  $status
    * @return \Illuminate\Database\Eloquent\Casts\Attribute
    */
   private function newAttributeForStatus(
-    int $status
+    InvoiceStatus $status
   ) {
     return Attribute::get(
-      fn ( $value, array $attributes ) => (
-        $attributes['invostatus'] == $status
+      fn () => (
+        $this->invostatus === $status
       )
     );
   }

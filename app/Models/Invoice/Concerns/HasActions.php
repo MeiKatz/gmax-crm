@@ -2,6 +2,8 @@
 
 namespace App\Models\Invoice\Concerns;
 
+use App\Models\Invoice\Status as InvoiceStatus;
+
 trait HasActions {
   /**
    * @return void
@@ -15,34 +17,34 @@ trait HasActions {
    * @return void
    */
   public function markAsUnpaid() {
-    $this->invostatus = self::STATUS_UNPAID;
+    $this->invostatus = InvoiceStatus::UNPAID;
   }
 
   /**
    * @return void
    */
   public function markAsPartiallyPaid() {
-    $this->invostatus = self::STATUS_PARTIALLY_PAID;
+    $this->invostatus = InvoiceStatus::PARTIALLY_PAID;
   }
 
   /**
    * @return void
    */
   public function markAsPaid() {
-    $this->invostatus = self::STATUS_PAID;
+    $this->invostatus = InvoiceStatus::PAID;
   }
 
   /**
    * @return void
    */
   public function markAsRefunded() {
-    $this->invostatus = self::STATUS_REFUNDED;
+    $this->invostatus = InvoiceStatus::REFUNDED;
   }
 
   /**
    * @return void
    */
   public function markAsCancelled() {
-    $this->invostatus = self::STATUS_CANCELLED;
+    $this->invostatus = InvoiceStatus::CANCELLED;
   }
 }
