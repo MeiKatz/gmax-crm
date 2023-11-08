@@ -41,7 +41,7 @@ class OfferController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function store(Request $request) {
-    $offer = DB::transaction(function () {
+    $offer = DB::transaction(function () use ( $request ) {
       $nextOfferNumber = $this->getNextOfferNumber();
 
       return Invoice::create([
