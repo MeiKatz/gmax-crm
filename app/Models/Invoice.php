@@ -6,6 +6,7 @@ use App\Casts\Money;
 use App\Models\Concerns\SerializesMoney;
 use App\Models\Contracts\HasCurrency;
 use App\Models\Invoice\Concerns;
+use App\Models\Invoice\Status as InvoiceStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,12 +19,6 @@ class Invoice extends Model implements HasCurrency
     use Concerns\HasRelations;
     use Concerns\HasScopes;
 
-    const STATUS_UNPAID    = 1;
-    const STATUS_PARTIALLY_PAID = 2;
-    const STATUS_PAID      = 3;
-    const STATUS_REFUNDED  = 4;
-    const STATUS_CANCELLED = 5;
-
     /**
      * The attributes that should be cast.
      *
@@ -32,6 +27,7 @@ class Invoice extends Model implements HasCurrency
     protected $casts = [
         'totalamount' => Money::class,
         'paidamount' => Money::class,
+        'invostatus' => InvoiceStatus::class,
     ];
 
     /**
@@ -112,11 +108,11 @@ class Invoice extends Model implements HasCurrency
         );
 
         return [
-            'unpaid'    => $results[ self::STATUS_UNPAID ]    ?? 0,
-            'partially_paid' => $results[ self::STATUS_PARTIALLY_PAID ] ?? 0,
-            'paid'      => $results[ self::STATUS_PAID ]      ?? 0,
-            'refunded'  => $results[ self::STATUS_REFUNDED ]  ?? 0,
-            'cancelled' => $results[ self::STATUS_CANCELLED ] ?? 0,
+            'unpaid'    => $results[ InvoiceStatus::UNPAID->value ]    ?? 0,
+            'partially_paid' => $results[ InvoiceStatus::PARTIALLY_PAID->value ] ?? 0,
+            'paid'      => $results[ InvoiceStatus::PAID->value ]      ?? 0,
+            'refunded'  => $results[ InvoiceStatus::REFUNDED->value ]  ?? 0,
+            'cancelled' => $results[ InvoiceStatus::CANCELLED->value ] ?? 0,
         ];
     }
 }
